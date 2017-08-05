@@ -9,3 +9,4 @@ dankdungeon.egg*
 .cache/*
 .ropeproject/*
 venv/
+*.png
