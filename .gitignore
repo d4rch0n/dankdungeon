@@ -1,0 +1,11 @@
+syntax: glob
+*.pyc
+*.log
+build/*
+dankdungeon.egg-info/*
+dist/*
+dankdungeon.egg*
+.tox/*
+.cache/*
+.ropeproject/*
+venv/
