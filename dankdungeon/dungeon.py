@@ -31,12 +31,13 @@ class Dungeon:
 
     def create(self):
         self.graph = networkx.Graph()
-        self.labels[0] = 'entry'
+        self.labels[0] = 'E'
         self.graph.add_node(0)
         for i in range(1, self.num_rooms):
             self.graph.add_node(i)
-            self.labels[i] = 'room{}'.format(i)
-        edges = set()
+            self.labels[i] = '{}'.format(i)
+        self.edges = set()
+        self.secret_edges = set()
         rooms = list(range(self.num_rooms))
         for i in range(self.num_rooms):
             num = distribution({1: 65, 2: 30, 3: 5})
@@ -48,9 +49,12 @@ class Dungeon:
                 e = random.choice(choices)
                 choices.remove(e)
                 edge = tuple(sorted([i, e]))
-                if edge in edges:
+                if edge in self.edges:
                     continue
-                edges.add(edge)
+                self.edges.add(edge)
+                if random.uniform(0, 1) < 0.05:
+                    print('SECRET {} to {}'.format(*edge))
+                    self.secret_edges.add(edge)
                 print('connecting {} to {}'.format(*edge))
                 self.graph.add_edge(*edge)
 
@@ -70,11 +74,18 @@ class Dungeon:
     def save(self, path='out.png'):
         import networkx
         import matplotlib.pyplot as plt
-        # pos = networkx.spring_layout(self.graph)
-        pos = networkx.fruchterman_reingold_layout(self.graph)
+        pos = networkx.spring_layout(self.graph, iterations=500)
+        # pos = networkx.spectral_layout(self.graph)
+        # pos = networkx.shell_layout(self.graph)
+        # pos = networkx.fruchterman_reingold_layout(self.graph)
         nodelist = list(range(self.num_rooms))
         networkx.draw_networkx_nodes(self.graph, pos, nodelist=nodelist)
-        networkx.draw_networkx_edges(self.graph, pos)
+        edgelist = sorted(self.edges - self.secret_edges)
+        secret = sorted(self.secret_edges)
+        networkx.draw_networkx_edges(self.graph, pos, edgelist=edgelist,
+                                     edge_color='k')
+        networkx.draw_networkx_edges(self.graph, pos, edgelist=secret,
+                                     edge_color='r')
         networkx.draw_networkx_labels(self.graph, pos, self.labels)
         plt.savefig(path)
 
