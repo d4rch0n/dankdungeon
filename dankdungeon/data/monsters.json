@@ -6389,6 +6389,13 @@
         ],
         "alignment": "chaotic evil",
         "armor_class": 19,
+        "attr": [
+            "monstrosity",
+            "evil",
+            "drow",
+            "cave",
+            "magic"
+        ],
         "challenge_rating": "6",
         "charisma": 12,
         "condition_immunities": "",
@@ -6437,7 +6444,8 @@
         "strength": 16,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 2300
     },
     {
         "actions": [
@@ -6458,6 +6466,13 @@
         ],
         "alignment": "neutral evil",
         "armor_class": 15,
+        "attr": [
+            "humanoid",
+            "evil",
+            "cave",
+            "drow",
+            "magic"
+        ],
         "challenge_rating": "1/4",
         "charisma": 12,
         "condition_immunities": "",
@@ -6496,7 +6511,8 @@
         "strength": 10,
         "subtype": "elf",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 50
     },
     {
         "actions": [
@@ -6509,6 +6525,14 @@
         ],
         "alignment": "any alignment",
         "armor_class": 11,
+        "attr": [
+            "humanoid",
+            "human",
+            "common_race",
+            "forest",
+            "swamp",
+            "city"
+        ],
         "challenge_rating": "2",
         "charisma": 11,
         "condition_immunities": "",
@@ -6538,7 +6562,8 @@
         "strength": 10,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 15
+        "wisdom": 15,
+        "xp": 450
     },
     {
         "actions": [
@@ -6556,6 +6581,13 @@
         ],
         "alignment": "neutral",
         "armor_class": 11,
+        "attr": [
+            "fey",
+            "forest",
+            "magic",
+            "swamp",
+            "land"
+        ],
         "challenge_rating": "1",
         "charisma": 18,
         "condition_immunities": "",
@@ -6599,7 +6631,8 @@
         "strength": 10,
         "subtype": "",
         "type": "fey",
-        "wisdom": 15
+        "wisdom": 15,
+        "xp": 200
     },
     {
         "actions": [
@@ -6630,6 +6663,13 @@
         ],
         "alignment": "lawful evil",
         "armor_class": 16,
+        "attr": [
+            "humanoid",
+            "dwarf",
+            "cave",
+            "evil",
+            "earth"
+        ],
         "challenge_rating": "1",
         "charisma": 9,
         "condition_immunities": "",
@@ -6661,7 +6701,8 @@
         "strength": 14,
         "subtype": "dwarf",
         "type": "humanoid",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 200
     },
     {
         "actions": [
@@ -6685,6 +6726,12 @@
         ],
         "alignment": "neutral evil",
         "armor_class": 12,
+        "attr": [
+            "elemental",
+            "evil",
+            "land",
+            "air"
+        ],
         "challenge_rating": "1/2",
         "charisma": 10,
         "condition_immunities": "poisoned",
@@ -6718,7 +6765,8 @@
         "strength": 5,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 100
     },
     {
         "actions": [
@@ -6732,6 +6780,9 @@
         ],
         "alignment": "unaligned",
         "armor_class": 12,
+        "attr": [
+            "beast"
+        ],
         "challenge_rating": "0",
         "charisma": 7,
         "condition_immunities": "",
@@ -6759,7 +6810,8 @@
         "strength": 6,
         "subtype": "",
         "type": "beast",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 10
     },
     {
         "actions": [
@@ -6778,6 +6830,16 @@
         ],
         "alignment": "neutral",
         "armor_class": 17,
+        "attr": [
+            "elemental",
+            "earth",
+            "plane_earth",
+            "land",
+            "cave",
+            "mountain",
+            "burrow",
+            "magic"
+        ],
         "challenge_rating": "5",
         "charisma": 5,
         "condition_immunities": "exhaustion, paralyzed, petrified, poisoned, unconscious",
@@ -6809,7 +6871,8 @@
         "strength": 20,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -6834,6 +6897,14 @@
         ],
         "alignment": "lawful evil",
         "armor_class": 17,
+        "attr": [
+            "elemental",
+            "evil",
+            "fire",
+            "land",
+            "plane_fire",
+            "humanoid"
+        ],
         "challenge_rating": "11",
         "charisma": 16,
         "charisma_save": 7,
@@ -6873,7 +6944,8 @@
         "subtype": "",
         "type": "elemental",
         "wisdom": 15,
-        "wisdom_save": 6
+        "wisdom_save": 6,
+        "xp": 7200
     },
     {
         "actions": [
@@ -6894,6 +6966,12 @@
         ],
         "alignment": "unaligned",
         "armor_class": 12,
+        "attr": [
+            "beast",
+            "land",
+            "forest",
+            "plains"
+        ],
         "challenge_rating": "4",
         "charisma": 6,
         "condition_immunities": "",
@@ -6920,7 +6998,8 @@
         "strength": 22,
         "subtype": "",
         "type": "beast",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 1100
     },
     {
         "actions": [
@@ -6937,6 +7016,12 @@
         ],
         "alignment": "unaligned",
         "armor_class": 10,
+        "attr": [
+            "beast",
+            "land",
+            "forest",
+            "tundra"
+        ],
         "challenge_rating": "1/4",
         "charisma": 6,
         "condition_immunities": "",
@@ -6964,7 +7049,8 @@
         "strength": 16,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 50
     },
     {
         "actions": [
@@ -6995,6 +7081,15 @@
         ],
         "alignment": "lawful evil",
         "armor_class": 18,
+        "attr": [
+            "fiend",
+            "devil",
+            "magic",
+            "evil",
+            "psychic",
+            "poison",
+            "fire"
+        ],
         "challenge_rating": "12",
         "charisma": 18,
         "charisma_save": 8,
@@ -7037,7 +7132,8 @@
         "subtype": "devil",
         "type": "fiend",
         "wisdom": 14,
-        "wisdom_save": 6
+        "wisdom_save": 6,
+        "xp": 8400
     },
     {
         "actions": [
@@ -7075,6 +7171,14 @@
         ],
         "alignment": "neutral evil",
         "armor_class": 13,
+        "attr": [
+            "monstrosity",
+            "insect",
+            "evil",
+            "arachnid",
+            "forest",
+            "land"
+        ],
         "challenge_rating": "2",
         "charisma": 8,
         "condition_immunities": "",
@@ -7114,7 +7218,8 @@
         "subtype": "",
         "survival": 3,
         "type": "monstrosity",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 450
     },
     {
         "actions": [
@@ -7140,6 +7245,14 @@
         ],
         "alignment": "chaotic evil",
         "armor_class": 12,
+        "attr": [
+            "giant",
+            "evil",
+            "mountain",
+            "cave",
+            "forest",
+            "land"
+        ],
         "challenge_rating": "4",
         "charisma": 8,
         "condition_immunities": "",
@@ -7172,7 +7285,8 @@
         "strength": 21,
         "subtype": "",
         "type": "giant",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1100
     },
     {
         "actions": [
@@ -7191,6 +7305,12 @@
         ],
         "alignment": "neutral",
         "armor_class": 13,
+        "attr": [
+            "elemental",
+            "fire",
+            "plane_fire",
+            "magic"
+        ],
         "challenge_rating": "5",
         "charisma": 7,
         "condition_immunities": "exhaustion, grappled, paralyzed, petrified, poisoned, prone, restrained, unconscious",
@@ -7228,7 +7348,8 @@
         "strength": 10,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -7255,6 +7376,14 @@
         "alignment": "lawful evil",
         "armor_class": 18,
         "athletics": 11,
+        "attr": [
+            "giant",
+            "evil",
+            "mountain",
+            "forest",
+            "desert",
+            "land"
+        ],
         "challenge_rating": "9",
         "charisma": 13,
         "charisma_save": 5,
@@ -7278,7 +7407,8 @@
         "strength": 25,
         "subtype": "",
         "type": "giant",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 5000
     },
     {
         "actions": [
@@ -7348,7 +7478,8 @@
         "strength": 19,
         "subtype": "",
         "type": "construct",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -7387,7 +7518,8 @@
         "strength": 4,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 25
     },
     {
         "actions": [
@@ -7433,7 +7565,8 @@
         "strength": 12,
         "subtype": "",
         "type": "construct",
-        "wisdom": 5
+        "wisdom": 5,
+        "xp": 50
     },
     {
         "alignment": "unaligned",
@@ -7471,7 +7604,8 @@
         "strength": 1,
         "subtype": "",
         "type": "beast",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 10
     },
     {
         "actions": [
@@ -7521,7 +7655,8 @@
         "subtype": "",
         "type": "giant",
         "wisdom": 10,
-        "wisdom_save": 3
+        "wisdom_save": 3,
+        "xp": 3900
     },
     {
         "actions": [
@@ -7573,7 +7708,8 @@
         "strength": 15,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 450
     },
     {
         "actions": [
@@ -7622,7 +7758,8 @@
         "strength": 14,
         "subtype": "",
         "type": "ooze",
-        "wisdom": 6
+        "wisdom": 6,
+        "xp": 450
     },
     {
         "actions": [
@@ -7674,7 +7811,8 @@
         "strength": 16,
         "subtype": "",
         "type": "undead",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 450
     },
     {
         "actions": [
@@ -7734,7 +7872,8 @@
         "strength": 7,
         "subtype": "",
         "type": "undead",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 1100
     },
     {
         "actions": [
@@ -7772,7 +7911,8 @@
         "strength": 13,
         "subtype": "",
         "type": "undead",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 200
     },
     {
         "actions": [
@@ -7819,7 +7959,8 @@
         "strength": 23,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 2900
     },
     {
         "actions": [
@@ -7871,7 +8012,8 @@
         "strength": 13,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 50
     },
     {
         "actions": [
@@ -7916,7 +8058,8 @@
         "strength": 15,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 50
     },
     {
         "actions": [
@@ -7962,7 +8105,8 @@
         "strength": 17,
         "subtype": "",
         "type": "beast",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 450
     },
     {
         "actions": [
@@ -7995,7 +8139,8 @@
         "strength": 5,
         "subtype": "",
         "type": "beast",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 50
     },
     {
         "actions": [
@@ -8036,7 +8181,8 @@
         "strength": 19,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 450
     },
     {
         "actions": [
@@ -8077,7 +8223,8 @@
         "strength": 13,
         "subtype": "",
         "type": "beast",
-        "wisdom": 9
+        "wisdom": 9,
+        "xp": 25
     },
     {
         "actions": [
@@ -8130,7 +8277,8 @@
         "strength": 21,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -8183,7 +8331,8 @@
         "strength": 16,
         "subtype": "",
         "type": "beast",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 200
     },
     {
         "actions": [
@@ -8232,7 +8381,8 @@
         "strength": 19,
         "subtype": "",
         "type": "beast",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 450
     },
     {
         "actions": [
@@ -8272,7 +8422,8 @@
         "strength": 8,
         "subtype": "",
         "type": "beast",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 10
     },
     {
         "actions": [
@@ -8324,7 +8475,8 @@
         "strength": 12,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 50
     },
     {
         "actions": [
@@ -8370,7 +8522,8 @@
         "strength": 17,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 100
     },
     {
         "actions": [
@@ -8411,7 +8564,8 @@
         "strength": 16,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 200
     },
     {
         "actions": [
@@ -8456,7 +8610,8 @@
         "strength": 15,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 50
     },
     {
         "actions": [
@@ -8513,7 +8668,8 @@
         "strength": 17,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 200
     },
     {
         "actions": [
@@ -8560,7 +8716,8 @@
         "strength": 13,
         "subtype": "",
         "type": "beast",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 50
     },
     {
         "actions": [
@@ -8594,7 +8751,8 @@
         "strength": 10,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 50
     },
     {
         "actions": [
@@ -8639,7 +8797,8 @@
         "strength": 7,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 25
     },
     {
         "actions": [
@@ -8672,7 +8831,8 @@
         "strength": 7,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 25
     },
     {
         "actions": [
@@ -8717,7 +8877,8 @@
         "strength": 15,
         "subtype": "",
         "type": "beast",
-        "wisdom": 9
+        "wisdom": 9,
+        "xp": 700
     },
     {
         "actions": [
@@ -8763,7 +8924,8 @@
         "strength": 12,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 100
     },
     {
         "actions": [
@@ -8809,7 +8971,8 @@
         "strength": 23,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -8865,7 +9028,8 @@
         "strength": 14,
         "subtype": "",
         "type": "beast",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 200
     },
     {
         "actions": [
@@ -8915,7 +9079,8 @@
         "strength": 15,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 200
     },
     {
         "actions": [
@@ -8973,7 +9138,8 @@
         "strength": 15,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 200
     },
     {
         "actions": [
@@ -9006,7 +9172,8 @@
         "strength": 10,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 100
     },
     {
         "actions": [
@@ -9048,7 +9215,8 @@
         "strength": 11,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 25
     },
     {
         "actions": [
@@ -9100,7 +9268,8 @@
         "strength": 12,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 50
     },
     {
         "actions": [
@@ -9154,7 +9323,8 @@
         "strength": 10,
         "subtype": "",
         "type": "aberration",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 450
     },
     {
         "actions": [
@@ -9220,7 +9390,8 @@
         "subtype": "demon",
         "type": "fiend",
         "wisdom": 17,
-        "wisdom_save": 7
+        "wisdom_save": 7,
+        "xp": 5000
     },
     {
         "actions": [
@@ -9289,7 +9460,8 @@
         "strength_save": 7,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 1800
     },
     {
         "actions": [
@@ -9343,7 +9515,8 @@
         "strength": 14,
         "subtype": "gnoll",
         "type": "humanoid",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 100
     },
     {
         "actions": [
@@ -9389,7 +9562,8 @@
         "strength": 12,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 10
     },
     {
         "actions": [
@@ -9437,7 +9611,8 @@
         "strength": 8,
         "subtype": "goblinoid",
         "type": "humanoid",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 50
     },
     {
         "actions": [
@@ -9489,7 +9664,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 2
+        "wisdom_save": 2,
+        "xp": 700
     },
     {
         "actions": [
@@ -9542,7 +9718,8 @@
         "strength": 20,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 1800
     },
     {
         "actions": [
@@ -9593,7 +9770,8 @@
         "strength": 12,
         "subtype": "",
         "type": "ooze",
-        "wisdom": 6
+        "wisdom": 6,
+        "xp": 100
     },
     {
         "actions": [
@@ -9645,7 +9823,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 2
+        "wisdom_save": 2,
+        "xp": 450
     },
     {
         "actions": [
@@ -9724,7 +9903,8 @@
         "strength": 18,
         "subtype": "",
         "type": "fey",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 700
     },
     {
         "actions": [
@@ -9776,7 +9956,8 @@
         "strength": 14,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 450
     },
     {
         "actions": [
@@ -9829,7 +10010,8 @@
         "strength": 18,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 450
     },
     {
         "actions": [
@@ -9882,7 +10064,8 @@
         "strength": 16,
         "subtype": "grimlock",
         "type": "humanoid",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 50
     },
     {
         "actions": [
@@ -9916,7 +10099,8 @@
         "strength": 13,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 25
     },
     {
         "actions": [
@@ -9972,7 +10156,8 @@
         "subtype": "",
         "type": "monstrosity",
         "wisdom": 19,
-        "wisdom_save": 8
+        "wisdom_save": 8,
+        "xp": 5900
     },
     {
         "actions": [
@@ -10048,7 +10233,8 @@
         "strength": 18,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 18
+        "wisdom": 18,
+        "xp": 7200
     },
     {
         "actions": [
@@ -10106,7 +10292,8 @@
         "strength": 16,
         "subtype": "human",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 1800
     },
     {
         "actions": [
@@ -10156,7 +10343,8 @@
         "strength": 12,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 200
     },
     {
         "actions": [
@@ -10196,7 +10384,8 @@
         "strength": 5,
         "subtype": "",
         "type": "beast",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 10
     },
     {
         "actions": [
@@ -10248,7 +10437,8 @@
         "strength": 17,
         "subtype": "",
         "type": "fiend",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 700
     },
     {
         "actions": [
@@ -10313,7 +10503,8 @@
         "subtype": "demon",
         "type": "fiend",
         "wisdom": 12,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 3900
     },
     {
         "actions": [
@@ -10359,7 +10550,8 @@
         "strength": 21,
         "subtype": "",
         "type": "giant",
-        "wisdom": 9
+        "wisdom": 9,
+        "xp": 1800
     },
     {
         "actions": [
@@ -10412,7 +10604,8 @@
         "strength": 17,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 200
     },
     {
         "actions": [
@@ -10460,7 +10653,8 @@
         "strength": 13,
         "subtype": "goblinoid",
         "type": "humanoid",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 100
     },
     {
         "actions": [
@@ -10499,7 +10693,8 @@
         "strength": 4,
         "subtype": "",
         "type": "construct",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 10
     },
     {
         "actions": [
@@ -10566,7 +10761,8 @@
         "subtype": "devil",
         "type": "fiend",
         "wisdom": 16,
-        "wisdom_save": 7
+        "wisdom_save": 7,
+        "xp": 7200
     },
     {
         "actions": [
@@ -10612,7 +10808,8 @@
         "strength": 18,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 450
     },
     {
         "actions": [
@@ -10673,7 +10870,8 @@
         "strength": 20,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 3900
     },
     {
         "actions": [
@@ -10713,7 +10911,8 @@
         "strength": 11,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 10
     },
     {
         "actions": [
@@ -10786,7 +10985,8 @@
         "subtype": "devil",
         "type": "fiend",
         "wisdom": 15,
-        "wisdom_save": 7
+        "wisdom_save": 7,
+        "xp": 11500
     },
     {
         "actions": [
@@ -10849,7 +11049,8 @@
         "strength": 7,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 100
     },
     {
         "actions": [
@@ -10913,7 +11114,8 @@
         "strength": 6,
         "subtype": "devil",
         "type": "fiend",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 200
     },
     {
         "actions": [
@@ -10965,7 +11167,8 @@
         "strength": 16,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 15
+        "wisdom": 15,
+        "xp": 2300
     },
     {
         "actions": [
@@ -11038,7 +11241,8 @@
         "strength": 24,
         "subtype": "",
         "type": "construct",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 15000
     },
     {
         "actions": [
@@ -11084,7 +11288,8 @@
         "strength": 8,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 10
     },
     {
         "actions": [
@@ -11133,7 +11338,8 @@
         "strength": 19,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 700
     },
     {
         "actions": [
@@ -11198,7 +11404,8 @@
         "subtype": "any race",
         "type": "humanoid",
         "wisdom": 11,
-        "wisdom_save": 2
+        "wisdom_save": 2,
+        "xp": 700
     },
     {
         "actions": [
@@ -11250,7 +11457,8 @@
         "strength": 7,
         "subtype": "kobold",
         "type": "humanoid",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 25
     },
     {
         "actions": [
@@ -11345,7 +11553,8 @@
         "subtype": "titan",
         "type": "monstrosity",
         "wisdom": 18,
-        "wisdom_save": 11
+        "wisdom_save": 11,
+        "xp": 50000
     },
     {
         "actions": [
@@ -11405,7 +11614,8 @@
         "strength": 16,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 15
+        "wisdom": 15,
+        "xp": 1100
     },
     {
         "actions": [
@@ -11449,7 +11659,8 @@
         "strength": 10,
         "subtype": "devil",
         "type": "fiend",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 10
     },
     {
         "actions": [
@@ -11533,7 +11744,8 @@
         "subtype": "",
         "type": "undead",
         "wisdom": 14,
-        "wisdom_save": 9
+        "wisdom_save": 9,
+        "xp": 33000
     },
     {
         "actions": [
@@ -11597,7 +11809,8 @@
         "strength": 17,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 200
     },
     {
         "actions": [
@@ -11629,7 +11842,8 @@
         "strength": 2,
         "subtype": "",
         "type": "beast",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 10
     },
     {
         "actions": [
@@ -11698,7 +11912,8 @@
         "subtype": "lizardfolk",
         "survival": 5,
         "type": "humanoid",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 100
     },
     {
         "actions": [
@@ -11742,7 +11957,8 @@
         "subtype": "any race",
         "type": "humanoid",
         "wisdom": 12,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 2300
     },
     {
         "actions": [
@@ -11804,7 +12020,8 @@
         "strength": 8,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 100
     },
     {
         "actions": [
@@ -11849,7 +12066,8 @@
         "strength": 7,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 100
     },
     {
         "actions": [
@@ -11896,7 +12114,8 @@
         "strength": 24,
         "subtype": "",
         "type": "beast",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 2300
     },
     {
         "actions": [
@@ -11955,7 +12174,8 @@
         "strength": 17,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 700
     },
     {
         "actions": [
@@ -12038,7 +12258,8 @@
         "subtype": "demon",
         "type": "fiend",
         "wisdom": 16,
-        "wisdom_save": 8
+        "wisdom_save": 8,
+        "xp": 15000
     },
     {
         "actions": [
@@ -12079,7 +12300,8 @@
         "strength": 13,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 25
     },
     {
         "actions": [
@@ -12141,7 +12363,8 @@
         "strength": 10,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 2300
     },
     {
         "actions": [
@@ -12181,7 +12404,8 @@
         "strength": 10,
         "subtype": "merfolk",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 25
     },
     {
         "actions": [
@@ -12240,7 +12464,8 @@
         "strength": 18,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 450
     },
     {
         "actions": [
@@ -12303,7 +12528,8 @@
         "strength": 17,
         "subtype": "shapechanger",
         "type": "monstrosity",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 450
     },
     {
         "actions": [
@@ -12362,7 +12588,8 @@
         "strength": 18,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 16
+        "wisdom": 16,
+        "xp": 700
     },
     {
         "actions": [
@@ -12410,7 +12637,8 @@
         "strength": 18,
         "subtype": "",
         "type": "undead",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 450
     },
     {
         "actions": [
@@ -12455,7 +12683,8 @@
         "strength": 14,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 25
     },
     {
         "actions": [
@@ -12499,7 +12728,8 @@
         "subtype": "",
         "type": "undead",
         "wisdom": 10,
-        "wisdom_save": 2
+        "wisdom_save": 2,
+        "xp": 700
     },
     {
         "actions": [
@@ -12592,7 +12822,8 @@
         "subtype": "",
         "type": "undead",
         "wisdom": 18,
-        "wisdom_save": 9
+        "wisdom_save": 9,
+        "xp": 13000
     },
     {
         "actions": [
@@ -12663,7 +12894,8 @@
         "subtype": "demon",
         "type": "fiend",
         "wisdom": 12,
-        "wisdom_save": 6
+        "wisdom_save": 6,
+        "xp": 10000
     },
     {
         "actions": [
@@ -12747,7 +12979,8 @@
         "strength": 18,
         "subtype": "",
         "type": "fiend",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 1800
     },
     {
         "actions": [
@@ -12797,7 +13030,8 @@
         "strength": 18,
         "subtype": "",
         "type": "fiend",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 700
     },
     {
         "actions": [
@@ -12840,7 +13074,8 @@
         "strength": 11,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 25
     },
     {
         "actions": [
@@ -12892,7 +13127,8 @@
         "strength": 15,
         "subtype": "",
         "type": "ooze",
-        "wisdom": 6
+        "wisdom": 6,
+        "xp": 450
     },
     {
         "actions": [
@@ -12948,7 +13184,8 @@
         "strength": 4,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 10
     },
     {
         "actions": [
@@ -12988,7 +13225,8 @@
         "strength": 19,
         "subtype": "",
         "type": "giant",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 450
     },
     {
         "actions": [
@@ -13029,7 +13267,8 @@
         "subtype": "",
         "type": "undead",
         "wisdom": 6,
-        "wisdom_save": 0
+        "wisdom_save": 0,
+        "xp": 450
     },
     {
         "actions": [
@@ -13103,7 +13342,8 @@
         "subtype": "",
         "type": "giant",
         "wisdom": 12,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 2900
     },
     {
         "actions": [
@@ -13151,7 +13391,8 @@
         "strength": 16,
         "subtype": "orc",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 100
     },
     {
         "actions": [
@@ -13209,7 +13450,8 @@
         "strength": 16,
         "subtype": "",
         "type": "aberration",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 1800
     },
     {
         "actions": [
@@ -13255,7 +13497,8 @@
         "strength": 3,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 10
     },
     {
         "actions": [
@@ -13308,7 +13551,8 @@
         "strength": 20,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 700
     },
     {
         "actions": [
@@ -13362,7 +13606,8 @@
         "strength": 14,
         "subtype": "",
         "type": "beast",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 50
     },
     {
         "actions": [
@@ -13399,7 +13644,8 @@
         "subtype": "",
         "type": "celestial",
         "wisdom": 15,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 450
     },
     {
         "actions": [
@@ -13450,7 +13696,8 @@
         "strength": 15,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 700
     },
     {
         "actions": [
@@ -13534,7 +13781,8 @@
         "subtype": "devil",
         "type": "fiend",
         "wisdom": 18,
-        "wisdom_save": 10
+        "wisdom_save": 10,
+        "xp": 25000
     },
     {
         "actions": [
@@ -13603,7 +13851,8 @@
         "subtype": "",
         "type": "celestial",
         "wisdom": 22,
-        "wisdom_save": 11
+        "wisdom_save": 11,
+        "xp": 15000
     },
     {
         "actions": [
@@ -13645,7 +13894,8 @@
         "strength": 18,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 450
     },
     {
         "actions": [
@@ -13677,7 +13927,8 @@
         "strength": 2,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 25
     },
     {
         "actions": [
@@ -13730,7 +13981,8 @@
         "strength": 20,
         "subtype": "",
         "type": "beast",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 450
     },
     {
         "actions": [
@@ -13763,7 +14015,8 @@
         "strength": 15,
         "subtype": "",
         "type": "beast",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 25
     },
     {
         "actions": [
@@ -13811,7 +14064,8 @@
         "strength": 10,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 16
+        "wisdom": 16,
+        "xp": 450
     },
     {
         "actions": [
@@ -13875,7 +14129,8 @@
         "strength": 6,
         "subtype": "",
         "type": "dragon",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 50
     },
     {
         "actions": [
@@ -13929,7 +14184,8 @@
         "subtype": "",
         "type": "monstrosity",
         "wisdom": 8,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 13000
     },
     {
         "actions": [
@@ -13990,7 +14246,8 @@
         "strength": 5,
         "subtype": "demon",
         "type": "fiend",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 200
     },
     {
         "actions": [
@@ -14034,7 +14291,8 @@
         "strength": 2,
         "subtype": "",
         "type": "beast",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 10
     },
     {
         "actions": [
@@ -14086,7 +14344,8 @@
         "strength": 14,
         "subtype": "",
         "type": "fiend",
-        "wisdom": 16
+        "wisdom": 16,
+        "xp": 10000
     },
     {
         "actions": [
@@ -14125,7 +14384,8 @@
         "strength": 2,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 10
     },
     {
         "actions": [
@@ -14164,7 +14424,8 @@
         "strength": 2,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 10
     },
     {
         "actions": [
@@ -14209,7 +14470,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 2
+        "wisdom_save": 2,
+        "xp": 1100
     },
     {
         "actions": [
@@ -14255,7 +14517,8 @@
         "strength": 14,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 100
     },
     {
         "actions": [
@@ -14301,7 +14564,8 @@
         "strength": 24,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 7200
     },
     {
         "actions": [
@@ -14342,7 +14606,8 @@
         "strength": 21,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 450
     },
     {
         "actions": [
@@ -14375,7 +14640,8 @@
         "strength": 16,
         "subtype": "",
         "type": "beast",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 50
     },
     {
         "actions": [
@@ -14432,7 +14698,8 @@
         "subtype": "",
         "type": "monstrosity",
         "wisdom": 10,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 7200
     },
     {
         "actions": [
@@ -14499,7 +14766,8 @@
         "strength": 18,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 16
+        "wisdom": 16,
+        "xp": 1800
     },
     {
         "actions": [
@@ -14549,7 +14817,8 @@
         "strength": 17,
         "subtype": "",
         "type": "construct",
-        "wisdom": 3
+        "wisdom": 3,
+        "xp": 450
     },
     {
         "actions": [
@@ -14599,7 +14868,8 @@
         "strength": 13,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 100
     },
     {
         "actions": [
@@ -14653,7 +14923,8 @@
         "strength": 18,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 450
     },
     {
         "actions": [
@@ -14723,7 +14994,8 @@
         "strength": 13,
         "subtype": "sahuagin",
         "type": "humanoid",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 100
     },
     {
         "actions": [
@@ -14781,7 +15053,8 @@
         "strength": 18,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -14843,7 +15116,8 @@
         "strength": 12,
         "subtype": "",
         "type": "fey",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 100
     },
     {
         "actions": [
@@ -14875,7 +15149,8 @@
         "strength": 2,
         "subtype": "",
         "type": "beast",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 10
     },
     {
         "actions": [
@@ -14931,7 +15206,8 @@
         "subtype": "any race",
         "survival": 5,
         "type": "humanoid",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 100
     },
     {
         "actions": [
@@ -15001,7 +15277,8 @@
         "strength": 16,
         "subtype": "",
         "type": "fey",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 450
     },
     {
         "alignment": "unaligned",
@@ -15032,7 +15309,8 @@
         "strength": 1,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 10
     },
     {
         "actions": [
@@ -15083,7 +15361,8 @@
         "strength": 6,
         "subtype": "",
         "type": "undead",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 100
     },
     {
         "actions": [
@@ -15134,7 +15413,8 @@
         "strength": 18,
         "subtype": "",
         "type": "plant",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -15196,7 +15476,8 @@
         "strength": 18,
         "subtype": "",
         "type": "construct",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 2900
     },
     {
         "actions": [
@@ -15234,7 +15515,8 @@
         "strength": 1,
         "subtype": "",
         "type": "plant",
-        "wisdom": 3
+        "wisdom": 3,
+        "xp": 10
     },
     {
         "actions": [
@@ -15279,7 +15561,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 2
+        "wisdom_save": 2,
+        "xp": 450
     },
     {
         "actions": [
@@ -15319,7 +15602,8 @@
         "strength": 10,
         "subtype": "",
         "type": "undead",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 50
     },
     {
         "actions": [
@@ -15417,7 +15701,8 @@
         "subtype": "",
         "type": "celestial",
         "wisdom": 25,
-        "wisdom_save": 14
+        "wisdom_save": 14,
+        "xp": 33000
     },
     {
         "actions": [
@@ -15461,7 +15746,8 @@
         "strength": 1,
         "subtype": "",
         "type": "undead",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 200
     },
     {
         "actions": [
@@ -15511,7 +15797,8 @@
         "strength": 2,
         "subtype": "",
         "type": "beast",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 10
     },
     {
         "actions": [
@@ -15560,7 +15847,8 @@
         "subtype": "",
         "type": "monstrosity",
         "wisdom": 15,
-        "wisdom_save": 5
+        "wisdom_save": 5,
+        "xp": 3900
     },
     {
         "actions": [
@@ -15610,7 +15898,8 @@
         "strength": 3,
         "subtype": "",
         "type": "fey",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 50
     },
     {
         "actions": [
@@ -15674,7 +15963,8 @@
         "strength": 10,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 200
     },
     {
         "actions": [
@@ -15729,7 +16019,8 @@
         "strength": 5,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 50
     },
     {
         "actions": [
@@ -15762,7 +16053,8 @@
         "strength": 4,
         "subtype": "",
         "type": "beast",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 25
     },
     {
         "actions": [
@@ -15826,7 +16118,8 @@
         "subtype": "",
         "type": "giant",
         "wisdom": 12,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 2900
     },
     {
         "actions": [
@@ -15886,7 +16179,8 @@
         "strength": 22,
         "subtype": "",
         "type": "construct",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 5900
     },
     {
         "actions": [
@@ -15957,7 +16251,8 @@
         "subtype": "",
         "type": "giant",
         "wisdom": 18,
-        "wisdom_save": 9
+        "wisdom_save": 9,
+        "xp": 10000
     },
     {
         "actions": [
@@ -16024,7 +16319,8 @@
         "strength": 8,
         "subtype": "shapechanger",
         "type": "fiend",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 1100
     },
     {
         "actions": [
@@ -16073,7 +16369,8 @@
         "strength": 5,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 50
     },
     {
         "actions": [
@@ -16112,7 +16409,8 @@
         "strength": 3,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 100
     },
     {
         "actions": [
@@ -16151,7 +16449,8 @@
         "strength": 3,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 100
     },
     {
         "actions": [
@@ -16190,7 +16489,8 @@
         "strength": 3,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 100
     },
     {
         "actions": [
@@ -16229,7 +16529,8 @@
         "strength": 8,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 450
     },
     {
         "actions": [
@@ -16278,7 +16579,8 @@
         "strength": 13,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 200
     },
     {
         "actions": [
@@ -16322,7 +16624,8 @@
         "strength": 9,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 50
     },
     {
         "actions": [
@@ -16361,7 +16664,8 @@
         "strength": 6,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 50
     },
     {
         "actions": [
@@ -16415,7 +16719,8 @@
         "strength": 3,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 100
     },
     {
         "actions": [
@@ -16454,7 +16759,8 @@
         "strength": 3,
         "subtype": "",
         "type": "swarm of Tiny beasts",
-        "wisdom": 7
+        "wisdom": 7,
+        "xp": 100
     },
     {
         "actions": [
@@ -16565,7 +16871,8 @@
         "subtype": "titan",
         "type": "monstrosity",
         "wisdom": 11,
-        "wisdom_save": 9
+        "wisdom_save": 9,
+        "xp": 155000
     },
     {
         "actions": [
@@ -16617,7 +16924,8 @@
         "strength": 15,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 100
     },
     {
         "actions": [
@@ -16669,7 +16977,8 @@
         "strength": 17,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 200
     },
     {
         "actions": [
@@ -16731,7 +17040,8 @@
         "strength": 23,
         "subtype": "",
         "type": "plant",
-        "wisdom": 16
+        "wisdom": 16,
+        "xp": 5000
     },
     {
         "actions": [
@@ -16771,7 +17081,8 @@
         "strength": 13,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 25
     },
     {
         "actions": [
@@ -16818,7 +17129,8 @@
         "strength": 22,
         "subtype": "",
         "type": "beast",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 1800
     },
     {
         "actions": [
@@ -16881,7 +17193,8 @@
         "strength": 18,
         "subtype": "",
         "type": "giant",
-        "wisdom": 9
+        "wisdom": 9,
+        "xp": 1800
     },
     {
         "actions": [
@@ -16927,7 +17240,8 @@
         "strength": 25,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 3900
     },
     {
         "actions": [
@@ -17022,7 +17336,8 @@
         "strength": 18,
         "subtype": "",
         "type": "celestial",
-        "wisdom": 17
+        "wisdom": 17,
+        "xp": 1800
     },
     {
         "actions": [
@@ -17131,7 +17446,8 @@
         "subtype": "shapechanger",
         "type": "undead",
         "wisdom": 15,
-        "wisdom_save": 7
+        "wisdom_save": 7,
+        "xp": 10000
     },
     {
         "actions": [
@@ -17195,7 +17511,8 @@
         "subtype": "",
         "type": "undead",
         "wisdom": 10,
-        "wisdom_save": 3
+        "wisdom_save": 3,
+        "xp": 1800
     },
     {
         "actions": [
@@ -17249,7 +17566,8 @@
         "strength": 16,
         "subtype": "any race",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 700
     },
     {
         "actions": [
@@ -17293,7 +17611,8 @@
         "strength": 3,
         "subtype": "",
         "type": "plant",
-        "wisdom": 3
+        "wisdom": 3,
+        "xp": 50
     },
     {
         "actions": [
@@ -17363,7 +17682,8 @@
         "subtype": "demon",
         "type": "fiend",
         "wisdom": 13,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 2300
     },
     {
         "actions": [
@@ -17408,7 +17728,8 @@
         "strength": 7,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 10
     },
     {
         "actions": [
@@ -17448,7 +17769,8 @@
         "strength": 18,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 100
     },
     {
         "actions": [
@@ -17481,7 +17803,8 @@
         "strength": 18,
         "subtype": "",
         "type": "undead",
-        "wisdom": 8
+        "wisdom": 8,
+        "xp": 100
     },
     {
         "actions": [
@@ -17536,7 +17859,8 @@
         "strength": 18,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -17577,7 +17901,8 @@
         "strength": 3,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 10
     },
     {
         "actions": [
@@ -17642,7 +17967,8 @@
         "strength": 19,
         "subtype": "human",
         "type": "humanoid",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 1800
     },
     {
         "actions": [
@@ -17706,7 +18032,8 @@
         "strength": 17,
         "subtype": "human",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 1100
     },
     {
         "actions": [
@@ -17772,7 +18099,8 @@
         "strength": 10,
         "subtype": "human",
         "type": "humanoid",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 450
     },
     {
         "actions": [
@@ -17850,7 +18178,8 @@
         "strength": 17,
         "subtype": "human",
         "type": "humanoid",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 1100
     },
     {
         "actions": [
@@ -17915,7 +18244,8 @@
         "strength": 15,
         "subtype": "human",
         "type": "humanoid",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 700
     },
     {
         "actions": [
@@ -17960,7 +18290,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 10,
-        "wisdom_save": 2
+        "wisdom_save": 2,
+        "xp": 450
     },
     {
         "actions": [
@@ -18021,7 +18352,8 @@
         "strength": 15,
         "subtype": "",
         "type": "undead",
-        "wisdom": 13
+        "wisdom": 13,
+        "xp": 700
     },
     {
         "actions": [
@@ -18080,7 +18412,8 @@
         "strength": 1,
         "subtype": "",
         "type": "undead",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 450
     },
     {
         "actions": [
@@ -18138,7 +18471,8 @@
         "strength": 18,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 700
     },
     {
         "actions": [
@@ -18185,7 +18519,8 @@
         "strength": 12,
         "subtype": "",
         "type": "beast",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 50
     },
     {
         "actions": [
@@ -18226,7 +18561,8 @@
         "strength": 16,
         "subtype": "",
         "type": "monstrosity",
-        "wisdom": 11
+        "wisdom": 11,
+        "xp": 100
     },
     {
         "actions": [
@@ -18276,7 +18612,8 @@
         "strength": 6,
         "subtype": "",
         "type": "undead",
-        "wisdom": 14
+        "wisdom": 14,
+        "xp": 1800
     },
     {
         "actions": [
@@ -18329,7 +18666,8 @@
         "strength": 19,
         "subtype": "",
         "type": "dragon",
-        "wisdom": 12
+        "wisdom": 12,
+        "xp": 2300
     },
     {
         "actions": [
@@ -18393,7 +18731,8 @@
         "strength": 17,
         "subtype": "",
         "type": "elemental",
-        "wisdom": 10
+        "wisdom": 10,
+        "xp": 1800
     },
     {
         "actions": [
@@ -18457,7 +18796,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 3
+        "wisdom_save": 3,
+        "xp": 2900
     },
     {
         "actions": [
@@ -18514,7 +18854,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 13,
-        "wisdom_save": 5
+        "wisdom_save": 5,
+        "xp": 5000
     },
     {
         "actions": [
@@ -18572,7 +18913,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 3
+        "wisdom_save": 3,
+        "xp": 2300
     },
     {
         "actions": [
@@ -18637,7 +18979,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 13,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 3900
     },
     {
         "actions": [
@@ -18695,7 +19038,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 13,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 2900
     },
     {
         "actions": [
@@ -18761,7 +19105,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 13,
-        "wisdom_save": 5
+        "wisdom_save": 5,
+        "xp": 5900
     },
     {
         "actions": [
@@ -18826,7 +19171,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 13,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 3900
     },
     {
         "actions": [
@@ -18883,7 +19229,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 5900
     },
     {
         "actions": [
@@ -18942,7 +19289,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 4
+        "wisdom_save": 4,
+        "xp": 5000
     },
     {
         "actions": [
@@ -19006,7 +19354,8 @@
         "subtype": "",
         "type": "dragon",
         "wisdom": 11,
-        "wisdom_save": 3
+        "wisdom_save": 3,
+        "xp": 2300
     },
     {
         "actions": [
@@ -19047,27 +19396,7 @@
         "subtype": "",
         "type": "undead",
         "wisdom": 6,
-        "wisdom_save": 0
-    },
-    {
-        "license": [
-            "OPEN GAME LICENSE Version 1.0a",
-            "The following text is the property of Wizards of the Coast, Inc. and is Copyright 2000 Wizards of the Coast, Inc (\"Wizards\"). All Rights Reserved.",
-            "1. Definitions: (a)\"Contributors\" means the copyright and/or trademark owners who have contributed Open Game Content; (b)\"Derivative Material\" means copyrighted material including derivative works and translations (including into other computer languages), potation, modification, correction, addition, extension, upgrade, improvement, compilation, abridgment or other form in which an existing work may be recast, transformed or adapted; (c) \"Distribute\" means to reproduce, license, rent, lease, sell, broadcast, publicly display, transmit or otherwise distribute; (d)\"Open Game Content\" means the game mechanic and includes the methods, procedures, processes and routines to the extent such content does not embody the Product Identity and is an enhancement over the prior art and any additional content clearly identified as Open Game Content by the Contributor, and means any work covered by this License, including translations and derivative works under copyright law, but specifically excludes Product Identity. (e) \"Product Identity\" means product and product line names, logos and identifying marks including trade dress; artifacts; creatures characters; stories, storylines, plots, thematic elements, dialogue, incidents, language, artwork, symbols, designs, depictions, likenesses, formats, poses, concepts, themes and graphic, photographic and other visual or audio representations; names and descriptions of characters, spells, enchantments, personalities, teams, personas, likenesses and special abilities; places, locations, environments, creatures, equipment, magical or supernatural abilities or effects, logos, symbols, or graphic designs; and any other trademark or registered trademark clearly identified as Product identity by the owner of the Product Identity, and which specifically excludes the Open Game Content; (f) \"Trademark\" means the logos, names, mark, sign, motto, designs that are used by a Contributor to identify itself or its products or the associated products contributed to the Open Game License by the Contributor (g) \"Use\", \"Used\" or \"Using\" means to use, Distribute, copy, edit, format, modify, translate and otherwise create Derivative Material of Open Game Content. (h) \"You\" or \"Your\" means the licensee in terms of this agreement.",
-            "2. The License: This License applies to any Open Game Content that contains a notice indicating that the Open Game Content may only be Used under and in terms of this License. You must affix such a notice to any Open Game Content that you Use. No terms may be added to or subtracted from this License except as described by the License itself. No other terms or conditions may be applied to any Open Game Content distributed using this License.",
-            "3.Offer and Acceptance: By Using the Open Game Content You indicate Your acceptance of the terms of this License.",
-            "4. Grant and Consideration: In consideration for agreeing to use this License, the Contributors grant You a perpetual, worldwide, royalty-free, non-exclusive license with the exact terms of this License to Use, the Open Game Content.",
-            "5.Representation of Authority to Contribute: If You are contributing original material as Open Game Content, You represent that Your Contributions are Your original creation and/or You have sufficient rights to grant the rights conveyed by this License.",
-            "6.Notice of License Copyright: You must update the COPYRIGHT NOTICE portion of this License to include the exact text of the COPYRIGHT NOTICE of any Open Game Content You are copying, modifying or distributing, and You must add the title, the copyright date, and the copyright holder's name to the COPYRIGHT NOTICE of any original Open Game Content you Distribute.",
-            "7. Use of Product Identity: You agree not to Use any Product Identity, including as an indication as to compatibility, except as expressly licensed in another, independent Agreement with the owner of each element of that Product Identity. You agree not to indicate compatibility or co-adaptability with any Trademark or Registered Trademark in conjunction with a work containing Open Game Content except as expressly licensed in another, independent Agreement with the owner of such Trademark or Registered Trademark. The use of any Product Identity in Open Game Content does not constitute a challenge to the ownership of that Product Identity. The owner of any Product Identity used in Open Game Content shall retain all rights, title and interest in and to that Product Identity.",
-            "8. Identification: If you distribute Open Game Content You must clearly indicate which portions of the work that you are distributing are Open Game Content.",
-            "9. Updating the License: Wizards or its designated Agents may publish updated versions of this License. You may use any authorized version of this License to copy, modify and distribute any Open Game Content originally distributed under any version of this License.",
-            "10 Copy of this License: You MUST include a copy of this License with every copy of the Open Game Content You Distribute.",
-            "11. Use of Contributor Credits: You may not market or advertise the Open Game Content using the name of any Contributor unless You have written permission from the Contributor to do so.",
-            "12 Inability to Comply: If it is impossible for You to comply with any of the terms of this License with respect to some or all of the Open Game Content due to statute, judicial order, or governmental regulation then You may not Use any Open Game Material so affected.",
-            "13 Termination: This License will terminate automatically if You fail to comply with all terms herein and fail to cure such breach within 30 days of becoming aware of the breach. All sublicenses shall survive the termination of this License.",
-            "14 Reformation: If any provision of this License is held to be unenforceable, such provision shall be reformed only to the extent necessary to make it enforceable.",
-            "15 COPYRIGHT NOTICE Open Game License v 1.0 Copyright 2000, Wizards of the Coast, Inc."
-        ]
+        "wisdom_save": 0,
+        "xp": 50
     }
 ]
