@@ -44,7 +44,9 @@ def alignment_tags(mon):
 
 
 def sense_tags(mon):
-    s = mon['senses']
+    s = mon.get('senses')
+    if not s:
+        return
     tags = set()
     if 'blindsight' in s:
         tags.add('blindsight')
@@ -103,20 +105,24 @@ def modify_monster(mon):
     tags.add(mon['type'])
 
     mv = move_tags(mon)
-    print('adding from {!r}: {!r}'.format(mon['speed'], mv))
-    tags |= mv
+    if mv:
+        print('adding from {!r}: {!r}'.format(mon['speed'], mv))
+        tags |= mv
 
     atags = alignment_tags(mon)
-    print('adding from {!r}: {!r}'.format(mon['alignment'], atags))
-    tags |= atags
+    if atags:
+        print('adding from {!r}: {!r}'.format(mon['alignment'], atags))
+        tags |= atags
 
     stags = sense_tags(mon)
-    print('adding from {!r}: {!r}'.format(mon['senses'], stags))
-    tags |= stags
+    if stags:
+        print('adding from {!r}: {!r}'.format(mon['senses'], stags))
+        tags |= stags
 
     ltags = lang_tags(mon)
-    print('adding from {!r}: {!r}'.format(mon['languages'], ltags))
-    tags |= ltags
+    if ltags:
+        print('adding from {!r}: {!r}'.format(mon['languages'], ltags))
+        tags |= ltags
 
     old_tags = (mon.get('attr') and set(mon['attr'])) or set()
     if old_tags:
