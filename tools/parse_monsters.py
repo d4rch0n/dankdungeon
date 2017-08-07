@@ -6,6 +6,7 @@ RE_LAND = re.compile(r'^\d+\s+\w+')
 RE_LANG_COMMON = re.compile(r'.*\bcommon\b')
 RE_LANG_UNCOMMON = re.compile(r'.*\bundercommon\b')
 RE_LANG_GIANT = re.compile(r'.*(giant(?:\s\w+)?)')
+RE_TYPE = re.compile(r'swarm of (?P<size>\w+) (?P<type>\w+[^s])s?$')
 
 
 with open('monsters.json') as f:
@@ -101,8 +102,14 @@ def modify_monster(mon):
     print(mon['name'])
 
     tags = set()
-    print('adding: {!r}'.format(mon['type']))
-    tags.add(mon['type'])
+    typ = mon['type']
+    m = RE_TYPE.match(typ)
+    if m:
+        typ = m.group('type')
+        tags.add('swarm')
+        print('adding swarm')
+    print('adding: {!r}'.format(typ))
+    tags.add(typ)
 
     mv = move_tags(mon)
     if mv:
