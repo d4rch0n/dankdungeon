@@ -40,7 +40,7 @@ class Dungeon:
         self.secret_edges = set()
         rooms = list(range(self.num_rooms))
         for i in range(self.num_rooms):
-            num = distribution({1: 65, 2: 30, 3: 5})
+            num = distribution({1: 85, 2: 14, 3: 1})
             choices = rooms[:]
             choices.remove(i)
             for j in range(num):

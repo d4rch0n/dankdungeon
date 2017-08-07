@@ -144,7 +144,7 @@
     ]
   },
   {
-    "attr": ["dragon", "magic", "amphibious", "water", "air", "land", "acid", "swamp", "ruins", "evil"],
+    "attr": ["dragon", "magic", "amphibious", "water", "air", "land", "acid", "swamp", "ruins", "evil", "forest"],
     "xp": 11500,
     "name": "Adult Black Dragon",
     "size": "Huge",
@@ -244,7 +244,7 @@
     ]
   },
   {
-    "attr": ["undead", "dragon", "evil", "mountain", "land", "air", "lightning", "desert"],
+    "attr": ["undead", "dragon", "evil", "mountain", "land", "air", "lightning", "desert", "magic"],
     "xp": 18000,
     "name": "Adult Blue Dracolich",
     "size": "Huge",
@@ -339,7 +339,7 @@
     ]
   },
   {
-    "attr": ["dragon", "evil", "mountain", "land", "air", "lightning", "desert"],
+    "attr": ["dragon", "evil", "mountain", "land", "air", "lightning", "desert", "magic"],
     "xp": 32500,
     "name": "Adult Blue Dragon",
     "size": "Huge",
@@ -434,6 +434,8 @@
     ]
   },
   {
+    "attr": ["dragon", "fire", "magic", "good", "land", "air", "desert", "mountain"],
+    "xp": 10000,
     "name": "Adult Brass Dragon",
     "size": "Huge",
     "type": "dragon",
@@ -512,6 +514,8 @@
     ]
   },
   {
+    "attr": ["dragon", "lightning", "magic", "good", "land", "air", "desert", "mountain"],
+    "xp": 10000,
     "name": "Adult Bronze Dragon",
     "size": "Huge",
     "type": "dragon",
@@ -611,6 +615,8 @@
     ]
   },
   {
+    "attr": ["dragon", "acid", "magic", "good", "land", "air", "desert", "mountain"],
+    "xp": 11500,
     "name": "Adult Copper Dragon",
     "size": "Huge",
     "type": "dragon",
@@ -705,6 +711,8 @@
     ]
   },
   {
+    "attr": ["dragon", "fire", "magic", "good", "land", "air", "desert", "mountain", "forest"],
+    "xp": 18000,
     "name": "Adult Gold Dragon",
     "size": "Huge",
     "type": "dragon",
@@ -805,6 +813,8 @@
     ]
   },
   {
+    "attr": ["dragon", "poison", "magic", "evil", "land", "air", "forest", "swamp"],
+    "xp": 13000,
     "name": "Adult Green Dragon",
     "size": "Huge",
     "type": "dragon",
@@ -906,6 +916,8 @@
     ]
   },
   {
+    "attr": ["dragon", "fire", "magic", "evil", "land", "air", "mountain", "ruins"],
+    "xp": 18000,
     "name": "Adult Red Dragon",
     "size": "Huge",
     "type": "dragon",
@@ -1005,6 +1017,8 @@
     ]
   },
   {
+    "attr": ["dragon", "ice", "magic", "good", "land", "air", "forest", "tundra"],
+    "xp": 15000,
     "name": "Adult Silver Dragon",
     "size": "Huge",
     "type": "dragon",
@@ -1100,6 +1114,8 @@
     ]
   },
   {
+    "attr": ["dragon", "ice", "magic", "evil", "land", "air", "forest", "tundra"],
+    "xp": 10000,
     "name": "Adult White Dragon",
     "size": "Huge",
     "type": "dragon",
@@ -1198,6 +1214,8 @@
     ]
   },
   {
+    "attr": ["elemental", "plane_air", "air", "land", "magic", "mountain"],
+    "xp": 1800,
     "name": "Air Elemental",
     "size": "Large",
     "type": "elemental",
@@ -1248,6 +1266,8 @@
     ]
   },
   {
+    "attr": ["dragon", "acid", "magic", "evil", "land", "air", "forest", "swamp"],
+    "xp": 27500,
     "name": "Ancient Black Dragon",
     "size": "Gargantuan",
     "type": "dragon",
@@ -1350,6 +1370,8 @@
     ]
   },
   {
+    "attr": ["dragon", "lightning", "magic", "evil", "land", "air", "desert"],
+    "xp": 32500,
     "name": "Ancient Blue Dragon",
     "size": "Gargantuan",
     "type": "dragon",
@@ -1436,6 +1458,8 @@
     ]
   },
   {
+    "attr": ["dragon", "fire", "magic", "good", "land", "air", "forest", "desert", "mountain"],
+    "xp": 24500,
     "name": "Ancient Brass Dragon",
     "size": "Gargantuan",
     "type": "dragon",
@@ -1536,6 +1560,8 @@
     ]
   },
   {
+    "attr": ["dragon", "lightning", "magic", "good", "land", "air", "mountain", "desert"],
+    "xp": 30000,
     "name": "Ancient Bronze Dragon",
     "size": "Gargantuan",
     "type": "dragon",
