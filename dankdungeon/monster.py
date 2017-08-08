@@ -53,9 +53,23 @@ def scale_enc(num):
     return 4.0
 
 
+def calc_tag_weight(tags):
+    areas = {'plains', 'desert', 'forest', 'mountain', 'tundra', 'swamp',
+             'jungle'}
+    s = 0
+    if tags & areas:
+        s += 1.0
+    s += len(tags - areas)
+    return s
+
+
 class Monster:
-    MONSTERS = {}
+    MONSTERS = []
+    TAG_GROUPS = {}
+    MONSTER_GROUPS = {}
     MONSTER_DATA = []
+    MONSTER_D = {}
+    TAGS = set()
 
     def __repr__(self):
         return self.data['name']
@@ -88,6 +102,28 @@ class Monster:
         with open(MONSTERS_PATH) as f:
             cls.MONSTER_DATA = json.load(f)
         cls.MONSTERS = [cls(x) for x in cls.MONSTER_DATA]
+        tags = set()
+        for mon in cls.MONSTERS:
+            tags |= mon.tags
+        cls.TAGS = tags.copy()
+        for tag in cls.TAGS:
+            arr = []
+            for mon in cls.MONSTERS:
+                if mon.tags & {tag}:
+                    arr.append(mon)
+            cls.TAG_GROUPS[tag] = arr
+        for mon in cls.MONSTERS:
+            arr = []
+            for mon2 in cls.MONSTERS:
+                if mon.tags & mon2.tags:
+                    wt = calc_tag_weight(mon.tags & mon2.tags)
+                    if mon.type == mon2.type:
+                        wt *= 3
+                    arr.append((wt, mon2))
+            arr = sorted(arr, reverse=True, key=lambda x: (x[0], x[1].name))
+            arr = [v for k, v in arr]
+            cls.MONSTER_GROUPS[mon] = arr
+        cls.MONSTER_D = {m.name.lower().strip(): m for m in cls.MONSTERS}
 
     @classmethod
     def find(cls, include=None, exclude=None):
@@ -104,6 +140,10 @@ class Monster:
             mons = [v for v in mons if not (exclude & v.tags)]
         return mons
 
+    @classmethod
+    def get(cls, name):
+        return cls.MONSTER_D.get(name.strip().lower())
+
 
 def calc_threshold(player_levels):
     thresh = [0, 0, 0, 0]
@@ -111,3 +151,6 @@ def calc_threshold(player_levels):
         for i in range(4):
             thresh[i] += XP_THRESH[lvl][i]
     return thresh
+
+
+Monster.load()
