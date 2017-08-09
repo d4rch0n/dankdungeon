@@ -88,6 +88,8 @@ class Monster:
             raise ValueError('cant calculate the difference between anything '
                              'except other monsters')
         s = 0.0
+        if self.name == mon.name:
+            return 999999
         langs = {x for x in self.tags if x.endswith('_lang')}
         mlangs = {x for x in mon.tags if x.endswith('_lang')}
         tags = self.tags - langs
