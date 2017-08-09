@@ -10901,7 +10901,8 @@
             "sewer",
             "swamp",
             "tundra",
-            "walk"
+            "walk",
+            "were"
         ],
         "type": "humanoid",
         "wisdom": 10,
@@ -12314,7 +12315,8 @@
             "plains",
             "swamp",
             "tundra",
-            "walk"
+            "walk",
+            "were"
         ],
         "type": "humanoid",
         "wisdom": 11,
@@ -13194,7 +13196,8 @@
             "plains",
             "swamp",
             "tundra",
-            "walk"
+            "walk",
+            "were"
         ],
         "type": "humanoid",
         "wisdom": 11,
@@ -13288,7 +13291,8 @@
             "plains",
             "swamp",
             "tundra",
-            "walk"
+            "walk",
+            "were"
         ],
         "type": "humanoid",
         "wisdom": 13,
@@ -14997,7 +15001,8 @@
             "plains",
             "swamp",
             "tundra",
-            "walk"
+            "walk",
+            "were"
         ],
         "type": "humanoid",
         "wisdom": 12,
