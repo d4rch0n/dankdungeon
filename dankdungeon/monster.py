@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import random
 from fuzzywuzzy import fuzz
 
 
@@ -53,6 +54,16 @@ def scale_enc(num):
     if 11 <= num <= 14:
         return 3.0
     return 4.0
+
+
+def csv_set(s):
+    if not s:
+        return None
+    if isinstance(s, (list, tuple, set)):
+        return set(s)
+    if isinstance(s, str):
+        return {x.strip().lower() for x in s.split(',')}
+    raise ValueError('bad type for splitting on comma: {!r}'.format(s))
 
 
 class Monster:
@@ -131,7 +142,7 @@ class Monster:
     def tags(self):
         if 'tags' not in self.data:
             return set()
-        return set(self.data['tags'])
+        return set(self.data['tags']) | {self.name.strip().lower()}
 
     @classmethod
     def load(cls):
@@ -160,21 +171,6 @@ class Monster:
         cls.MONSTER_D = {m.name.lower().strip(): m for m in cls.MONSTERS}
 
     @classmethod
-    def find(cls, include=None, exclude=None):
-        mons = [v for v in cls.MONSTERS]
-        if include is not None:
-            if isinstance(include, str):
-                include = {include}
-            include = set(include)
-            mons = [v for v in mons if include & v.tags]
-        if exclude is not None:
-            if isinstance(exclude, str):
-                exclude = {exclude}
-            exclude = set(exclude)
-            mons = [v for v in mons if not (exclude & v.tags)]
-        return mons
-
-    @classmethod
     def get(cls, name):
         mon = cls.MONSTER_D.get(name.strip().lower())
         if mon:
@@ -189,32 +185,147 @@ class Monster:
     def related(self):
         return Monster.MONSTER_GROUPS[self]
 
+    @staticmethod
+    def select_and(grp1, grp2):
+        return [x for x in grp1 if x in grp2]
+
+    @staticmethod
+    def select_or(grp1, grp2):
+        g1 = [x for x in grp1 if x not in grp2]
+        g2 = [x for x in grp2 if x not in grp1]
+        return g1 + g2
+
+    @classmethod
+    def random_encounter(cls, min_xp, max_xp, or_tags=None, and_tags=None,
+                         not_tags=None):
+        mons = cls.find(or_tags=or_tags, and_tags=and_tags, not_tags=not_tags)
+        if not mons:
+            raise ValueError('filters too restrictive! no monsters found')
+        mons = [x for x in mons if x.xp <= max_xp]
+        if not mons:
+            raise ValueError('none of these monsters are <= max xp threshold')
+        mon = random.choice(mons)
+        enc = [[1, mon]]
+
+        def total_xp():
+            nonlocal enc
+            xp = 0
+            c = 0
+            for ct, mon in enc:
+                xp += ct * mon.xp
+                c += ct
+            xp *= scale_enc(c)
+            return xp
+
+        rel = cls.select_and(mon.related(), mons)
+        variety = random.randint(1, 3)
+
+        if not rel or variety == 1:
+            while total_xp() < min_xp:
+                enc[0][0] += 1
+            if total_xp() > max_xp:
+                enc[0][0] -= 1
+            return enc, total_xp()
+
+        rel = list(set(rel) - {mon})
+        if variety >= 2 and rel:
+            other = random.choice(rel)
+            enc.append([1, other])
+            if total_xp() > max_xp:
+                enc = enc[:-1]
+            rel = list(set(rel) - {other})
+
+        if variety >= 3 and rel:
+            other = random.choice(rel)
+            enc.append([1, other])
+            if total_xp() > max_xp:
+                enc = enc[:-1]
+            rel = list(set(rel) - {other})
+
+        while total_xp() < min_xp:
+            random.shuffle(enc)
+            for lst in enc:
+                lst[0] += 1
+                if total_xp() > max_xp:
+                    lst[0] -= 1
+                    continue
+                else:
+                    break
+        return enc, total_xp()
+
+    @classmethod
+    def find(cls, or_tags=None, and_tags=None, not_tags=None):
+        or_tags = csv_set(or_tags)
+        and_tags = csv_set(and_tags)
+        not_tags = csv_set(not_tags)
+        mons = cls.MONSTERS[:]
+        if or_tags is not None:
+            mons = [x for x in mons if x.tags & or_tags]
+        if and_tags is not None:
+            mons = [x for x in mons if x.tags & and_tags == and_tags]
+        if not_tags is not None:
+            mons = [x for x in mons if not bool(x.tags & not_tags)]
+        return mons
+
 
 def calc_threshold(player_levels):
-    thresh = [0, 0, 0, 0]
+    thresh = [0, 0, 0, 0, 0]
     for lvl in player_levels:
         for i in range(4):
             thresh[i] += XP_THRESH[lvl][i]
+    # make deadly span between itself and a new number, 1.5 times diff between
+    # the hard and deadly difficulty difference
+    d = thresh[3] - thresh[2]
+    thresh[4] = int(thresh[3] + (1.5 * d))
     return thresh
-
-
-Monster.load()
 
 
 def main():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--monster', '-m', help='select a monster by name')
-    parser.add_argument('--related', '-r', action='store_true',
-                        help='print related monsters')
-    parser.add_argument('--players', '-p', help='the player levels')
+    subs = parser.add_subparsers(dest='cmd')
+    p = subs.add_parser('monster')
+    p.add_argument('name', help='select a monster by name')
+    p.add_argument('--related', '-r', action='store_true',
+                   help='print related monsters')
+
+    p = subs.add_parser('encounter')
+    p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
+    p.add_argument('--difficulty', '-d', default='medium',
+                   choices=('easy', 'medium', 'hard', 'deadly'))
+    p.add_argument('--and', '-A', dest='and_tags',
+                   help='require monsters have all of these, '
+                   'eg: underdark,undercommon_lang')
+    p.add_argument('--or', '-O', dest='or_tags',
+                   help='only include monsters with one or more, eg: '
+                   'dragon,reptile')
+    p.add_argument('--not', '-N', dest='not_tags',
+                   help='exclude monsters with one of these, eg: undead,fire')
+
     args = parser.parse_args()
-    if args.players:
-        players = [int(x.strip()) for x in args.players.split(',')]
-    else:
-        players = [1, 1, 1, 1]
-    if args.monster:
-        mon = Monster.get(args.monster)
+
+    if args.cmd == 'encounter':
+        Monster.load()
+        if args.players:
+            players = [int(x.strip()) for x in args.players.split(',')]
+        else:
+            players = [1, 1, 1, 1]
+        thresh = calc_threshold(players)
+        diff = {'easy': 0, 'medium': 1, 'hard': 2, 'deadly': 3}[args.difficulty]
+        thresh = (thresh[diff], thresh[diff + 1])
+        enc, xp = Monster.random_encounter(
+            thresh[0],
+            thresh[1],
+            or_tags=args.or_tags,
+            and_tags=args.and_tags,
+            not_tags=args.not_tags,
+        )
+        print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
+        for ct, mon in enc:
+            print(' - {} {!r}'.format(ct, mon))
+    elif args.cmd == 'monster':
+        Monster.load()
+        mon = Monster.get(args.name)
         if args.related:
             rel = mon.related()[:10]
             for m in rel:
