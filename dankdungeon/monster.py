@@ -102,7 +102,7 @@ class Monster:
             if tags & {t} and mtags & {t}:
                 s *= 2
         for t in {'underdark', 'fire', 'ice', 'lightning', 'water', 'earth',
-                  'air', 'water', 'hell', 'fly', 'swim'}:
+                  'air', 'water', 'hell', 'fly', 'swim', 'were'}:
             if tags & {t} and mtags & {t}:
                 s *= 3
         align = {'good', 'evil'}
@@ -112,10 +112,17 @@ class Monster:
             else:
                 s /= 7
         if self.type == mon.type:
-            s *= 3
-        else:
-            if self.type == 'dragon' or mon.type == 'dragon':
+            if self.subtype and self.subtype == mon.subtype:
+                s *= 8
+            else:
+                s *= 3
+        for bad in {'were', 'dragon', 'reptile', 'arachnid', 'insect'}:
+            if bad not in tags | mtags:
+                continue
+            if {bad} & tags & mtags != {bad}:
                 s /= 5
+            else:
+                s *= 5
         return s
 
     @property
