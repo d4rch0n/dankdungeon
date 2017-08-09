@@ -301,20 +301,14 @@ class Monster:
         print('Related monsters: {}'.format(', '.join([
             x.name for x in self.related()[:10]
         ])))
-        print('\nACTIONS')
+        print('\nActions:')
         for act in self.actions:
-            print(act['name'])
-            print(act['desc'])
-            if act['attack_bonus']:
-                print('  Attack bonus: {}'.format(act['attack_bonus']))
-            if act['damage_bonus']:
-                print('  Damage bonus: {}'.format(act['damage_bonus']))
-        print('\nSPECIAL ABILITIES')
+            print('  ' + act['name'])
+            print('    ' + act['desc'])
+        print('\nSpecial Abilities:')
         for act in self.special_abilities:
-            print(act['name'])
-            print(act['desc'])
-            if act['attack_bonus']:
-                print('  Attack bonus: {}'.format(act['attack_bonus']))
+            print('  ' + act['name'])
+            print('    ' + act['desc'])
 
 
 def calc_threshold(player_levels):
