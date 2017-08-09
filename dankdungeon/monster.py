@@ -267,6 +267,55 @@ class Monster:
             mons = [x for x in mons if not bool(x.tags & not_tags)]
         return mons
 
+    def output(self):
+        print(self.name)
+        for x in (
+            'name',
+            'challenge rating',
+            'xp',
+            'type',
+            'subtype',
+            'alignment',
+            'size',
+            'hit points',
+            'hit dice',
+            'armor class',
+            'speed',
+            'senses',
+            'languages'
+            'damage immunities',
+            'damage resistances',
+            'damage vulnerabilities',
+            'condition immunities',
+            'strength',
+            'dexterity',
+            'constitution',
+            'intelligence',
+            'wisdom',
+            'charisma',
+        ):
+            if x not in self.data:
+                continue
+            print('{}: {}'.format(x.title(), self.data[x]))
+        print('Tags: {}'.format(', '.join(self.tags)))
+        print('Related monsters: {}'.format(', '.join([
+            x.name for x in self.related()[:10]
+        ])))
+        print('\nACTIONS')
+        for act in self.actions:
+            print(act['name'])
+            print(act['desc'])
+            if act['attack_bonus']:
+                print('  Attack bonus: {}'.format(act['attack_bonus']))
+            if act['damage_bonus']:
+                print('  Damage bonus: {}'.format(act['damage_bonus']))
+        print('\nSPECIAL ABILITIES')
+        for act in self.special_abilities:
+            print(act['name'])
+            print(act['desc'])
+            if act['attack_bonus']:
+                print('  Attack bonus: {}'.format(act['attack_bonus']))
+
 
 def calc_threshold(player_levels):
     thresh = [0, 0, 0, 0, 0]
@@ -286,8 +335,6 @@ def main():
     subs = parser.add_subparsers(dest='cmd')
     p = subs.add_parser('monster')
     p.add_argument('name', help='select a monster by name')
-    p.add_argument('--related', '-r', action='store_true',
-                   help='print related monsters')
 
     p = subs.add_parser('encounter')
     p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
@@ -326,10 +373,9 @@ def main():
     elif args.cmd == 'monster':
         Monster.load()
         mon = Monster.get(args.name)
-        if args.related:
-            rel = mon.related()[:10]
-            for m in rel:
-                print(m.name)
+        if not mon:
+            sys.exit('cant find this monster')
+        mon.output()
     else:
         parser.print_usage()
         sys.exit(1)
