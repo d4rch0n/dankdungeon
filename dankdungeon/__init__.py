@@ -11,9 +11,7 @@ __author__ = 'Johan Nestaas <johannestaas@gmail.com>'
 __license__ = 'GPLv3+'
 __copyright__ = 'Copyright 2017 Johan Nestaas'
 
-
-def main():
-    pass
+from .monster import Monster, main
 
 
 if __name__ == '__main__':

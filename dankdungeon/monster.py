@@ -1,5 +1,7 @@
 import os
+import sys
 import json
+from fuzzywuzzy import fuzz
 
 
 ROOT = os.path.dirname(__file__)
@@ -53,16 +55,6 @@ def scale_enc(num):
     return 4.0
 
 
-def calc_tag_weight(tags):
-    areas = {'plains', 'desert', 'forest', 'mountain', 'tundra', 'swamp',
-             'jungle'}
-    s = 0
-    if tags & areas:
-        s += 1.0
-    s += len(tags - areas)
-    return s
-
-
 class Monster:
     MONSTERS = []
     TAG_GROUPS = {}
@@ -91,6 +83,41 @@ class Monster:
                 return val
         return val
 
+    def __sub__(self, mon):
+        if not isinstance(mon, Monster):
+            raise ValueError('cant calculate the difference between anything '
+                             'except other monsters')
+        s = 0.0
+        langs = {x for x in self.tags if x.endswith('_lang')}
+        mlangs = {x for x in mon.tags if x.endswith('_lang')}
+        tags = self.tags - langs
+        mtags = mon.tags - mlangs
+        s += 2 * len(langs & mlangs)
+        areas = {'plains', 'desert', 'mountain', 'swamp', 'forest', 'jungle',
+                 'tundra'}
+        if tags & mtags & areas:
+            s += 1
+        for t in {'insect', 'arachnid', 'reptile', 'cave', 'city', 'sea',
+                  'fresh', 'fish'}:
+            if tags & {t} and mtags & {t}:
+                s *= 2
+        for t in {'underdark', 'fire', 'ice', 'lightning', 'water', 'earth',
+                  'air', 'water', 'hell', 'fly', 'swim'}:
+            if tags & {t} and mtags & {t}:
+                s *= 3
+        align = {'good', 'evil'}
+        if len(align & tags) == 1 and len(align & mtags) == 1:
+            if align & tags & mtags:
+                s *= 7
+            else:
+                s /= 7
+        if self.type == mon.type:
+            s *= 3
+        else:
+            if self.type == 'dragon' or mon.type == 'dragon':
+                s /= 5
+        return s
+
     @property
     def tags(self):
         if 'tags' not in self.data:
@@ -115,11 +142,9 @@ class Monster:
         for mon in cls.MONSTERS:
             arr = []
             for mon2 in cls.MONSTERS:
-                if mon.tags & mon2.tags:
-                    wt = calc_tag_weight(mon.tags & mon2.tags)
-                    if mon.type == mon2.type:
-                        wt *= 3
-                    arr.append((wt, mon2))
+                diff = mon - mon2
+                if diff > 1.0:
+                    arr.append((diff, mon2))
             arr = sorted(arr, reverse=True, key=lambda x: (x[0], x[1].name))
             arr = [v for k, v in arr]
             cls.MONSTER_GROUPS[mon] = arr
@@ -142,7 +167,18 @@ class Monster:
 
     @classmethod
     def get(cls, name):
-        return cls.MONSTER_D.get(name.strip().lower())
+        mon = cls.MONSTER_D.get(name.strip().lower())
+        if mon:
+            return mon
+        mons = []
+        for mon in cls.MONSTERS:
+            ratio = fuzz.ratio(mon.name.lower().strip(), name)
+            mons.append((ratio, mon))
+        mons = [b for a, b in sorted(mons, key=lambda x: x[0], reverse=True)]
+        return mons[0]
+
+    def related(self):
+        return Monster.MONSTER_GROUPS[self]
 
 
 def calc_threshold(player_levels):
@@ -154,3 +190,30 @@ def calc_threshold(player_levels):
 
 
 Monster.load()
+
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--monster', '-m', help='select a monster by name')
+    parser.add_argument('--related', '-r', action='store_true',
+                        help='print related monsters')
+    parser.add_argument('--players', '-p', help='the player levels')
+    args = parser.parse_args()
+    if args.players:
+        players = [int(x.strip()) for x in args.players.split(',')]
+    else:
+        players = [1, 1, 1, 1]
+    if args.monster:
+        mon = Monster.get(args.monster)
+        if args.related:
+            rel = mon.related()[:10]
+            for m in rel:
+                print(m.name)
+    else:
+        parser.print_usage()
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
