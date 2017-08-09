@@ -1,2 +1,2 @@
 include LICENSE README.rst tox.ini
-recursive-include dankdungeon *.py
+recursive-include dankdungeon *.py *.json
