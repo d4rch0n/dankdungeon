@@ -3,6 +3,13 @@ dankdungeon
 
 generate monster encounters and look up stats
 
+Credit for JSON monsters goes mainly to::
+
+    https://www.reddit.com/r/dndnext/comments/43a09o/srd_monsters_in_json_format/
+
+I added tags, but all the monster data is otherwise from there, created by reddit user droiddruid.
+
+
 Installation
 ------------
 
@@ -13,6 +20,7 @@ From the project root directory::
 Or from pip::
 
 	$ pip install dankdungeon
+
 
 Usage
 -----
