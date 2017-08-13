@@ -321,6 +321,7 @@ class Monster:
             if min_xp <= total_xp(enc) <= max_xp:
                 poss.append(enc)
 
+        print('{} of those match allowed XP values'.format(len(poss)))
         if not poss:
             raise ValueError('no possible permutations amount to allowed XP!')
         enc = random.choice(poss)

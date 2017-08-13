@@ -210,6 +210,33 @@ These are just rough guesses at where it might make sense to see some monsters, 
 	$ dankdungeon encounter -p 10,8,10,9 -d deadly -O hell
 	XP=15000.0 (10100 <= xp <= 15050):
 	 - 2 Bone Devil
+ 
+And if you want custom monsters with known XP values, use the --custom flag::
+
+	$ dankdungeon encounter -c 'mushroomer=250,mushroomer pet dog=100,mushroomer mage=600,violet fung,bugbear' -p 8,8,8 -d hard
+	iterating through 100000 possible encounter permutations...
+	2538 of those match allowed XP values
+	XP=5100.0 (4200 <= xp <= 6300):
+	 - 4 mushroomer (xp=250)
+	 - 5 mushroomer pet dog (xp=100)
+	 - 4 Violet Fungus (xp=50)
+	
+	$ dankdungeon encounter -c 'mushroomer=250,mushroomer pet dog=100,mushroomer mage=600,violet fung,bugbear' -p 8,8,8 -d hard
+	iterating through 100000 possible encounter permutations...
+	2538 of those match allowed XP values
+	XP=5550.0 (4200 <= xp <= 6300):
+	 - 1 mushroomer (xp=250)
+	 - 9 mushroomer pet dog (xp=100)
+	 - 1 mushroomer mage (xp=600)
+	 - 2 Violet Fungus (xp=50)
+
+	$ dankdungeon encounter -c 'mushroomer=250,mushroomer pet dog=100,mushroomer mage=600,violet fung,bugbear' -p 8,8,8 -d hard
+	iterating through 100000 possible encounter permutations...
+	2538 of those match allowed XP values
+	XP=4950.0 (4200 <= xp <= 6300):
+	 - 2 mushroomer pet dog (xp=100)
+	 - 5 Violet Fungus (xp=50)
+	 - 6 Bugbear (xp=200)
 
 
 The following monsters have been incorporated from the Standard Reference Document::
