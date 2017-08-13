@@ -69,6 +69,8 @@ def csv_set(s):
 class Monster:
     MONSTERS = []
     TAG_GROUPS = {}
+    TYPE_GROUPS = {}
+    SUBTYPE_GROUPS = {}
     MONSTER_GROUPS = {}
     MONSTER_DATA = []
     MONSTER_D = {}
@@ -168,6 +170,19 @@ class Monster:
             arr = sorted(arr, reverse=True, key=lambda x: (x[0], x[1].name))
             arr = [v for k, v in arr]
             cls.MONSTER_GROUPS[mon] = arr
+        for mon in sorted(cls.MONSTERS, key=lambda x: x.name):
+            typ = mon.type
+            if typ not in cls.TYPE_GROUPS:
+                cls.TYPE_GROUPS[typ] = []
+            cls.TYPE_GROUPS[typ].append(mon)
+        for mon in sorted(cls.MONSTERS, key=lambda x: x.name):
+            if mon.subtype:
+                typ = (mon.type, mon.subtype)
+            else:
+                typ = (mon.type, None)
+            if typ not in cls.SUBTYPE_GROUPS:
+                cls.SUBTYPE_GROUPS[typ] = []
+            cls.SUBTYPE_GROUPS[typ].append(mon)
         cls.MONSTER_D = {m.name.lower().strip(): m for m in cls.MONSTERS}
 
     @classmethod
@@ -298,17 +313,32 @@ class Monster:
                 continue
             print('{}: {}'.format(x.title(), self.data[x]))
         print('Tags: {}'.format(', '.join(self.tags)))
-        print('Related monsters: {}'.format(', '.join([
+        if self.subtype:
+            print('Same Subtype: {}'.format(', '.join([
+                x.name for x in self.same_subtype()
+            ])))
+        print('Same Type: {}'.format(', '.join([
+            x.name for x in self.same_type()
+        ])))
+        print('Related: {}'.format(', '.join([
             x.name for x in self.related()[:10]
         ])))
-        print('\nActions:')
-        for act in self.actions:
-            print('  ' + act['name'])
-            print('    ' + act['desc'])
-        print('\nSpecial Abilities:')
-        for act in self.special_abilities:
-            print('  ' + act['name'])
-            print('    ' + act['desc'])
+        if 'actions' in self.data:
+            print('\nActions:')
+            for act in self.actions:
+                print('  ' + act['name'])
+                print('    ' + act['desc'])
+        if 'special_abilities' in self.data:
+            print('\nSpecial Abilities:')
+            for act in self.special_abilities:
+                print('  ' + act['name'])
+                print('    ' + act['desc'])
+
+    def same_type(self):
+        return self.TYPE_GROUPS[self.type]
+
+    def same_subtype(self):
+        return self.SUBTYPE_GROUPS[(self.type, self.subtype or None)]
 
 
 def calc_threshold(player_levels):
