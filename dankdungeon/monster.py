@@ -9,6 +9,11 @@ from fuzzywuzzy import fuzz
 ROOT = os.path.dirname(__file__)
 DATADIR = os.path.join(ROOT, 'data')
 MONSTERS_PATH = os.path.join(DATADIR, 'monsters.json')
+TAGS_PATH = os.path.join(DATADIR, 'tags.json')
+TAG_GROUPS_PATH = os.path.join(DATADIR, 'tag_groups.json')
+TYPE_GROUPS_PATH = os.path.join(DATADIR, 'type_groups.json')
+SUBTYPE_GROUPS_PATH = os.path.join(DATADIR, 'subtype_groups.json')
+RELATED_PATH = os.path.join(DATADIR, 'related.json')
 
 # Easy, Medium, Hard, Deadly
 XP_THRESH = [
@@ -104,6 +109,8 @@ class Monster:
         s = 0.0
         if self.name == mon.name:
             return 999999
+        if self.type != mon.type and not (self.tags & mon.tags):
+            return 0.0
         langs = {x for x in self.tags if x.endswith('_lang')}
         mlangs = {x for x in mon.tags if x.endswith('_lang')}
         tags = self.tags - langs
@@ -152,39 +159,43 @@ class Monster:
         with open(MONSTERS_PATH) as f:
             cls.MONSTER_DATA = json.load(f)
         cls.MONSTERS = [cls(x) for x in cls.MONSTER_DATA]
-        tags = set()
-        for mon in cls.MONSTERS:
-            tags |= mon.tags
-        cls.TAGS = tags.copy()
-        for tag in cls.TAGS:
-            arr = []
-            for mon in cls.MONSTERS:
-                if mon.tags & {tag}:
-                    arr.append(mon)
-            cls.TAG_GROUPS[tag] = arr
-        for mon in cls.MONSTERS:
-            arr = []
-            for mon2 in cls.MONSTERS:
-                diff = mon - mon2
-                if diff > 1.0:
-                    arr.append((diff, mon2))
-            arr = sorted(arr, reverse=True, key=lambda x: (x[0], x[1].name))
-            arr = [v for k, v in arr]
-            cls.MONSTER_GROUPS[mon] = arr
-        for mon in sorted(cls.MONSTERS, key=lambda x: x.name):
-            typ = mon.type
-            if typ not in cls.TYPE_GROUPS:
-                cls.TYPE_GROUPS[typ] = []
-            cls.TYPE_GROUPS[typ].append(mon)
-        for mon in sorted(cls.MONSTERS, key=lambda x: x.name):
-            if mon.subtype:
-                typ = (mon.type, mon.subtype)
-            else:
-                typ = (mon.type, None)
-            if typ not in cls.SUBTYPE_GROUPS:
-                cls.SUBTYPE_GROUPS[typ] = []
-            cls.SUBTYPE_GROUPS[typ].append(mon)
         cls.MONSTER_D = {m.name.lower().strip(): m for m in cls.MONSTERS}
+
+        with open(TAGS_PATH) as f:
+            cls.TAGS = set(json.load(f))
+
+        with open(TAG_GROUPS_PATH) as f:
+            tag_groups = json.load(f)
+        cls.TAG_GROUPS = {}
+        for tag, mon_names in tag_groups.items():
+            mons = [cls.get(name) for name in mon_names]
+            cls.TAG_GROUPS[tag] = mons
+
+        with open(TYPE_GROUPS_PATH) as f:
+            type_groups = json.load(f)
+        cls.TYPE_GROUPS = {}
+        for typ, mon_names in type_groups.items():
+            mons = [cls.get(name) for name in mon_names]
+            cls.TYPE_GROUPS[typ] = mons
+
+        with open(SUBTYPE_GROUPS_PATH) as f:
+            subtype_groups = json.load(f)
+        cls.SUBTYPE_GROUPS = {}
+        for typ, d in subtype_groups.items():
+            for subtyp, mon_names in d.items():
+                if subtyp == 'null':
+                    key = (typ, None)
+                else:
+                    key = (typ, subtyp)
+                mons = [cls.get(name) for name in mon_names]
+                cls.SUBTYPE_GROUPS[key] = mons
+
+        with open(RELATED_PATH) as f:
+            related = json.load(f)
+        cls.MONSTER_GROUPS = {}
+        for name, mon_names in related.items():
+            mons = [cls.get(mname) for mname in mon_names]
+            cls.MONSTER_GROUPS[cls.get(name)] = mons
 
     @classmethod
     def get(cls, name):
