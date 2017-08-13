@@ -16364,6 +16364,7 @@
         "strength": 19,
         "subtype": "",
         "tags": [
+            "acid",
             "blindsight",
             "cavevision",
             "chaotic",
@@ -16376,7 +16377,6 @@
             "forest",
             "good",
             "jungle",
-            "lightning",
             "mountain",
             "plains",
             "swamp",
