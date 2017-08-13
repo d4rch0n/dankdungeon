@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import random
+from itertools import product
 from fuzzywuzzy import fuzz
 
 
@@ -269,6 +270,63 @@ class Monster:
         return enc, total_xp()
 
     @classmethod
+    def custom_random_encounter(cls, monsters, min_xp, max_xp, max_num=10):
+        mons = []
+        for mon in monsters:
+            if isinstance(mon, str):
+                if '=' in mon:
+                    name, xp = mon.split('=')
+                    xp = int(xp)
+                    mons.append((name, xp))
+                else:
+                    mon1 = Monster.get(mon)
+                    if mon1 is None:
+                        raise ValueError(
+                            'couldnt find monster from {!r}'.format(mon)
+                        )
+                    mons.append((mon1.name, mon1.xp))
+            elif isinstance(mon, tuple):
+                if len(mon) != 2:
+                    raise ValueError('got tuple {!r}, shouldve been (name, xp)'
+                                     .format(mon))
+                if isinstance(mon[1], int):
+                    mons.append(mon)
+                else:
+                    mons.append((mon[0], int(mon[1])))
+
+        def total_xp(enc):
+            xp = 0
+            c = 0
+            for ct, name, _xp in enc:
+                xp += ct * _xp
+                c += ct
+            xp *= scale_enc(c)
+            return xp
+
+        poss = []
+        amounts = []
+        for _ in mons:
+            # maximum of 10 of each monster
+            amounts.append(range(max_num))
+        print('iterating through {} possible encounter permutations...'.format(
+            max_num**len(mons)))
+
+        for cts in product(*amounts):
+            enc = []
+            for i, ct in enumerate(cts):
+                if ct == 0:
+                    continue
+                mon = mons[i]
+                enc.append((ct, mon[0], mon[1]))
+            if min_xp <= total_xp(enc) <= max_xp:
+                poss.append(enc)
+
+        if not poss:
+            raise ValueError('no possible permutations amount to allowed XP!')
+        enc = random.choice(poss)
+        return enc, total_xp(enc)
+
+    @classmethod
     def find(cls, or_tags=None, and_tags=None, not_tags=None):
         or_tags = csv_set(or_tags)
         and_tags = csv_set(and_tags)
@@ -287,7 +345,7 @@ class Monster:
             self.name, self.type, ' ' + self.subtype if self.subtype else '',
             self.challenge_rating, self.xp))
         print('AC:{} HP:{} ({})'.format(self.armor_class, self.hit_points,
-                                          self.hit_dice))
+                                        self.hit_dice))
         print('S:{} D:{} C:{} I:{} W:{} CH:{}'.format(
             self.strength, self.dexterity, self.constitution, self.intelligence,
             self.wisdom, self.charisma))
@@ -403,6 +461,13 @@ def main():
                    'dragon,reptile')
     p.add_argument('--not', '-N', dest='not_tags',
                    help='exclude monsters with one of these, eg: undead,fire')
+    p.add_argument('--custom', '-c',
+                   help='specify custom set of monsters with name=xp notation,'
+                   ' eg. elfmage=500,treeperson=1500,goblin,goblinmage=200')
+    p.add_argument('--max-num', '-m', type=int, default=10,
+                   help='for custom encounters, the maximum number of one type,'
+                   'eg. "--max-num 5" if you only want up to 5 of each type, '
+                   'default: %(default)s')
 
     p = subs.add_parser('threshold')
     p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
@@ -428,23 +493,35 @@ def main():
         thresh = calc_threshold(players)
         diff = {'easy': 0, 'medium': 1, 'hard': 2, 'deadly': 3}[args.difficulty]
         thresh = (thresh[diff], thresh[diff + 1])
-        try:
-            enc, xp = Monster.random_encounter(
-                thresh[0],
-                thresh[1],
-                or_tags=args.or_tags,
-                and_tags=args.and_tags,
-                not_tags=args.not_tags,
-            )
-        except ValueError as e:
-            sys.exit(str(e))
-        print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
-        for ct, mon in enc:
-            print(' - {} {!r}'.format(ct, mon))
-        print('')
-        for ct, mon in enc:
-            mon.short_output()
+        if not args.custom:
+            try:
+                enc, xp = Monster.random_encounter(
+                    thresh[0],
+                    thresh[1],
+                    or_tags=args.or_tags,
+                    and_tags=args.and_tags,
+                    not_tags=args.not_tags,
+                )
+            except ValueError as e:
+                sys.exit(str(e))
+            print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
+            for ct, mon in enc:
+                print(' - {} {!r}'.format(ct, mon))
             print('')
+            for ct, mon in enc:
+                mon.short_output()
+                print('')
+        else:
+            mons = [x.strip() for x in args.custom.split(',') if x.strip()]
+            try:
+                enc, xp = Monster.custom_random_encounter(
+                    mons, thresh[0], thresh[1], max_num=args.max_num,
+                )
+            except ValueError as e:
+                sys.exit(str(e))
+            print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
+            for ct, name, mon_xp in enc:
+                print(' - {} {} (xp={})'.format(ct, name, mon_xp))
     elif args.cmd == 'monster':
         Monster.load()
         mon = Monster.get(args.name)
