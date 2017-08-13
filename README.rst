@@ -130,6 +130,14 @@ Or for abbreviated output for making notes for combat::
     Ability "Sunlight Sensitivity": While in sunlight, the wraith has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight.
 
 
+Easily calculate the XP threshold requirements for players::
+
+	$ dankdungeon threshold -p 4,4,3,3
+	Easy: 400 to 799
+	Medium: 800 to 1199
+	Hard: 1200 to 1799
+	Deadly: 1800+
+
 And generate encounters according to player levels!
 
 Just a medium encounter with 4 players of level 1, showing abbreviated stats for each monster type::
