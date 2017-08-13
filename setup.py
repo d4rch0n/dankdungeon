@@ -49,12 +49,8 @@ setup(
             'dankdungeon=dankdungeon:main',
         ],
     },
-    # If you get errors running setup.py install:
-    # zip_safe=False,
-    #
-    # For including non-python files:
-    # package_data={
-    #     'dankdungeon': ['templates/*.html'],
-    # },
-    # include_package_data=True,
+    package_data={
+        'dankdungeon': ['data/*.json'],
+    },
+    include_package_data=True,
 )
