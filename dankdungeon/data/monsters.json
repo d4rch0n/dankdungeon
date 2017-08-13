@@ -2495,30 +2495,6 @@
         "xp": 25
     },
     {
-        "alignment": "neutral good",
-        "challenge_rating": "1/4",
-        "languages": "Auran",
-        "name": "Aarakocra",
-        "size": "Medium",
-        "speed": "20 ft., fly 50 ft.",
-        "subtype": "aarakocra",
-        "tags": [
-            "auran_lang",
-            "desert",
-            "fly",
-            "forest",
-            "good",
-            "humanoid",
-            "jungle",
-            "mountain",
-            "plains",
-            "tundra",
-            "walk"
-        ],
-        "type": "humanoid",
-        "xp": 50
-    },
-    {
         "actions": [
             {
                 "attack_bonus": 2,
