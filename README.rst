@@ -99,26 +99,74 @@ Show stats for a creature (fuzzy search on name)::
 		The goblin can take the Disengage or Hide action as a bonus action on each of its turns.
 
 
-And generate encounters according to player levels::
+Or for abbreviated output for making notes for combat::
 
-	# Just a medium encounter with 4 players of level 1
+    $ dankdungeon monster 'goblin' -s
+    Goblin (humanoid goblinoid) CR:1/4 XP:50
+    AC:15 HP:7 (2d6)
+    S:8 D:14 C:10 I:10 W:8 CH:8
+    Size: Small
+    Speed: 30 ft.
+    Senses: darkvision 60 ft., passive Perception 9
+    Langs: Common, Goblin
+    Action "Scimitar": Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage.
+    Action "Shortbow": Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.
+    Ability "Nimble Escape": The goblin can take the Disengage or Hide action as a bonus action on each of its turns.
+
+    $ dankdungeon monster 'wraith' -s
+    Wraith (undead) CR:5 XP:1800
+    AC:13 HP:67 (9d8)
+    S:6 D:16 C:16 I:12 W:14 CH:15
+    Size: Medium
+    Speed: 0 ft., fly 60 ft. (hover)
+    Senses: darkvision 60 ft., passive Perception 12
+    Immune: necrotic, poison
+    Cond.Immune: charmed, exhaustion, grappled, paralyzed, petrified, poisoned, prone, restrained
+    Resist: acid, cold, fire, lightning, thunder; bludgeoning, piercing, and slashing from nonmagical weapons that aren't silvered
+    Langs: the languages it knew in life
+    Action "Life Drain": Melee Weapon Attack: +6 to hit, reach 5 ft., one creature. Hit: 21 (4d8 + 3) necrotic damage. The target must succeed on a DC 14 Constitution saving throw or its hit point maximum is reduced by an amount equal to the damage taken. This reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hit point maximum to 0.
+    Action "Create Specter": The wraith targets a humanoid within 10 feet of it that has been dead for no longer than 1 minute and died violently. The target's spirit rises as a specter in the space of its corpse or in the nearest unoccupied space. The specter is under the wraith's control. The wraith can have no more than seven specters under its control at one time.
+    Ability "Incorporeal Movement": The wraith can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object.
+    Ability "Sunlight Sensitivity": While in sunlight, the wraith has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight.
+
+
+And generate encounters according to player levels!
+
+Just a medium encounter with 4 players of level 1, showing abbreviated stats for each monster type::
+
 	$ dankdungeon encounter
 	XP=300.0 (200 <= xp <= 300):
 	 - 3 Giant Lizard
 
-	# players of levels 2, 2, 2 and 3
+	Giant Lizard (beast) CR:1/4 XP:50
+	AC:12 HP:19 (3d10)
+	S:15 D:12 C:13 I:2 W:10 CH:5
+	Size: Large
+	Speed: 30 ft., climb 30 ft.
+	Senses: darkvision 30 ft., passive Perception 10
+	Action "Bite": Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage.
+	Ability "Variant: Hold Breath": The lizard can hold its breath for 15 minutes. (A lizard that has this trait also has a swimming speed of 30 feet.)
+	Ability "Variant: Spider Climb": The lizard can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.
+
+Players of levels 2, 2, 2 and 3::
+
 	$ dankdungeon encounter -p 2,2,2,3
 	XP=450.0 (450 <= xp <= 675):
 	 - 1 Gargoyle
 
-	# restrict it to these monsters (each monster is tagged with its name, so this selects
-	# everything in the set of monsters that have dire wolf or wolf in its tags.
+	... stats ...
+
+Restrict it to these monsters. Each monster is tagged with its name, so this selects everything in the set of monsters that have dire wolf or wolf in its tags::
+
 	$ dankdungeon encounter -p 4,3,3,1 -O 'dire wolf,wolf' -d hard
 	XP=900.0 (900 <= xp <= 1400):
 	 - 2 Dire Wolf
 	 - 1 Wolf
 
-	# Restrict it to only undead, hard difficulty
+	... stats ...
+
+Restrict it to only undead, hard difficulty::
+	
 	$ dankdungeon encounter -p 3,3,3 -d hard -A undead
 	XP=1100.0 (675 <= xp <= 1200):
 	 - 1 Ghost
@@ -128,35 +176,32 @@ And generate encounters according to player levels::
 	 - 1 Shadow
 	 - 1 Wight
 
-	# deadly encounter for four 5th level players
+Deadly encounter for four 5th level players::
+
 	$ dankdungeon encounter -p 5,5,5,5 -d deadly -A undead
 	XP=5400.0 (4400 <= xp <= 6500):
 	 - 2 Ghast
 	 - 1 Wraith
 
-	# deadly with hellish or cave beasts
+Deadly with hellish (found in lower planes) or cave beasts::
+
 	$ dankdungeon encounter -p 5,5,5,5 -d deadly -O cave,underdark,hell
 	XP=5600.0 (4400 <= xp <= 6500):
 	 - 2 Nightmare
 	 - 2 Hell Hound
 
-	# werewolves are tagged with "cave", because it makes sense you could encounter them there.
-	# Most monsters are tagged with several tags like plains,tundra,desert,mountain,forest,swamp,jungle
+Werewolves are tagged with "cave", because it makes a bit of sense that they could be found there.
+These are just rough guesses at where it might make sense to see some monsters, with these location tags: plains, tundra, desert, mountain, forest, swamp, jungle, cave, underdark, city, ruins::
+
 	$ dankdungeon encounter -p 10,8,10,9 -d deadly -O cave,underdark,hell
 	XP=12250.0 (10100 <= xp <= 15050):
 	 - 7 Werewolf
 
-	# 2 bone devils will be just deadly enough for this group... good boss fight possibly.
+2 bone devils will be just deadly enough for this group... good boss fight possibly::
+
 	$ dankdungeon encounter -p 10,8,10,9 -d deadly -O hell
 	XP=15000.0 (10100 <= xp <= 15050):
 	 - 2 Bone Devil
-
-	# A strange combination, but could be some hellish warlock's pets
-	$ dankdungeon encounter -p 10,8,10,9 -d deadly -O hell
-	XP=12600.0 (10100 <= xp <= 15050):
-	 - 1 Spirit Naga
-	 - 1 Magma Mephit
-	 - 1 Vrock
 
 
 The following monsters have been incorporated from the Standard Reference Document::

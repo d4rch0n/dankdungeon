@@ -283,22 +283,27 @@ class Monster:
         return mons
 
     def short_output(self):
-        print('{} ({}{}) XP: {} CR: {}'.format(
+        print('{} ({}{}) CR:{} XP:{}'.format(
             self.name, self.type, ' ' + self.subtype if self.subtype else '',
-            self.xp, self.challenge_rating))
-        print('AC: {} HP: {} ({})'.format(self.armor_class, self.hit_points,
+            self.challenge_rating, self.xp))
+        print('AC:{} HP:{} ({})'.format(self.armor_class, self.hit_points,
                                           self.hit_dice))
-        print('STR: {} DEX: {} CON: {} INT: {} WIS: {} CHA: {}'.format(
+        print('S:{} D:{} C:{} I:{} W:{} CH:{}'.format(
             self.strength, self.dexterity, self.constitution, self.intelligence,
             self.wisdom, self.charisma))
         print('Size: {}'.format(self.size))
         print('Speed: {}'.format(self.speed))
         print('Senses: {}'.format(self.senses))
-        print('Immune: {}'.format(self.damage_immunities or 'none'))
-        print('Cond.Immune: {}'.format(self.condition_immunities or 'none'))
-        print('Resist: {}'.format(self.damage_resistances or 'none'))
-        print('Vulnerable: {}'.format(self.damage_vulnerabilities or 'none'))
-        print('Langs: {}'.format(self.languages))
+        if self.damage_immunities:
+            print('Immune: {}'.format(self.damage_immunities))
+        if self.condition_immunities:
+            print('Cond.Immune: {}'.format(self.condition_immunities))
+        if self.damage_resistances:
+            print('Resist: {}'.format(self.damage_resistances))
+        if self.damage_vulnerabilities:
+            print('Vulnerable: {}'.format(self.damage_vulnerabilities))
+        if self.languages:
+            print('Langs: {}'.format(self.languages))
         if 'actions' in self.data:
             for act in self.actions:
                 print('Action "{act[name]}": {act[desc]}'.format(act=act))
