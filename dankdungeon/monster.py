@@ -384,13 +384,16 @@ def main():
         thresh = calc_threshold(players)
         diff = {'easy': 0, 'medium': 1, 'hard': 2, 'deadly': 3}[args.difficulty]
         thresh = (thresh[diff], thresh[diff + 1])
-        enc, xp = Monster.random_encounter(
-            thresh[0],
-            thresh[1],
-            or_tags=args.or_tags,
-            and_tags=args.and_tags,
-            not_tags=args.not_tags,
-        )
+        try:
+            enc, xp = Monster.random_encounter(
+                thresh[0],
+                thresh[1],
+                or_tags=args.or_tags,
+                and_tags=args.and_tags,
+                not_tags=args.not_tags,
+            )
+        except ValueError as e:
+            sys.exit(str(e))
         print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
         for ct, mon in enc:
             print(' - {} {!r}'.format(ct, mon))
