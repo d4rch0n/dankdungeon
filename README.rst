@@ -658,6 +658,8 @@ The following monsters have been incorporated from the Standard Reference Docume
 Release Notes
 -------------
 
+:0.1.2:
+    Fixed include for monster json
 :0.1.1:
     Ready for consumption
 :0.0.1:
