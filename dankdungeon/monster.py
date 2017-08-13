@@ -404,9 +404,22 @@ def main():
     p.add_argument('--not', '-N', dest='not_tags',
                    help='exclude monsters with one of these, eg: undead,fire')
 
+    p = subs.add_parser('threshold')
+    p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
+
     args = parser.parse_args()
 
-    if args.cmd == 'encounter':
+    if args.cmd == 'threshold':
+        if args.players:
+            players = [int(x.strip()) for x in args.players.split(',')]
+        else:
+            players = [1, 1, 1, 1]
+        thresh = calc_threshold(players)
+        print('Easy: {} to {}'.format(thresh[0], thresh[1] - 1))
+        print('Medium: {} to {}'.format(thresh[1], thresh[2] - 1))
+        print('Hard: {} to {}'.format(thresh[2], thresh[3] - 1))
+        print('Deadly: {}+'.format(thresh[3]))
+    elif args.cmd == 'encounter':
         Monster.load()
         if args.players:
             players = [int(x.strip()) for x in args.players.split(',')]
