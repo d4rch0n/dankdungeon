@@ -282,6 +282,30 @@ class Monster:
             mons = [x for x in mons if not bool(x.tags & not_tags)]
         return mons
 
+    def short_output(self):
+        print('{} ({}{}) XP: {} CR: {}'.format(
+            self.name, self.type, ' ' + self.subtype if self.subtype else '',
+            self.xp, self.challenge_rating))
+        print('AC: {} HP: {} ({})'.format(self.armor_class, self.hit_points,
+                                          self.hit_dice))
+        print('STR: {} DEX: {} CON: {} INT: {} WIS: {} CHA: {}'.format(
+            self.strength, self.dexterity, self.constitution, self.intelligence,
+            self.wisdom, self.charisma))
+        print('Size: {}'.format(self.size))
+        print('Speed: {}'.format(self.speed))
+        print('Senses: {}'.format(self.senses))
+        print('Immune: {}'.format(self.damage_immunities or 'none'))
+        print('Cond.Immune: {}'.format(self.condition_immunities or 'none'))
+        print('Resist: {}'.format(self.damage_resistances or 'none'))
+        print('Vulnerable: {}'.format(self.damage_vulnerabilities or 'none'))
+        print('Langs: {}'.format(self.languages))
+        if 'actions' in self.data:
+            for act in self.actions:
+                print('Action "{act[name]}": {act[desc]}'.format(act=act))
+        if 'special_abilities' in self.data:
+            for abi in self.special_abilities:
+                print('Ability "{abi[name]}": {abi[desc]}'.format(abi=abi))
+
     def output(self):
         print(self.name)
         for x in (
@@ -359,6 +383,8 @@ def main():
     subs = parser.add_subparsers(dest='cmd')
     p = subs.add_parser('monster')
     p.add_argument('name', help='select a monster by name')
+    p.add_argument('--short', '-s', action='store_true',
+                   help='print short stats')
 
     p = subs.add_parser('encounter')
     p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
@@ -397,12 +423,19 @@ def main():
         print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
         for ct, mon in enc:
             print(' - {} {!r}'.format(ct, mon))
+        print('')
+        for ct, mon in enc:
+            mon.short_output()
+            print('')
     elif args.cmd == 'monster':
         Monster.load()
         mon = Monster.get(args.name)
         if not mon:
             sys.exit('cant find this monster')
-        mon.output()
+        if args.short:
+            mon.short_output()
+        else:
+            mon.output()
     else:
         parser.print_usage()
         sys.exit(1)
