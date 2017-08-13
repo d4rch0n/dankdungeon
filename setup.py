@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name="dankdungeon",
-    version="0.0.1",
+    version="0.1.0",
     description="generate dungeons and their monster occupants",
     author="Johan Nestaas",
     author_email="johannestaas@gmail.com",
