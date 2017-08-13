@@ -213,18 +213,19 @@ class Monster:
 
     @classmethod
     def random_encounter(cls, min_xp, max_xp, or_tags=None, and_tags=None,
-                         not_tags=None):
+                         not_tags=None, max_num=10):
         mons = cls.find(or_tags=or_tags, and_tags=and_tags, not_tags=not_tags)
         if not mons:
             raise ValueError('filters too restrictive! no monsters found')
         mons = [x for x in mons if x.xp <= max_xp]
         if not mons:
             raise ValueError('none of these monsters are <= max xp threshold')
-        mon = random.choice(mons)
-        enc = [[1, mon]]
+        print('found {} possible monsters'.format(len(mons)))
 
-        def total_xp():
-            nonlocal enc
+        mon = random.choice(mons)
+        mons = cls.select_and(mon.related(), mons)[:6]
+
+        def total_xp(enc):
             xp = 0
             c = 0
             for ct, mon in enc:
@@ -233,41 +234,34 @@ class Monster:
             xp *= scale_enc(c)
             return xp
 
-        rel = cls.select_and(mon.related(), mons)
-        variety = random.randint(1, 3)
+        print('trying to build with types: {}'
+              .format(', '.join([x.name for x in mons])))
 
-        if not rel or variety == 1:
-            while total_xp() < min_xp:
-                enc[0][0] += 1
-            if total_xp() > max_xp:
-                enc[0][0] -= 1
-            return enc, total_xp()
+        poss = []
+        amounts = []
+        for _ in mons:
+            # maximum of 10 of each monster
+            amounts.append(range(max_num))
+        print('iterating through {} possible encounter permutations...'.format(
+            max_num**len(mons)))
 
-        rel = list(set(rel) - {mon})
-        if variety >= 2 and rel:
-            other = random.choice(rel)
-            enc.append([1, other])
-            if total_xp() > max_xp:
-                enc = enc[:-1]
-            rel = list(set(rel) - {other})
-
-        if variety >= 3 and rel:
-            other = random.choice(rel)
-            enc.append([1, other])
-            if total_xp() > max_xp:
-                enc = enc[:-1]
-            rel = list(set(rel) - {other})
-
-        while total_xp() < min_xp:
-            random.shuffle(enc)
-            for lst in enc:
-                lst[0] += 1
-                if total_xp() > max_xp:
-                    lst[0] -= 1
+        for cts in product(*amounts):
+            if len([x for x in cts if x > 0]) > 4:
+                continue
+            enc = []
+            for i, ct in enumerate(cts):
+                if ct == 0:
                     continue
-                else:
-                    break
-        return enc, total_xp()
+                mon = mons[i]
+                enc.append((ct, mon))
+            if min_xp <= total_xp(enc) <= max_xp:
+                poss.append(enc)
+
+        print('{} of those match allowed XP values'.format(len(poss)))
+        if not poss:
+            raise ValueError('no possible permutations amount to allowed XP!')
+        enc = random.choice(poss)
+        return enc, total_xp(enc)
 
     @classmethod
     def custom_random_encounter(cls, monsters, min_xp, max_xp, max_num=10):

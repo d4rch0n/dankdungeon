@@ -28,29 +28,30 @@ Usage
 Use --help/-h to view info on the arguments::
 
 	$ dankdungeon -h
-	usage: dankdungeon [-h] {monster,encounter} ...
+	usage: dankdungeon [-h] {monster,encounter,threshold} ...
 
 	positional arguments:
-	  {monster,encounter}
+	  {monster,encounter,threshold}
 
 	optional arguments:
-	  -h, --help           show this help message and exit
-
-
-	$ dankdungeon monster -h
-	usage: dankdungeon monster [-h] name
+	  -h, --help            show this help message and exit
+	(venv)fusion@ultralisk:~/dev/dankdungeon$ dankdungeon monster -h
+	usage: dankdungeon monster [-h] [--short] name
 
 	positional arguments:
-	  name        select a monster by name
+	  name         select a monster by name
 
 	optional arguments:
-	  -h, --help  show this help message and exit
-
+	  -h, --help   show this help message and exit
+	  --short, -s  print short stats
+	
+Generate encounters::
 
 	$ dankdungeon encounter -h
 	usage: dankdungeon encounter [-h] [--players PLAYERS]
 								 [--difficulty {easy,medium,hard,deadly}]
 								 [--and AND_TAGS] [--or OR_TAGS] [--not NOT_TAGS]
+								 [--custom CUSTOM] [--max-num MAX_NUM]
 
 	optional arguments:
 	  -h, --help            show this help message and exit
@@ -65,6 +66,24 @@ Use --help/-h to view info on the arguments::
 							dragon,reptile
 	  --not NOT_TAGS, -N NOT_TAGS
 							exclude monsters with one of these, eg: undead,fire
+	  --custom CUSTOM, -c CUSTOM
+							specify custom set of monsters with name=xp notation,
+							eg. elfmage=500,treeperson=1500,goblin,goblinmage=200
+	  --max-num MAX_NUM, -m MAX_NUM
+							for custom encounters, the maximum number of one
+							type,eg. "--max-num 5" if you only want up to 5 of
+							each type, default: 10
+
+Check player level XP thresholds::
+
+	$ dankdungeon threshold -h
+	usage: dankdungeon threshold [-h] [--players PLAYERS]
+
+	optional arguments:
+	  -h, --help            show this help message and exit
+	  --players PLAYERS, -p PLAYERS
+							the player levels, default 1,1,1,1
+
 
 
 Show stats for a creature (fuzzy search on name)::
@@ -143,75 +162,141 @@ And generate encounters according to player levels!
 Just a medium encounter with 4 players of level 1, showing abbreviated stats for each monster type::
 
 	$ dankdungeon encounter
+	found 138 possible monsters
+	trying to build with types: Giant Wolf Spider, Spider, Giant Spider, Swarm of Spiders, Scorpion, Stirge
+	iterating through 1000000 possible encounter permutations...
+	198 of those match allowed XP values
 	XP=300.0 (200 <= xp <= 300):
-	 - 3 Giant Lizard
+	 - 5 Spider
+	 - 2 Scorpion
+	 - 2 Stirge
 
-	Giant Lizard (beast) CR:1/4 XP:50
-	AC:12 HP:19 (3d10)
-	S:15 D:12 C:13 I:2 W:10 CH:5
-	Size: Large
-	Speed: 30 ft., climb 30 ft.
-	Senses: darkvision 30 ft., passive Perception 10
-	Action "Bite": Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage.
-	Ability "Variant: Hold Breath": The lizard can hold its breath for 15 minutes. (A lizard that has this trait also has a swimming speed of 30 feet.)
-	Ability "Variant: Spider Climb": The lizard can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.
+	Spider (beast) CR:0 XP:10
+	AC:12 HP:1 (1d4)
+	S:2 D:14 C:8 I:1 W:10 CH:2
+	Size: Tiny
+	Speed: 20 ft., climb 20 ft.
+	Senses: darkvision 30 ft., passive Perception 12
+	Action "Bite": Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 1 piercing damage, and the target must succeed on a DC 9 Constitution saving throw or take 2 (1d4) poison damage.
+	Ability "Spider Climb": The spider can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.
+	Ability "Web Sense": While in contact with a web, the spider knows the exact location of any other creature in contact with the same web.
+	Ability "Web Walker": The spider ignores movement restrictions caused by webbing.
+
+	Scorpion (beast) CR:0 XP:10
+	AC:11 HP:1 (1d4)
+	S:2 D:11 C:8 I:1 W:8 CH:2
+	Size: Tiny
+	Speed: 10 ft.
+	Senses: blindsight 10 ft., passive Perception 9
+	Action "Sting": Melee Weapon Attack: +2 to hit, reach 5 ft., one creature. Hit: 1 piercing damage, and the target must make a DC 9 Constitution saving throw, taking 4 (1d8) poison damage on a failed save, or half as much damage on a successful one.
+
+	Stirge (beast) CR:1/8 XP:25
+	AC:14 HP:2 (1d4)
+	S:4 D:16 C:11 I:2 W:8 CH:6
+	Size: Tiny
+	Speed: 10 ft., fly 40 ft.
+	Senses: darkvision 60 ft., passive Perception 9
+	Action "Blood Drain": Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 5 (1d4 + 3) piercing damage, and the stirge attaches to the target. While attached, the stirge doesn't attack. Instead, at the start of each of the stirge's turns, the target loses 5 (1d4 + 3) hit points due to blood loss.
+	The stirge can detach itself by spending 5 feet of its movement. It does so after it drains 10 hit points of blood from the target or the target dies. A creature, including the target, can use its action to detach the stirge.
 
 Players of levels 2, 2, 2 and 3::
 
 	$ dankdungeon encounter -p 2,2,2,3
-	XP=450.0 (450 <= xp <= 675):
-	 - 1 Gargoyle
+	found 181 possible monsters
+	trying to build with types: Griffon, Hippogriff, Harpy, Darkmantle, Cockatrice, Worg
+	iterating through 1000000 possible encounter permutations...
+	20 of those match allowed XP values
+	XP=600.0 (450 <= xp <= 675):
+	 - 1 Hippogriff
+	 - 1 Harpy
 
-	... stats ...
+	Hippogriff (monstrosity) CR:1 XP:200
+	AC:11 HP:19 (3d10)
+	...
 
-Restrict it to these monsters. Each monster is tagged with its name, so this selects everything in the set of monsters that have dire wolf or wolf in its tags::
+	Harpy (monstrosity) CR:1 XP:200
+	AC:11 HP:38 (7d8)
+	...
 
-	$ dankdungeon encounter -p 4,3,3,1 -O 'dire wolf,wolf' -d hard
-	XP=900.0 (900 <= xp <= 1400):
-	 - 2 Dire Wolf
-	 - 1 Wolf
 
-	... stats ...
+Restrict it to these monsters. -c or --custom will allow you to specify named types or custom monsters with XP values, eg. --custom wolf,wolfman=200 . This just uses standard wolf and direwolf::
 
-Restrict it to only undead, hard difficulty::
-	
+	$ dankdungeon encounter -p 4,3,3,1 -c 'dire wolf,wolf'
+	iterating through 100 possible encounter permutations...
+	8 of those match allowed XP values
+	XP=600.0 (600 <= xp <= 900):
+	 - 2 Dire Wolf (xp=200)
+
+	$ dankdungeon encounter -p 4,3,3,1 -c 'dire wolf,wolf'
+	iterating through 100 possible encounter permutations...
+	8 of those match allowed XP values
+	XP=800.0 (600 <= xp <= 900):
+	 - 1 Dire Wolf (xp=200)
+	 - 4 Wolf (xp=50)
+
+
+Restrict it to only undead, hard difficulty, for 3 player 3's::
+
 	$ dankdungeon encounter -p 3,3,3 -d hard -A undead
-	XP=1100.0 (675 <= xp <= 1200):
-	 - 1 Ghost
-
-	$ dankdungeon encounter -p 3,3,3 -d hard -A undead
+	found 13 possible monsters
+	trying to build with types: Zombie, Shadow, Wight, Warhorse Skeleton, Specter, Ogre Zombie
+	iterating through 1000000 possible encounter permutations...
+	130 of those match allowed XP values
 	XP=1200.0 (675 <= xp <= 1200):
+	 - 2 Zombie
 	 - 1 Shadow
-	 - 1 Wight
+	 - 2 Warhorse Skeleton
+	 - 1 Specter
 
-Deadly encounter for four 5th level players::
+	... stats ...
 
-	$ dankdungeon encounter -p 5,5,5,5 -d deadly -A undead
-	XP=5400.0 (4400 <= xp <= 6500):
-	 - 2 Ghast
-	 - 1 Wraith
+Deadly encounter for four 5th level players, the evil dead::
+
+	$ dankdungeon encounter -p 5,5,5,5 -d deadly -A evil,undead
+	found 14 possible monsters
+	trying to build with types: Vampire Spawn, Zombie, Wraith, Shadow, Wight, Warhorse Skeleton
+	iterating through 1000000 possible encounter permutations...
+	1205 of those match allowed XP values
+	XP=4750.0 (4400 <= xp <= 6500):
+	 - 2 Zombie
+	 - 4 Shadow
+	 - 2 Wight
 
 Deadly with hellish (found in lower planes) or cave beasts::
 
 	$ dankdungeon encounter -p 5,5,5,5 -d deadly -O cave,underdark,hell
-	XP=5600.0 (4400 <= xp <= 6500):
-	 - 2 Nightmare
-	 - 2 Hell Hound
+	found 141 possible monsters
+	trying to build with types: Vrock, Succubus/Incubus, Hezrou, Glabrezu, Dretch, Nightmare
+	iterating through 1000000 possible encounter permutations...
+	46 of those match allowed XP values
+	XP=4500.0 (4400 <= xp <= 6500):
+	 - 3 Dretch
+	 - 3 Nightmare
 
-Werewolves are tagged with "cave", because it makes a bit of sense that they could be found there.
+Mummies are tagged with "desert" because it makes sense to find them there, and werewolf might be tagged "cave" as well as "forest".
 These are just rough guesses at where it might make sense to see some monsters, with these location tags: plains, tundra, desert, mountain, forest, swamp, jungle, cave, underdark, city, ruins::
 
-	$ dankdungeon encounter -p 10,8,10,9 -d deadly -O cave,underdark,hell
-	XP=12250.0 (10100 <= xp <= 15050):
-	 - 7 Werewolf
+	$ dankdungeon encounter -p 10,8,10,9 -d deadly -A tundra,evil
+	found 46 possible monsters
+	trying to build with types: Spirit Naga, Oni, Minotaur, Chimera, Winter Wolf, Rakshasa
+	iterating through 1000000 possible encounter permutations...
+	93 of those match allowed XP values
+	XP=14800.0 (10100 <= xp <= 15050):
+	 - 1 Minotaur
+	 - 2 Chimera
+	 - 3 Winter Wolf
 
 2 bone devils will be just deadly enough for this group... good boss fight possibly::
 
 	$ dankdungeon encounter -p 10,8,10,9 -d deadly -O hell
+	found 24 possible monsters
+	trying to build with types: Barbed Devil, Ice Devil, Horned Devil, Erinyes, Chain Devil, Bone Devil
+	iterating through 1000000 possible encounter permutations...
+	9 of those match allowed XP values
 	XP=15000.0 (10100 <= xp <= 15050):
 	 - 2 Bone Devil
  
-And if you want custom monsters with known XP values, use the --custom flag::
+And if you want custom monsters with personally known XP values, use the --custom flag::
 
 	$ dankdungeon encounter -c 'mushroomer=250,mushroomer pet dog=100,mushroomer mage=600,violet fung,bugbear' -p 8,8,8 -d hard
 	iterating through 100000 possible encounter permutations...
