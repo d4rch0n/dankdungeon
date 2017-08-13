@@ -35,7 +35,10 @@ Use --help/-h to view info on the arguments::
 
 	optional arguments:
 	  -h, --help            show this help message and exit
-	(venv)fusion@ultralisk:~/dev/dankdungeon$ dankdungeon monster -h
+
+Show monster stats::
+
+	$ dankdungeon monster -h
 	usage: dankdungeon monster [-h] [--short] name
 
 	positional arguments:
