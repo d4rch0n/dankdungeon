@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name="dankdungeon",
-    version="0.2.0",
+    version="0.2.1",
     description="generate dungeons and their monster occupants",
     author="Johan Nestaas",
     author_email="johannestaas@gmail.com",
@@ -42,7 +42,6 @@ setup(
     ],
     install_requires=[
         'fuzzywuzzy',
-        'python-Levenshtein',
     ],
     entry_points={
         'console_scripts': [

@@ -658,6 +658,8 @@ The following monsters have been incorporated from the Standard Reference Docume
 Release Notes
 -------------
 
+:0.2.1:
+    Took out python-Levenshtein as a hard requirement. Pip install it if you want slightly faster fuzzy search.
 :0.2.0:
     Instead of calculating everything at runtime, I cached it and saved new json files... runs way quicker!
 :0.1.2:
