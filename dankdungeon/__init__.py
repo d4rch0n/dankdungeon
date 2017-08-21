@@ -12,6 +12,7 @@ __license__ = 'GPLv3+'
 __copyright__ = 'Copyright 2017 Johan Nestaas'
 
 from .monster import Monster, main
+from .character import NPC
 
 
 if __name__ == '__main__':
