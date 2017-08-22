@@ -128,7 +128,7 @@ class NPC:
             elif self.subrace == 'wood':
                 self.speed = 35
                 kwargs['wis'] += 1
-            elif self.subrace == 'dark':
+            elif self.subrace in ('dark', 'drow'):
                 kwargs['cha'] += 1
         elif self.race == 'halfling':
             kwargs['dex'] += 2
