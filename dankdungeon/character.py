@@ -84,7 +84,7 @@ class NPC:
     @classmethod
     def load(cls, path):
         with open(path) as f:
-            data = yaml.loads(f)
+            data = yaml.load(f)
         players = []
         for p in data['players']:
             players.append(cls(**p))
@@ -92,7 +92,7 @@ class NPC:
 
     def __init__(self, name=None, klass=None, gender=None, race=None,
                  subrace=None, stats=None, level=1, hp=None, ac=10,
-                 damage=None):
+                 damage=None, attack=None):
         self.gender = gender or random.choice(['male', 'female'])
         self.race = race or random.choice([
             'human', 'elf', 'half-elf', 'dwarf', 'gnome', 'half-orc',
@@ -108,11 +108,13 @@ class NPC:
         else:
             self.stats = Stats(**stats)
             attrs = DESIRED_STATS[self.klass]
-            self.stats = self._add_racial_stats(attrs=attrs)
+            self._add_racial_stats(attrs=attrs)
         self.level = level
         self.ac = ac
         self.hp = hp or self._calc_hp()
         self.current_hp = self.hp
+        self.damage = damage
+        self.attack = attack
 
     def _random_subrace(self):
         if self.race in VALID_SUBRACES:
@@ -123,8 +125,12 @@ class NPC:
         auto = (base / 2) + 1
         mod = modifier(self.con)
         hp = base + mod
+        if (self.race, self.subrace) == ('dwarf', 'hill'):
+            hp += 1
         for _ in range(1, self.level):
             hp += auto + mod
+            if (self.race, self.subrace) == ('dwarf', 'hill'):
+                hp += 1
         return hp
 
     def roll_stats(self, klass=None):
