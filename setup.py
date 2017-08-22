@@ -42,6 +42,7 @@ setup(
     ],
     install_requires=[
         'fuzzywuzzy',
+        'pyyaml',
     ],
     entry_points={
         'console_scripts': [

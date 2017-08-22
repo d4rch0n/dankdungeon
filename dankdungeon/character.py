@@ -1,3 +1,4 @@
+import re
 import math
 import random
 from collections import namedtuple
@@ -52,6 +53,10 @@ DESIRED_STATS = {
     None: [],
 }
 
+RE_ROLL = re.compile(
+    r'^(?P<num>\d+)d(?P<sides>\d+)\s*(?:(?P<sign>[+-])\s*(?P<plus>\d+))?$'
+)
+
 
 Stats = namedtuple('Stats', ['str', 'dex', 'con', 'int', 'wis', 'cha'])
 
@@ -60,10 +65,24 @@ def modifier(stat):
     return math.floor((stat - 10) / 2)
 
 
+def roll(s):
+    m = RE_ROLL.match(s)
+    if not m:
+        raise ValueError('not a valid roll string (eg "2d8+2"): {!r}'.format(s))
+    if m.group('sign') is not None:
+        s = int('{}{}'.format(m.group('sign'), m.group('plus')))
+    else:
+        s = 0
+    for _ in range(int(m.group('num'))):
+        s += random.randint(1, int(m.group('sides')))
+    return s
+
+
 class NPC:
 
     def __init__(self, name=None, klass=None, gender=None, race=None,
-                 subrace=None, stats=None, level=1, hp=None, ac=10):
+                 subrace=None, stats=None, level=1, hp=None, ac=10,
+                 damage=None):
         self.gender = gender or random.choice(['male', 'female'])
         self.race = race or random.choice([
             'human', 'elf', 'half-elf', 'dwarf', 'gnome', 'half-orc',
@@ -83,6 +102,7 @@ class NPC:
         self.level = level
         self.ac = ac
         self.hp = hp or self._calc_hp()
+        self.current_hp = self.hp
 
     def _random_subrace(self):
         if self.race in VALID_SUBRACES:
