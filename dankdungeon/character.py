@@ -2,7 +2,7 @@ import re
 import math
 import yaml
 import random
-from collections import namedtuple
+from collections import namedtuple, Counter
 from .namerator import make_name
 
 
@@ -69,6 +69,8 @@ def modifier(stat):
 def roll(s):
     m = RE_ROLL.match(s)
     if not m:
+        if s.isdigit():
+            return int(s)
         raise ValueError('not a valid roll string (eg "2d8+2"): {!r}'.format(s))
     if m.group('sign') is not None:
         s = int('{}{}'.format(m.group('sign'), m.group('plus')))
@@ -79,7 +81,26 @@ def roll(s):
     return s
 
 
-class NPC:
+class Warrior:
+
+    def roll_initiative(self):
+        self.initiative = roll('1d20') + modifier(self.dex)
+
+    def roll_attack(self, enemy_ac):
+        d20 = roll('1d20') + self.attack
+        return d20 >= enemy_ac
+
+    def roll_damage(self):
+        return roll(self.damage)
+
+    def is_dead(self):
+        return self.current_hp <= 0
+
+    def reset(self):
+        self.current_hp = self.hp
+
+
+class NPC(Warrior):
 
     @classmethod
     def load(cls, path):
@@ -257,6 +278,101 @@ class NPC:
         print('CHA: {}'.format(self.cha))
 
 
+class MonsterEntity(Warrior):
+
+    @classmethod
+    def load(cls, path):
+        with open(path) as f:
+            data = yaml.load(f)
+        monsters = []
+        for m in data:
+            for i in range(m['num']):
+                mon = cls(**m)
+                mon.name = '{}{}'.format(mon.race, i + 1)
+                monsters.append(mon)
+        return monsters
+
+    def __init__(self, **data):
+        self.race = data['name']
+        self.stats = Stats(**data['stats'])
+        self.hp = roll(data['hp'])
+        self.current_hp = self.hp
+        self.ac = data['ac']
+        self.damage = data['damage']
+        self.attack = data['attack']
+
+    def __getattr__(self, attr):
+        if attr in ('str', 'dex', 'con', 'int', 'wis', 'cha'):
+            return getattr(self.stats, attr)
+        raise AttributeError('no attribute {!r}'.format(attr))
+
+
+class TestEncounter:
+
+    def __init__(self, players_path, encounter_path):
+        self.players = NPC.load(players_path)
+        self.monsters = MonsterEntity.load(encounter_path)
+        with open(encounter_path) as f:
+            self.monster_data = yaml.load(f)
+
+    def alive_players(self):
+        return [x for x in self.players if not x.is_dead()]
+
+    def alive_monsters(self):
+        return [x for x in self.monsters if not x.is_dead()]
+
+    def dead_players(self):
+        return [x for x in self.players if x.is_dead()]
+
+    def dead_monsters(self):
+        return [x for x in self.monsters if x.is_dead()]
+
+    def reset(self):
+        for i in self.players + self.monsters:
+            i.reset()
+
+    def run(self):
+        for i in self.players:
+            i.roll_initiative()
+        for m in self.monster_data:
+            init = roll('1d20') + modifier(m['stats']['dex'])
+            for mon in self.monsters:
+                if m['name'] == mon.race:
+                    mon.initiative = init
+        order = sorted(self.players + self.monsters, key=lambda x: x.initiative,
+                       reverse=True)
+        while bool(self.alive_players()) and bool(self.alive_monsters()):
+            for o in order:
+                if not self.alive_players():
+                    break
+                if not self.alive_monsters():
+                    break
+                if o.is_dead():
+                    continue
+                if isinstance(o, NPC):
+                    enemy = random.choice(self.alive_monsters())
+                elif isinstance(o, MonsterEntity):
+                    enemy = random.choice(self.alive_players())
+                if not o.roll_attack(enemy.ac):
+                    continue
+                dmg = o.roll_damage()
+                enemy.current_hp -= dmg
+
+    def run_many(self, ct):
+        c = Counter()
+        for _ in range(ct):
+            self.reset()
+            self.run()
+            c.update([
+                x.name for x in
+                self.dead_players() + self.dead_monsters()
+            ])
+        for ent, total in c.most_common():
+            print('{} died {:.3%} of the time out of {} simulations'.format(
+                ent, total / ct, ct,
+            ))
+
+
 def main():
     import argparse
     root_parser = argparse.ArgumentParser()
@@ -269,11 +385,20 @@ def main():
     parser.add_argument('--subrace', '-s')
     parser.add_argument('--gender', '-g', choices=('male', 'female'))
     parser.add_argument('--name', '-n')
+
+    parser = subs.add_parser('simulate')
+    parser.add_argument('players_yml')
+    parser.add_argument('encounter_yml')
+    parser.add_argument('--count', '-c', type=int, default=100)
+
     args = root_parser.parse_args()
 
     if args.cmd == 'create':
         npc = NPC(klass=args.klass, race=args.race, gender=args.gender,
-                name=args.name, subrace=args.subrace)
+                  name=args.name, subrace=args.subrace)
         npc.output()
+    elif args.cmd == 'simulate':
+        enc = TestEncounter(args.players_yml, args.encounter_yml)
+        enc.run_many(args.count)
     else:
         root_parser.print_usage()
