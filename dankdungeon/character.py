@@ -1,5 +1,6 @@
 import re
 import math
+import yaml
 import random
 from collections import namedtuple
 from .namerator import make_name
@@ -79,6 +80,15 @@ def roll(s):
 
 
 class NPC:
+
+    @classmethod
+    def load(cls, path):
+        with open(path) as f:
+            data = yaml.loads(f)
+        players = []
+        for p in data['players']:
+            players.append(cls(**p))
+        return players
 
     def __init__(self, name=None, klass=None, gender=None, race=None,
                  subrace=None, stats=None, level=1, hp=None, ac=10,
