@@ -1,5 +1,6 @@
 import random
 from collections import namedtuple
+from .namerator import make_name
 
 
 def roll_stat():
@@ -12,7 +13,14 @@ Stats = namedtuple('Stats', ['str', 'dex', 'con', 'int', 'wis', 'cha'])
 
 class NPC:
 
-    def __init__(self, klass=None):
+    def __init__(self, name=None, klass=None, gender=None, race=None):
+        self.gender = gender or random.choice(['male', 'female'])
+        self.race = race or random.choice([
+            'human', 'elf', 'half-elf', 'dwarf', 'gnome', 'half-orc',
+            'halfling',
+        ])
+        self.name = name or make_name(self.race, gender=self.gender)
+        self.klass = klass
         self.roll_stats(klass=klass)
 
     def roll_stats(self, klass=None):
@@ -66,6 +74,11 @@ class NPC:
         raise AttributeError('no attribute {!r}'.format(attr))
 
     def output(self):
+        print(self.name)
+        if self.klass is None:
+            print('{} {}'.format(self.race, self.gender))
+        else:
+            print('{} {} {}'.format(self.race, self.gender, self.klass))
         print('STR: {}'.format(self.str))
         print('DEX: {}'.format(self.dex))
         print('CON: {}'.format(self.con))
@@ -78,7 +91,13 @@ def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--class', '-c', dest='klass')
+    parser.add_argument('--race', '-r', choices=('human', 'dwarf', 'elf',
+                                                 'half-elf', 'half-orc',
+                                                 'gnome', 'halfling'))
+    parser.add_argument('--gender', '-g', choices=('male', 'female'))
+    parser.add_argument('--name', '-n')
     args = parser.parse_args()
 
-    npc = NPC(klass=args.klass)
+    npc = NPC(klass=args.klass, race=args.race, gender=args.gender,
+              name=args.name)
     npc.output()

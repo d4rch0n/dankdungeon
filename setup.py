@@ -50,7 +50,7 @@ setup(
         ],
     },
     package_data={
-        'dankdungeon': ['data/*.json'],
+        'dankdungeon': ['data/*.json', 'names/*.txt'],
     },
     include_package_data=True,
 )
