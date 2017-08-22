@@ -46,6 +46,7 @@ setup(
     entry_points={
         'console_scripts': [
             'dankdungeon=dankdungeon:main',
+            'dankdungeon-npc=dankdungeon.character:main',
         ],
     },
     package_data={
