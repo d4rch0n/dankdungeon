@@ -48,6 +48,7 @@ setup(
         'console_scripts': [
             'dankdungeon=dankdungeon:main',
             'dankdungeon-npc=dankdungeon.character:main',
+            'dankdungeon-roll=dankdungeon:roll_main',
         ],
     },
     package_data={

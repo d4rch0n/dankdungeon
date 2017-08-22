@@ -12,7 +12,14 @@ __license__ = 'GPLv3+'
 __copyright__ = 'Copyright 2017 Johan Nestaas'
 
 from .monster import Monster, main
-from .character import NPC
+from .character import NPC, roll
+
+
+def roll_main():
+    import sys
+    s = ' '.join(sys.argv[1:])
+    r = roll(s)
+    print(r)
 
 
 if __name__ == '__main__':
