@@ -259,7 +259,9 @@ class NPC:
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser()
+    root_parser = argparse.ArgumentParser()
+    subs = root_parser.add_subparsers(dest='cmd')
+    parser = subs.add_parser('create')
     parser.add_argument('--class', '-c', dest='klass')
     parser.add_argument('--race', '-r', choices=('human', 'dwarf', 'elf',
                                                  'half-elf', 'half-orc',
@@ -267,8 +269,11 @@ def main():
     parser.add_argument('--subrace', '-s')
     parser.add_argument('--gender', '-g', choices=('male', 'female'))
     parser.add_argument('--name', '-n')
-    args = parser.parse_args()
+    args = root_parser.parse_args()
 
-    npc = NPC(klass=args.klass, race=args.race, gender=args.gender,
-              name=args.name, subrace=args.subrace)
-    npc.output()
+    if args.cmd == 'create':
+        npc = NPC(klass=args.klass, race=args.race, gender=args.gender,
+                name=args.name, subrace=args.subrace)
+        npc.output()
+    else:
+        root_parser.print_usage()
