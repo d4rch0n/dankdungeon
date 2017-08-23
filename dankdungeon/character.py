@@ -67,6 +67,8 @@ def modifier(stat):
 
 
 def roll(s):
+    if isinstance(s, int):
+        return s
     m = RE_ROLL.match(s)
     if not m:
         if s.isdigit():
