@@ -2,6 +2,7 @@ import re
 import math
 import yaml
 import random
+import argparse
 from collections import namedtuple, Counter
 from .namerator import make_name
 
@@ -375,11 +376,18 @@ class TestEncounter:
             ))
 
 
+def main_simulate():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('players_yml')
+    parser.add_argument('encounter_yml')
+    parser.add_argument('--count', '-c', type=int, default=100)
+    args = parser.parse_args()
+    enc = TestEncounter(args.players_yml, args.encounter_yml)
+    enc.run_many(args.count)
+
+
 def main_npc():
-    import argparse
-    root_parser = argparse.ArgumentParser()
-    subs = root_parser.add_subparsers(dest='cmd')
-    parser = subs.add_parser('create')
+    parser = argparse.ArgumentParser()
     parser.add_argument('--class', '-c', dest='klass')
     parser.add_argument('--race', '-r', choices=('human', 'dwarf', 'elf',
                                                  'half-elf', 'half-orc',
@@ -387,23 +395,11 @@ def main_npc():
     parser.add_argument('--subrace', '-s')
     parser.add_argument('--gender', '-g', choices=('male', 'female'))
     parser.add_argument('--name', '-n')
+    args = parser.parse_args()
 
-    parser = subs.add_parser('simulate')
-    parser.add_argument('players_yml')
-    parser.add_argument('encounter_yml')
-    parser.add_argument('--count', '-c', type=int, default=100)
-
-    args = root_parser.parse_args()
-
-    if args.cmd == 'create':
-        npc = NPC(klass=args.klass, race=args.race, gender=args.gender,
-                  name=args.name, subrace=args.subrace)
-        npc.output()
-    elif args.cmd == 'simulate':
-        enc = TestEncounter(args.players_yml, args.encounter_yml)
-        enc.run_many(args.count)
-    else:
-        root_parser.print_usage()
+    npc = NPC(klass=args.klass, race=args.race, gender=args.gender,
+              name=args.name, subrace=args.subrace)
+    npc.output()
 
 
 def main_roll():

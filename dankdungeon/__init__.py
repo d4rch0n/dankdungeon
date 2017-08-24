@@ -12,4 +12,4 @@ __license__ = 'GPLv3+'
 __copyright__ = 'Copyright 2017 Johan Nestaas'
 
 from .monster import Monster, main_monster, main_encounter, main_threshold
-from .character import NPC, main_roll, main_npc
+from .character import NPC, main_roll, main_npc, main_simulate

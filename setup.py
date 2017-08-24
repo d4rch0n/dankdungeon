@@ -46,6 +46,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
+            'dankdungeon-simulate=dankdungeon:main_simulate',
             'dankdungeon-npc=dankdungeon:main_npc',
             'dankdungeon-roll=dankdungeon:main_roll',
             'dankdungeon-monster=dankdungeon:main_monster',
