@@ -328,30 +328,32 @@ class NPC(Warrior):
         pass
 
     def output(self):
-        print(self.name)
+        print('Name:      {}'.format(self.name))
+        if self.klass:
+            print('Level:     {}'.format(self.level))
+            print('Class:     {}'.format(self.klass.title()))
         if self.subrace:
             racestr = '{} {}'.format(self.subrace, self.race)
         else:
             racestr = self.race
-        print('{} {}'.format(racestr, self.gender))
-        if self.klass:
-            print('Level {} {}'.format(self.level, self.klass.title()))
-        print('Alignment: {}'.format(self.alignment))
-        print('Trait: {}'.format(self.trait))
-        print('Ideal: {}'.format(self.ideal))
-        print('Bond:  {}'.format(self.bond))
-        print('Flaw:  {}'.format(self.flaw))
+        print('Gender:    {}'.format(self.gender.title()))
+        print('Race:      {}'.format(racestr.title()))
+        print('Alignment: {}'.format(str(self.alignment).title()))
+        print('Trait:     {}'.format(self.trait))
+        print('Ideal:     {}'.format(self.ideal))
+        print('Bond:      {}'.format(self.bond))
+        print('Flaw:      {}'.format(self.flaw))
         print('')
         print('HP:  {}'.format(self.hp))
         print('AC:  {}'.format(self.ac))
         print('SPD: {}'.format(self.speed))
         print('')
-        print('STR: {}'.format(self.str))
-        print('DEX: {}'.format(self.dex))
-        print('CON: {}'.format(self.con))
-        print('INT: {}'.format(self.int))
-        print('WIS: {}'.format(self.wis))
-        print('CHA: {}'.format(self.cha))
+        print('STR: {:2} ({:+})'.format(self.str, modifier(self.str)))
+        print('DEX: {:2} ({:+})'.format(self.dex, modifier(self.dex)))
+        print('CON: {:2} ({:+})'.format(self.con, modifier(self.con)))
+        print('INT: {:2} ({:+})'.format(self.int, modifier(self.int)))
+        print('WIS: {:2} ({:+})'.format(self.wis, modifier(self.wis)))
+        print('CHA: {:2} ({:+})'.format(self.cha, modifier(self.cha)))
 
 
 class MonsterEntity(Warrior):
