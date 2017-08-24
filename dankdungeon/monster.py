@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import random
+import argparse
 from itertools import product
 from fuzzywuzzy import fuzz
 
@@ -446,16 +447,24 @@ def calc_threshold(player_levels):
     return thresh
 
 
-def main():
-    import argparse
+def main_monster():
     parser = argparse.ArgumentParser()
-    subs = parser.add_subparsers(dest='cmd')
-    p = subs.add_parser('monster')
-    p.add_argument('name', help='select a monster by name')
-    p.add_argument('--short', '-s', action='store_true',
-                   help='print short stats')
+    parser.add_argument('name', help='select a monster by name')
+    parser.add_argument('--short', '-s', action='store_true',
+                        help='print short stats')
+    args = parser.parse_args()
+    Monster.load()
+    mon = Monster.get(args.name)
+    if not mon:
+        sys.exit('cant find this monster')
+    if args.short:
+        mon.short_output()
+    else:
+        mon.output()
 
-    p = subs.add_parser('encounter')
+
+def main_encounter():
+    p = argparse.ArgumentParser()
     p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
     p.add_argument('--difficulty', '-d', default='medium',
                    choices=('easy', 'medium', 'hard', 'deadly'))
@@ -474,73 +483,56 @@ def main():
                    help='for custom encounters, the maximum number of one type,'
                    'eg. "--max-num 5" if you only want up to 5 of each type, '
                    'default: %(default)s')
-
-    p = subs.add_parser('threshold')
-    p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
-
-    args = parser.parse_args()
-
-    if args.cmd == 'threshold':
-        if args.players:
-            players = [int(x.strip()) for x in args.players.split(',')]
-        else:
-            players = [1, 1, 1, 1]
-        thresh = calc_threshold(players)
-        print('Easy: {} to {}'.format(thresh[0], thresh[1] - 1))
-        print('Medium: {} to {}'.format(thresh[1], thresh[2] - 1))
-        print('Hard: {} to {}'.format(thresh[2], thresh[3] - 1))
-        print('Deadly: {}+'.format(thresh[3]))
-    elif args.cmd == 'encounter':
-        Monster.load()
-        if args.players:
-            players = [int(x.strip()) for x in args.players.split(',')]
-        else:
-            players = [1, 1, 1, 1]
-        thresh = calc_threshold(players)
-        diff = {'easy': 0, 'medium': 1, 'hard': 2, 'deadly': 3}[args.difficulty]
-        thresh = (thresh[diff], thresh[diff + 1])
-        if not args.custom:
-            try:
-                enc, xp = Monster.random_encounter(
-                    thresh[0],
-                    thresh[1],
-                    or_tags=args.or_tags,
-                    and_tags=args.and_tags,
-                    not_tags=args.not_tags,
-                )
-            except ValueError as e:
-                sys.exit(str(e))
-            print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
-            for ct, mon in enc:
-                print(' - {} {!r}'.format(ct, mon))
-            print('')
-            for ct, mon in enc:
-                mon.short_output()
-                print('')
-        else:
-            mons = [x.strip() for x in args.custom.split(',') if x.strip()]
-            try:
-                enc, xp = Monster.custom_random_encounter(
-                    mons, thresh[0], thresh[1], max_num=args.max_num,
-                )
-            except ValueError as e:
-                sys.exit(str(e))
-            print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
-            for ct, name, mon_xp in enc:
-                print(' - {} {} (xp={})'.format(ct, name, mon_xp))
-    elif args.cmd == 'monster':
-        Monster.load()
-        mon = Monster.get(args.name)
-        if not mon:
-            sys.exit('cant find this monster')
-        if args.short:
-            mon.short_output()
-        else:
-            mon.output()
+    args = p.parse_args()
+    Monster.load()
+    if args.players:
+        players = [int(x.strip()) for x in args.players.split(',')]
     else:
-        parser.print_usage()
-        sys.exit(1)
+        players = [1, 1, 1, 1]
+    thresh = calc_threshold(players)
+    diff = {'easy': 0, 'medium': 1, 'hard': 2, 'deadly': 3}[args.difficulty]
+    thresh = (thresh[diff], thresh[diff + 1])
+    if not args.custom:
+        try:
+            enc, xp = Monster.random_encounter(
+                thresh[0],
+                thresh[1],
+                or_tags=args.or_tags,
+                and_tags=args.and_tags,
+                not_tags=args.not_tags,
+            )
+        except ValueError as e:
+            sys.exit(str(e))
+        print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
+        for ct, mon in enc:
+            print(' - {} {!r}'.format(ct, mon))
+        print('')
+        for ct, mon in enc:
+            mon.short_output()
+            print('')
+    else:
+        mons = [x.strip() for x in args.custom.split(',') if x.strip()]
+        try:
+            enc, xp = Monster.custom_random_encounter(
+                mons, thresh[0], thresh[1], max_num=args.max_num,
+            )
+        except ValueError as e:
+            sys.exit(str(e))
+        print('XP={} ({} <= xp <= {}):'.format(xp, *thresh))
+        for ct, name, mon_xp in enc:
+            print(' - {} {} (xp={})'.format(ct, name, mon_xp))
 
 
-if __name__ == '__main__':
-    main()
+def main_threshold():
+    p = argparse.ArgumentParser()
+    p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
+    args = p.parse_args()
+    if args.players:
+        players = [int(x.strip()) for x in args.players.split(',')]
+    else:
+        players = [1, 1, 1, 1]
+    thresh = calc_threshold(players)
+    print('Easy: {} to {}'.format(thresh[0], thresh[1] - 1))
+    print('Medium: {} to {}'.format(thresh[1], thresh[2] - 1))
+    print('Hard: {} to {}'.format(thresh[2], thresh[3] - 1))
+    print('Deadly: {}+'.format(thresh[3]))

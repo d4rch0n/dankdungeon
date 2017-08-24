@@ -46,9 +46,11 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'dankdungeon=dankdungeon:main',
-            'dankdungeon-npc=dankdungeon.character:main',
-            'dankdungeon-roll=dankdungeon:roll_main',
+            'dankdungeon-npc=dankdungeon:main_npc',
+            'dankdungeon-roll=dankdungeon:main_roll',
+            'dankdungeon-monster=dankdungeon:main_monster',
+            'dankdungeon-threshold=dankdungeon:main_threshold',
+            'dankdungeon-encounter=dankdungeon:main_encounter',
         ],
     },
     package_data={

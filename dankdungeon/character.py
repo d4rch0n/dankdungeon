@@ -375,7 +375,7 @@ class TestEncounter:
             ))
 
 
-def main():
+def main_npc():
     import argparse
     root_parser = argparse.ArgumentParser()
     subs = root_parser.add_subparsers(dest='cmd')
@@ -404,3 +404,10 @@ def main():
         enc.run_many(args.count)
     else:
         root_parser.print_usage()
+
+
+def main_roll():
+    import sys
+    s = ' '.join(sys.argv[1:])
+    r = roll(s)
+    print(r)
