@@ -160,6 +160,10 @@ class NPC(Warrior):
             self.alignment = Alignment.random()
         else:
             self.alignment = Alignment.parse(alignment)
+        self.flaw = self.random_flaw()
+        self.bond = self.random_bond()
+        self.ideal = self.random_ideal()
+        self.trait = self.random_trait()
         self.gender = gender or random.choice(['male', 'female'])
         self.race = race or random.choice([
             'human', 'elf', 'half-elf', 'dwarf', 'gnome', 'half-orc',
@@ -182,6 +186,24 @@ class NPC(Warrior):
         self.current_hp = self.hp
         self.damage = damage
         self.attack = attack
+
+    @classmethod
+    def random_flaw(cls):
+        return random.choice(FLAWS)
+
+    @classmethod
+    def random_bond(cls):
+        return random.choice(BONDS)
+
+    @classmethod
+    def random_trait(cls):
+        return random.choice(TRAITS)
+
+    def random_ideal(self):
+        ideals = IDEALS['any'][:]
+        ideals.extend(IDEALS[self.alignment.law])
+        ideals.extend(IDEALS[self.alignment.good])
+        return random.choice(ideals)
 
     def _random_subrace(self):
         if self.race in VALID_SUBRACES:
@@ -315,6 +337,10 @@ class NPC(Warrior):
         if self.klass:
             print('Level {} {}'.format(self.level, self.klass.title()))
         print('Alignment: {}'.format(self.alignment))
+        print('Trait: {}'.format(self.trait))
+        print('Ideal: {}'.format(self.ideal))
+        print('Bond:  {}'.format(self.bond))
+        print('Flaw:  {}'.format(self.flaw))
         print('')
         print('HP:  {}'.format(self.hp))
         print('AC:  {}'.format(self.ac))
