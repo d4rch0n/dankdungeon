@@ -196,7 +196,7 @@ class NPC(Warrior):
         self.gender = gender or random.choice(['male', 'female'])
         self.race = race or random.choice([
             'human', 'elf', 'half-elf', 'dwarf', 'gnome', 'half-orc',
-            'halfling', 'tiefling',
+            'halfling', 'tiefling', 'dragonborn',
         ])
         self.name = name or make_name(self.race, gender=self.gender)
         self.subrace = subrace
@@ -1077,7 +1077,7 @@ def main_npc():
     parser.add_argument('--race', '-r', choices=('human', 'dwarf', 'elf',
                                                  'half-elf', 'half-orc',
                                                  'gnome', 'halfling',
-                                                 'tiefling'))
+                                                 'tiefling', 'dragonborn'))
     parser.add_argument('--subrace', '-s')
     parser.add_argument('--gender', '-g', choices=('male', 'female'))
     parser.add_argument('--name', '-n')

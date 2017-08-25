@@ -147,7 +147,8 @@ def generate(freqs):
 def make_name(race, gender=None):
     if not isinstance(race, str):
         race = race.NAME
-    if gender is not None and race in ('human', 'halfling', 'tiefling'):
+    if gender is not None and race in ('human', 'halfling', 'tiefling',
+                                       'dragonborn'):
         race = '{}-{}'.format(race, gender)
     if race == 'human-male':
         first = generate('human-first-male')
@@ -156,6 +157,14 @@ def make_name(race, gender=None):
     elif race == 'human-female':
         first = generate('human-first-female')
         last = generate('human-last')
+        return '{} {}'.format(first, last).title()
+    elif race == 'dragonborn-male':
+        first = generate('dragonborn-first-male')
+        last = generate('dragonborn-last')
+        return '{} {}'.format(first, last).title()
+    elif race == 'dragonborn-female':
+        first = generate('dragonborn-first-female')
+        last = generate('dragonborn-last')
         return '{} {}'.format(first, last).title()
     elif race == 'human-first-male':
         return generate('human-first-male').title()
