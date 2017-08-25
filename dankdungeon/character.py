@@ -102,6 +102,35 @@ RE_ROLL = re.compile(
 Stats = namedtuple('Stats', ['str', 'dex', 'con', 'int', 'wis', 'cha'])
 
 
+def to_feet(ft, inches):
+    return ft + (inches / 12)
+
+
+def to_inches(ft):
+    f = int(ft)
+    i = round((ft - f) * 12)
+    if i == 12:
+        return (f + 1, 0)
+    return (f, i)
+
+
+def rand_height(mn, mx):
+    r = random.uniform(to_feet(*mn), to_feet(*mx))
+    return to_inches(r)
+
+
+def rand_weight(avg, mn, thresh=2.5):
+    return round(
+        max(
+            min(
+                random.gauss(avg, mn),
+                avg + mn * thresh
+            ),
+            avg - mn * thresh
+        )
+    )
+
+
 def modifier(stat):
     return math.floor((stat - 10) / 2)
 
@@ -234,51 +263,122 @@ class NPC(Warrior):
 
     def _add_racial_stats(self, attrs=None):
         self.speed = 30
-        self.senses = []
         self.size = 'medium'
+        self.profs = set()
+        self.abilities = set()
+        self.resistances = set()
+        self.immunities = set()
+        self.advantages = set()
+        self.languages = {'common'}
         kwargs = dict(**self.stats._asdict())
         if self.race == 'dwarf':
+            self.age = random.randint(25, 300)
+            self.height = rand_height((4, 0), (5, 0))
+            self.weight = rand_weight(150, 20)
             kwargs['con'] += 2
             self.speed = 25
-            self.senses = ['darkvision']
+            self.abilities.add('darkvision')
+            self.profs |= {'battleaxe', 'handaxe', 'light hammer', 'warhammer'}
+            toolprof = random.choice(["smith's tools", "brewer's supplies",
+                                      "mason's tools"])
+            self.profs.add(toolprof)
+            self.languages.add('dwarvish')
+            self.resistances.add('poison')
+            self.advantages.add('saving throw vs poison')
+            self.abilities.add('stonecunning')
             if self.subrace == 'hill':
+                self.abilities.add('dwarven toughness')
                 kwargs['wis'] += 1
             elif self.subrace == 'mountain':
                 kwargs['str'] += 2
+                self.profs |= {'light armor', 'medium armor'}
         elif self.race == 'elf':
             kwargs['dex'] += 2
-            self.senses = ['darkvision']
+            self.age = random.randint(50, 700)
+            self.height = rand_height((5, 6), (6, 3))
+            self.weight = rand_weight(180, 40)
+            self.abilities |= {'darkvision', 'trance', 'fey ancestry'}
+            self.profs.add('perception')
+            self.advantages.add('saving throw vs charm')
+            self.immunities.add('sleep')
+            self.languages.add('elvish')
             if self.subrace == 'high':
                 kwargs['int'] += 1
+                self.abilities |= {'free wizard cantrip', 'extra language'}
+                self.profs |= {'longsword', 'longbow', 'shortsword', 'shortbow'}
             elif self.subrace == 'wood':
                 self.speed = 35
+                self.profs |= {'longsword', 'longbow', 'shortsword', 'shortbow'}
+                self.abilities |= {'fleet of foot', 'mask of the wild'}
                 kwargs['wis'] += 1
             elif self.subrace in ('dark', 'drow'):
                 kwargs['cha'] += 1
+                self.abilities.remove('darkvision')
+                self.abilities |= {'superior darkvision',
+                                   'sunlight sensitivity',
+                                   'drow magic'}
+                self.profs |= {'rapier', 'shortsword', 'hand crossbow'}
         elif self.race == 'halfling':
             kwargs['dex'] += 2
             self.size = 'small'
             self.speed = 25
+            self.age = random.randint(16, 120)
+            self.height = rand_height((2, 2), (3, 8))
+            self.weight = rand_weight(40, 7)
+            self.advantages.add('saving throw vs frightened')
+            self.abilities |= {'brave', 'lucky', 'halfling nimbleness'}
+            self.languages.add('halfling')
             if self.subrace == 'lightfoot':
                 kwargs['cha'] += 1
+                self.abilities.add('naturally stealthy')
             elif self.subrace == 'stout':
                 kwargs['con'] += 1
+                self.resistances.add('poison')
+                self.advantages.add('saving throw vs poison')
         elif self.race == 'human':
+            self.age = random.randint(16, 75)
+            self.height = rand_height((5, 2), (6, 6))
+            self.weight = rand_weight(200, 50)
+            self.abilities.add('extra language')
             for key in kwargs:
                 kwargs[key] += 1
         elif self.race == 'dragonborn':
             kwargs['str'] += 2
             kwargs['cha'] += 1
+            self.age = random.randint(12, 70)
+            self.height = rand_height((6, 0), (7, 6))
+            self.weight = rand_weight(250, 50)
+            self.languages.add('draconic')
+            # TODO breathweapon, natural resistance, ancestry
         elif self.race == 'gnome':
             kwargs['int'] += 2
             self.size = 'small'
-            self.senses = ['darkvision']
+            self.speed = 25
+            self.abilities |= {'darkvision', 'gnome cunning'}
+            self.languages.add('gnomish')
+            self.advantages.add('saving throw vs magic (int, wis, cha)')
+            self.age = random.randint(16, 450)
+            self.height = rand_height((3, 0), (4, 2))
+            self.weight = rand_weight(40, 7)
             if self.subrace == 'forest':
+                self.abilities |= {'minor illusion cantrip',
+                                   'speak with small beasts'}
                 kwargs['dex'] += 1
             elif self.subrace == 'rock':
+                self.abilities |= {'artificer\'s lore',
+                                   'tinker'}
+                self.profs.add("tinker's tools")
                 kwargs['con'] += 1
         elif self.race == 'half-elf':
             kwargs['cha'] += 2
+            self.age = random.randint(16, 165)
+            self.weight = rand_weight(180, 45)
+            self.height = rand_height((5, 0), (6, 2))
+            self.abilities |= {'darkvision', 'extra language', 'fey ancestry',
+                               '2 extra skill proficiencies'}
+            self.advantages.add('saving throw vs charm')
+            self.immunities.add('sleep')
+            self.languages.add('elvish')
             remaining = {'str', 'dex', 'con', 'int', 'wis'}
             added = 0
             for attr in (attrs or [])[:2]:
@@ -292,13 +392,32 @@ class NPC(Warrior):
                 added += 1
                 remaining.remove(key)
         elif self.race == 'half-orc':
+            self.age = random.randint(12, 65)
+            self.weight = rand_weight(220, 55)
+            self.height = rand_height((5, 6), (6, 8))
+            self.profs.add('intimidation')
+            self.abilities |= {'darkvision', 'relentless endurance',
+                               'savage attacks', 'menacing'}
+            self.languages.add('orc')
             kwargs['str'] += 2
             kwargs['con'] += 1
-            self.senses = ['darkvision']
         elif self.race == 'tiefling':
+            self.age = random.randint(16, 90)
+            self.weight = rand_weight(200, 50)
+            self.height = rand_height((5, 2), (6, 4))
+            self.profs.add('intimidation')
+            self.resistances.add('fire')
+            self.abilities |= {'darkvision', 'hellish resistance',
+                               'infernal legacy', 'menacing'}
+            self.languages.add('infernal')
             kwargs['int'] += 1
             kwargs['cha'] += 2
-            self.senses = ['darkvision']
+        self.profs = sorted(self.profs)
+        self.resistances = sorted(self.resistances)
+        self.abilities = sorted(self.abilities)
+        self.languages = ['common'] + sorted(self.languages - {'common'})
+        self.immunities = sorted(self.immunities)
+        self.advantages = sorted(self.advantages)
         return Stats(**kwargs)
 
     def _setup_stats(self, stats, attrs):
@@ -336,18 +455,32 @@ class NPC(Warrior):
             racestr = '{} {}'.format(self.subrace, self.race)
         else:
             racestr = self.race
-        print('Gender:    {}'.format(self.gender.title()))
         print('Race:      {}'.format(racestr.title()))
         print('Alignment: {}'.format(str(self.alignment).title()))
+        print('')
+        print('Gender:    {}'.format(self.gender.title()))
+        print('Age:       {}'.format(self.age))
+        print('Height:    {}\'{}"'.format(*self.height))
+        print('Weight:    {} lbs'.format(self.weight))
         print('Trait:     {}'.format(self.trait))
         print('Ideal:     {}'.format(self.ideal))
         print('Bond:      {}'.format(self.bond))
         print('Flaw:      {}'.format(self.flaw))
+        if self.resistances:
+            print('Resist:    {}'.format(', '.join(self.resistances)))
+        if self.immunities:
+            print('Immune:    {}'.format(', '.join(self.immunities)))
+        if self.advantages:
+            print('Advantage: {}'.format(', '.join(self.advantages)))
+        if self.languages:
+            print('Languages: {}'.format(', '.join(self.languages)))
+        if self.abilities:
+            print('Abilities: {}'.format(', '.join(self.abilities)))
+        print('Proficiencies: {}'.format(', '.join(self.profs)))
         print('')
         print('HP:  {}'.format(self.hp))
         print('AC:  {}'.format(self.ac))
         print('SPD: {}'.format(self.speed))
-        print('')
         print('STR: {:2} ({:+})'.format(self.str, modifier(self.str)))
         print('DEX: {:2} ({:+})'.format(self.dex, modifier(self.dex)))
         print('CON: {:2} ({:+})'.format(self.con, modifier(self.con)))
