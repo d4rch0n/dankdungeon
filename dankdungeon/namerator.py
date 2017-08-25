@@ -169,7 +169,10 @@ def make_name(race, gender=None):
         return '{} {}'.format(first, last).title()
     elif race == 'dwarf':
         first = generate('dwarf')
-        last = choice(NAMES['dwarf-part1']) + choice(NAMES['dwarf-part2'])
+        part1 = choice(NAMES['dwarf-part1'])
+        n2 = sorted(set(NAMES['dwarf-part2']) - set(part1))
+        part2 = choice(n2)
+        last = part1 + part2
         return '{} {}'.format(first, last).title()
     elif race == 'gnome':
         first = generate('dwarf')
