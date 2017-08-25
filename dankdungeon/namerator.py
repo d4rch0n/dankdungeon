@@ -127,8 +127,13 @@ def generate(freqs):
     namelen = int(max(gauss(mean, sigma), shortest))
     while True:
         combined = combined_frequencies(freqs, last1, last2, last3, last4)
-        next_letter = choose(combined, over=len(name) - namelen,
-                             letter_freqs=freqs[0].most_common())
+        while True:
+            next_letter = choose(combined, over=len(name) - namelen,
+                                 letter_freqs=freqs[0].most_common())
+            if last2 and last2 == (next_letter + next_letter):
+                continue
+            else:
+                break
         if next_letter == '$':
             break
         name += next_letter
