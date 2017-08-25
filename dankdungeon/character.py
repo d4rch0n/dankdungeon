@@ -62,6 +62,19 @@ VALID_SUBRACES = {
     'gnome': ['forest', 'rock'],
 }
 
+DRAGON_ANCESTRY = {
+    'black': ('acid', 'acid breath (5 by 30 ft line, dex save)'),
+    'blue': ('lightning', 'lightning breath (5 by 30 ft line, dex save)'),
+    'brass': ('fire', 'fire breath (5 by 30 ft line, dex save)'),
+    'bronze': ('lightning', 'lightning breath (5 by 30 ft line, dex save)'),
+    'copper': ('acid', 'acid breath (5 by 30 ft line, dex save)'),
+    'gold': ('fire', 'fire breath (15 ft cone, dex save)'),
+    'green': ('poison', 'poison breath (15 ft cone, con save)'),
+    'red': ('fire', 'fire breath (15 ft cone, dex save)'),
+    'silver': ('ice', 'ice breath (15 ft cone, con save)'),
+    'white': ('ice', 'ice breath (15 ft cone, con save)'),
+}
+
 HIT_DICE = {
     'barbarian': 12,
     'bard': 8,
@@ -349,7 +362,10 @@ class NPC(Warrior):
             self.height = rand_height((6, 0), (7, 6))
             self.weight = rand_weight(250, 50)
             self.languages.add('draconic')
-            # TODO breathweapon, natural resistance, ancestry
+            dtyp, breath = DRAGON_ANCESTRY[self.subrace]
+            self.abilities.add('{} draconic ancestry'.format(self.subrace))
+            self.abilities.add(breath)
+            self.resistances.add(dtyp)
         elif self.race == 'gnome':
             kwargs['int'] += 2
             self.size = 'small'
