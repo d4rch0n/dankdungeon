@@ -405,10 +405,9 @@ class NPC(Warrior):
             self.age = random.randint(16, 90)
             self.weight = rand_weight(200, 50)
             self.height = rand_height((5, 2), (6, 4))
-            self.profs.add('intimidation')
             self.resistances.add('fire')
             self.abilities |= {'darkvision', 'hellish resistance',
-                               'infernal legacy', 'menacing'}
+                               'infernal legacy'}
             self.languages.add('infernal')
             kwargs['int'] += 1
             kwargs['cha'] += 2
