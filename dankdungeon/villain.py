@@ -15,12 +15,22 @@ class Villain(NPC):
         self.bond = self.evil_bond.value
         self.evil_ideal = self.random_ideal()
         self.ideal = self.evil_ideal.value
+        self.evil_flaw = self.random_flaw()
+        self.flaw = self.evil_flaw.value
+        self.evil_trait = self.random_trait()
+        self.trait = self.evil_trait.value
 
     def random_bond(self):
         return random.choice(list(EvilBond))
 
     def random_ideal(self):
         return random.choice(list(EvilIdeal))
+
+    def random_trait(self):
+        return random.choice(list(EvilTrait))
+
+    def random_flaw(self):
+        return random.choice(list(EvilFlaw))
 
 
 def main_villain():
@@ -64,3 +74,60 @@ class EvilIdeal(Enum):
     murder = 'Murder. There is a beauty in causing the death of others.'
     fear = 'Fear. True power comes from inflicting terror in others.'
     pain = 'Pain. The pain and torment of others is our purpose.'
+
+
+class EvilTrait(Enum):
+    laugh = 'I have a tendency to laugh at awkward times.'
+    idolize = 'I idolize someone and try my best to imitate them.'
+    theatric = 'I love a theatrical display and try to give a show.'
+    gambler = 'I am not afraid to take large risks.'
+    survivor = 'I often find a way to survive with the worst of odds.'
+    macguyver = 'I can escape a prison cell with a toothpick and a string.'
+    logical = 'I will always follow the most logical path.'
+    sloth = 'The easiest road to victory is the best road.'
+    hardworker = 'I will work all day and night to get what I want.'
+    pessimist = 'I tend to obsess over the worst of my situation.'
+    optimist = 'I tend to look at the bright side even in the worst situations.'
+    rude = 'I will act extremely inappropriate when I can get away with it.'
+    polite = 'No matter who we are and what we do, we must follow etiquette.'
+    talker = 'I love to hear the sound of my voice, and force it upon others.'
+    hermit = 'I prefer solitude, and am best when alone.'
+    famous = 'I love being famous, and will try to make a name for myself.'
+    boredom = 'I get bored very easily, and love excitement.'
+    smooth = 'I can usually smoothtalk my way out of bad situations.'
+    skeptic = 'There is no reason to trust the narrative being presented.'
+    anger = 'I am quick to anger, and will throw tantrums.'
+    trustworthy = 'People know I keep my word, and that gives me power.'
+    backstabber = 'I will stab anyone in the back.'
+    sociopath = 'I have no empathy whatsoever.'
+    narcissist = 'I obsess over how wonderful I am, and love flattery.'
+    moody = 'I find myself brooding more often than not.'
+    judgmental = 'I am quick to judge others for their mistakes.'
+    feared = 'People know to fear me, and avoid my wrath.'
+    grudge = 'I will hold a grudge until the person is dead.'
+    tinker = 'I love a little machinery and lay traps when I can.'
+    strategy = 'I obsess over the strategic details.'
+    ignoble = 'I was not born into nobility and hate those who were.'
+    noble = 'I am of noble birth and peasants are below me.'
+
+
+class EvilFlaw(Enum):
+    phobia = 'I have an unfortunate phobia which causes me to act irrationally.'
+    coward = 'In truth, I am a coward and will flee when threatened.'
+    greed = 'My greed is my weakness, and I will make bad decisions for gold.'
+    planner = "I don't think too far ahead and improvise if possible."
+    impulsive = 'I often make impulsive decisions, for better or worse.'
+    vanity = 'Appealing to my vanity will cause me to make bad judgments.'
+    gullible = 'I often fall for stupid tricks that others might see through.'
+    chaotic = 'Sometimes I act without reason just to shake things up.'
+    sadness = 'I feel a great sadness, and sometimes lose hope.'
+    master = 'I am extremely dependent on my master and feel weak without them.'
+    fear = 'If I do not cause fear in someone it troubles me greatly.'
+    motivation = 'I lose motivation easily and have trouble following through.'
+    failure = 'I cannot cope with failure and do anything to win.'
+    mistake = 'I am not very meticulous and make many small mistakes.'
+    meticulous = 'I am extremely meticulous and obsess over minor details.'
+    confidence = 'I lose confidence with myself very easily.'
+    overconfidence = 'I am overconfident, and overestimate my abilities.'
+    intuition = 'I cannot see the big picture sometimes.'
+    beauty = 'I obsess over my own beauty and hate to see imperfection.'
