@@ -51,6 +51,7 @@ setup(
             'dankdungeon-roll=dankdungeon:main_roll',
             'dankdungeon-monster=dankdungeon:main_monster',
             'dankdungeon-threshold=dankdungeon:main_threshold',
+            'dankdungeon-villain=dankdungeon:main_villain',
             'dankdungeon-encounter=dankdungeon:main_encounter',
         ],
     },
