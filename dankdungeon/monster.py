@@ -46,6 +46,23 @@ XP_THRESH = [
     (2800, 5700, 8500, 12700),
 ]
 
+CRS = {
+    50: 'CR-1/4',
+    100: 'CR-1/2',
+    200: 'CR-1',
+    450: 'CR-2',
+    700: 'CR-3',
+    1100: 'CR-4',
+    1800: 'CR-5',
+    2300: 'CR-6',
+    2900: 'CR-7',
+    3900: 'CR-8',
+    5000: 'CR-9',
+    5900: 'CR-10',
+    7200: 'CR-11',
+    8400: 'CR-12',
+}
+
 
 def scale_enc(num):
     if num == 0:
@@ -274,6 +291,39 @@ class Monster:
             raise ValueError('no possible permutations amount to allowed XP!')
         enc = random.choice(poss)
         return enc, total_xp(enc)
+
+    @classmethod
+    def cr_encounters(cls, min_xp, max_xp, max_num=10):
+        def total_xp(enc):
+            xp = 0
+            c = 0
+            for ct, mon in enc:
+                xp += ct * mon[1]
+                c += ct
+            xp *= scale_enc(c)
+            return xp
+        mons = []
+        for k, v in CRS.items():
+            if k > max_xp:
+                continue
+            mon = (v, k)
+            mons.append(mon)
+        amounts = []
+        for _ in mons:
+            amounts.append(range(max_num))
+        poss = []
+        for cts in product(*amounts):
+            if len([x for x in cts if x > 0]) > 3:
+                continue
+            enc = []
+            for i, ct in enumerate(cts):
+                if ct == 0:
+                    continue
+                mon = mons[i]
+                enc.append((ct, mon))
+            if min_xp <= total_xp(enc) <= max_xp:
+                poss.append((enc, total_xp(enc)))
+        return poss
 
     @classmethod
     def custom_random_encounter(cls, monsters, min_xp, max_xp, max_num=10):
@@ -536,3 +586,29 @@ def main_threshold():
     print('Medium: {} to {}'.format(thresh[1], thresh[2] - 1))
     print('Hard: {} to {}'.format(thresh[2], thresh[3] - 1))
     print('Deadly: {}+'.format(thresh[3]))
+
+
+def main_summary():
+    p = argparse.ArgumentParser()
+    p.add_argument('--players', '-p', help='the player levels, default 1,1,1,1')
+    p.add_argument('--difficulty', '-d', default='medium',
+                   choices=('easy', 'medium', 'hard', 'deadly'))
+    p.add_argument('--max-num', '-m', type=int, default=10,
+                   help='for custom encounters, the maximum number of one type,'
+                   'eg. "--max-num 5" if you only want up to 5 of each type, '
+                   'default: %(default)s')
+    args = p.parse_args()
+    if args.players:
+        players = [int(x.strip()) for x in args.players.split(',')]
+    else:
+        players = [1, 1, 1, 1]
+    diff = {'easy': 0, 'medium': 1, 'hard': 2, 'deadly': 3}[args.difficulty]
+    thresh = calc_threshold(players)
+    encs = Monster.cr_encounters(thresh[diff], thresh[diff + 1] - 1,
+                                 max_num=args.max_num)
+    print('XP {} to {}'.format(thresh[diff], thresh[diff + 1] - 1))
+    for enc, xp in encs:
+        print('XP: {}'.format(xp))
+        for ct, mon in enc:
+            print(' - {} {} ({})'.format(ct, mon[0], mon[1]))
+        print('')

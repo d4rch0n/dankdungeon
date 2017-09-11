@@ -53,6 +53,7 @@ setup(
             'dankdungeon-threshold=dankdungeon:main_threshold',
             'dankdungeon-villain=dankdungeon:main_villain',
             'dankdungeon-encounter=dankdungeon:main_encounter',
+            'dankdungeon-encounter-summary=dankdungeon:main_summary',
         ],
     },
     package_data={

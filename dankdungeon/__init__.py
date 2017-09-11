@@ -11,6 +11,8 @@ __author__ = 'Johan Nestaas <johannestaas@gmail.com>'
 __license__ = 'GPLv3+'
 __copyright__ = 'Copyright 2017 Johan Nestaas'
 
-from .monster import Monster, main_monster, main_encounter, main_threshold
+from .monster import (
+    Monster, main_monster, main_encounter, main_threshold, main_summary,
+)
 from .character import NPC, main_roll, main_npc, main_simulate
 from .villain import Villain, main_villain
