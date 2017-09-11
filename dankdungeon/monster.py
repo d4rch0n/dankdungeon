@@ -306,7 +306,7 @@ class Monster:
         for k, v in CRS.items():
             if k > max_xp:
                 continue
-            if k < min_xp / 10:
+            if k < min_xp / 20:
                 continue
             mon = (v, k)
             mons.append(mon)
