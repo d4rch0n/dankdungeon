@@ -306,6 +306,8 @@ class Monster:
         for k, v in CRS.items():
             if k > max_xp:
                 continue
+            if k < min_xp / 10:
+                continue
             mon = (v, k)
             mons.append(mon)
         amounts = []
@@ -323,7 +325,9 @@ class Monster:
                 enc.append((ct, mon))
             if min_xp <= total_xp(enc) <= max_xp:
                 poss.append((enc, total_xp(enc)))
-        return poss
+        def summ(enc):
+            return sum([e[0] for e in enc])
+        return sorted(poss, key=lambda x: (x[1], summ(x[0])))
 
     @classmethod
     def custom_random_encounter(cls, monsters, min_xp, max_xp, max_num=10):
