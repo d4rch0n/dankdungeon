@@ -8,6 +8,12 @@ class WorldMap:
         self.im = Image.new('RGB', self.size)
         self.px = self.im.load()
 
+    def generate(self):
+        pass
+
+    def debug(self):
+        pass
+
     def show(self):
         self.im.show()
 
@@ -15,8 +21,12 @@ class WorldMap:
 def main_worldmap():
     import argparse
     parser = argparse.ArgumentParser()
+    parser.add_argument('--debug', '-d', action='store_true')
     args = parser.parse_args()
     wm = WorldMap()
+    wm.generate()
+    if args.debug:
+        wm.debug()
     wm.show()
 
 
