@@ -43,6 +43,7 @@ setup(
     install_requires=[
         'fuzzywuzzy',
         'pyyaml',
+        'Pillow',
     ],
     entry_points={
         'console_scripts': [
@@ -54,6 +55,8 @@ setup(
             'dankdungeon-villain=dankdungeon:main_villain',
             'dankdungeon-encounter=dankdungeon:main_encounter',
             'dankdungeon-encounter-summary=dankdungeon:main_summary',
+            'dankdungeon-worldmap=dankdungeon:main_worldmap',
+            # 'dankdungeon-history=dankdungeon:main_history',
         ],
     },
     package_data={
