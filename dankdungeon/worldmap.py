@@ -4,7 +4,7 @@ from math import floor
 from PIL import Image
 from opensimplex import OpenSimplex
 
-DEFAULT_SIZE = 512
+DEFAULT_SIZE = 256
 
 random.seed()
 
@@ -14,6 +14,7 @@ class Terrain(Enum):
     land = (196, 178, 141)
     forest = (5, 110, 5)
     mountain = (117, 88, 30)
+    tundra = (255, 255, 255)
 
 
 class NoiseLevel:
@@ -76,9 +77,27 @@ class Noise:
         self.vals = [x / self.divider for x in self.vals]
         l = len(self.vals)
         self.thresholds = []
-        for i in range(100):
-            n = int(l / 100 * i)
+        for i in range(1000):
+            n = int(l / 1000 * i)
             self.thresholds.append(self.vals[n])
+        w, h = self.size
+        for x in range(w):
+            for y in range(h):
+                self.m[x][y] = self.normal(x, y)
+
+    def normal(self, x, y):
+        val = self.calc_pt(x, y)
+        a, b = 0, 1000
+        while True:
+            i = ((b - a) // 2) + a
+            if i + 1 == len(self.thresholds):
+                return 1.0
+            elif self.thresholds[i] <= val < self.thresholds[i + 1]:
+                return i / 1000
+            elif self.thresholds[i] > val:
+                b = i
+            else:
+                a = i
 
     def _calc_pt(self, x, y):
         vals = [f(x, y) for f in self.funcs]
@@ -86,6 +105,10 @@ class Noise:
 
     def calc_pt(self, x, y):
         return (self.m[x][y] + self.adder) / self.divider
+
+    def __getitem__(self, pos):
+        x, y = pos
+        return self.m[x][y]
 
 
 class WorldMap:
@@ -108,15 +131,17 @@ class WorldMap:
                 self.px[x, y] = self.calc_pt_color(x, y)
 
     def calc_pt_terrain(self, x, y):
-        ht = self.altitude.calc_pt(x, y)
-        htf = self.forest.calc_pt(x, y)
-        if ht > self.altitude.thresholds[98]:
+        ht = self.altitude[x, y]
+        htf = self.forest[x, y]
+        if ht >= 0.998:
+            return Terrain.tundra
+        elif ht >= 0.98:
             return Terrain.mountain
-        elif ht >= self.altitude.thresholds[70]:
+        elif ht >= 0.7:
             if (
-                htf >= self.forest.thresholds[95] or
-                htf <= self.forest.thresholds[5] or
-                ht > self.altitude.thresholds[90]
+                htf >= 0.95 or
+                htf <= 0.5 or
+                ht > 0.9
             ):
                 return Terrain.forest
             else:
@@ -143,8 +168,9 @@ def main_worldmap():
     parser = argparse.ArgumentParser()
     parser.add_argument('--debug', '-d', action='store_true')
     parser.add_argument('--out', '-o', default='worldmap.png')
+    parser.add_argument('--size', '-s', type=int, default=256)
     args = parser.parse_args()
-    wm = WorldMap()
+    wm = WorldMap(width=args.size, height=args.size)
     wm.generate()
     if args.debug:
         wm.debug()
