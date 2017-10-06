@@ -6,8 +6,6 @@ from opensimplex import OpenSimplex
 DEFAULT_SIZE = 256
 OCTAVES = 8
 
-random.seed()
-
 
 class Terrain(Enum):
     sea = (26, 67, 232)
@@ -25,7 +23,7 @@ class NoiseLevel:
         self.s = 2**octave / mod
         self.mvx = random.uniform(0, 2**30)
         self.mvy = random.uniform(0, 2**30)
-        self.simp = OpenSimplex()
+        self.simp = OpenSimplex(seed=random.randint(0, 2**20))
 
     def __call__(self, x, y):
         xx = (x / self.w * 4) + self.mvx
