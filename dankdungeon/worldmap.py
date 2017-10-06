@@ -1,10 +1,10 @@
 import random
 from enum import Enum
-from math import floor
 from PIL import Image
 from opensimplex import OpenSimplex
 
 DEFAULT_SIZE = 256
+OCTAVES = 8
 
 random.seed()
 
@@ -49,7 +49,7 @@ class Noise:
 
     def generate(self):
         self.funcs = []
-        for o in range(1, 6):
+        for o in range(1, OCTAVES):
             f = NoiseLevel.random(o, self.size, self.mod)
             self.funcs.append(f)
         w, h = self.size
@@ -63,7 +63,7 @@ class Noise:
             self.m.append(new)
             progress = x / w
             if progress >= i:
-                print('{:.1%} done'.format(progress))
+                print('{:.0%} done'.format(progress))
                 i += 0.10
         self.normalize()
 
@@ -140,7 +140,7 @@ class WorldMap:
         elif ht >= 0.7:
             if (
                 htf >= 0.95 or
-                htf <= 0.5 or
+                htf <= 0.15 or
                 ht > 0.9
             ):
                 return Terrain.forest
@@ -167,15 +167,23 @@ def main_worldmap():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--debug', '-d', action='store_true')
+    parser.add_argument('--profile', '-p', choices=('tottime', 'cumtime'),
+                        default=None)
     parser.add_argument('--out', '-o', default='worldmap.png')
     parser.add_argument('--size', '-s', type=int, default=256)
     args = parser.parse_args()
-    wm = WorldMap(width=args.size, height=args.size)
-    wm.generate()
-    if args.debug:
-        wm.debug()
-    wm.show()
-    wm.save(args.out)
+    if args.profile:
+        from cProfile import run
+        run('from dankdungeon.worldmap import WorldMap\n'
+            'wm = WorldMap(width=256, height=256)\n'
+            'wm.generate()', sort=args.profile)
+    else:
+        wm = WorldMap(width=args.size, height=args.size)
+        wm.generate()
+        if args.debug:
+            wm.debug()
+        wm.show()
+        wm.save(args.out)
 
 
 if __name__ == '__main__':
