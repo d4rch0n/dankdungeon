@@ -155,6 +155,8 @@ class WorldMap:
         pass
 
     def show(self):
+        if self.size[0] < 1024:
+            self.im = self.im.resize((1024, 1024))
         self.im.show()
 
     def save(self, path):
@@ -168,7 +170,7 @@ def main_worldmap():
     parser.add_argument('--profile', '-p', choices=('tottime', 'cumtime'),
                         default=None)
     parser.add_argument('--out', '-o', default='worldmap.png')
-    parser.add_argument('--size', '-s', type=int, default=256)
+    parser.add_argument('--size', '-s', type=int, default=512)
     args = parser.parse_args()
     if args.profile:
         from cProfile import run
