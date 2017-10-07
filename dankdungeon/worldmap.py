@@ -9,6 +9,7 @@ OCTAVES = 8
 
 class Terrain(Enum):
     sea = (26, 67, 232)
+    river = (0x66, 0xcc, 0xff)
     land = (196, 178, 141)
     forest = (5, 110, 5)
     mountain = (117, 88, 30)
@@ -109,12 +110,47 @@ class Noise:
         return self.m[x][y]
 
 
+class Point:
+
+    def __init__(self, altitude=None, forest=None, river=None):
+        self.altitude = altitude
+        self.forest = forest
+        self.river = river
+        self.pixel = self.calc_terrain()
+
+    def calc_terrain(self):
+        if self.altitude >= 0.998:
+            return Terrain.tundra
+        elif self.altitude >= 0.95:
+            return Terrain.mountain
+        elif self.altitude >= 0.7:
+            if (
+                self.forest >= 0.85 or
+                self.forest <= 0.15 or
+                self.altitude > 0.9
+            ):
+                return Terrain.forest
+            else:
+                return Terrain.land
+        else:
+            return Terrain.sea
+
+    def color(self):
+        return self.pixel.value
+
+
 class WorldMap:
 
     def __init__(self, width=DEFAULT_SIZE, height=DEFAULT_SIZE):
         self.size = (width, height)
         self.im = Image.new('RGB', self.size)
         self.px = self.im.load()
+        self.m = []
+        for x in range(width):
+            new = []
+            for y in range(height):
+                new.append(None)
+            self.m.append(new)
 
     def generate(self):
         w, h = self.size
@@ -124,32 +160,27 @@ class WorldMap:
         print('Generating forest map...')
         self.forest = Noise(width=w, height=h, mod=12)
         self.forest.generate()
-        for x in range(w):
-            for y in range(h):
-                self.px[x, y] = self.calc_pt_color(x, y)
+        for x, y in self.coords():
+            ht = self.altitude[x, y]
+            htf = self.forest[x, y]
+            self[x, y] = Point(altitude=ht, forest=htf)
+        self.generate_rivers()
+        for x, y in self.coords():
+            self.px[x, y] = self[x, y].color()
 
-    def calc_pt_terrain(self, x, y):
-        ht = self.altitude[x, y]
-        htf = self.forest[x, y]
-        if ht >= 0.998:
-            return Terrain.tundra
-        elif ht >= 0.98:
-            return Terrain.mountain
-        elif ht >= 0.7:
-            if (
-                htf >= 0.95 or
-                htf <= 0.15 or
-                ht > 0.9
-            ):
-                return Terrain.forest
-            else:
-                return Terrain.land
-        else:
-            return Terrain.sea
+    def generate_rivers(self):
+        for x, y in self.coords():
+            p = self[x, y]
+            if 0.95 <= p.altitude < 0.998:
+                pass
 
-    def calc_pt_color(self, x, y):
-        terrain = self.calc_pt_terrain(x, y)
-        return terrain.value
+    def __getitem__(self, pos):
+        x, y = pos
+        return self.m[x][y]
+
+    def __setitem__(self, pos, val):
+        x, y = pos
+        self.m[x][y] = val
 
     def debug(self):
         pass
@@ -161,6 +192,12 @@ class WorldMap:
 
     def save(self, path):
         self.im.save(path)
+
+    def coords(self):
+        w, h = self.size
+        for x in range(w):
+            for y in range(h):
+                yield x, y
 
 
 def main_worldmap():
