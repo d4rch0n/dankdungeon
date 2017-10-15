@@ -111,12 +111,14 @@ class Noise:
 
 
 class Point:
+    SIZE = (1024, 1024)
 
-    def __init__(self, altitude=None, forest=None, river=None):
+    def __init__(self, pos, altitude=None, forest=None, river=None):
         self.altitude = altitude
         self.forest = forest
         self.river = river
         self.pixel = self.calc_terrain()
+        self.pos = pos
 
     def calc_terrain(self):
         if self.altitude >= 0.998:
@@ -138,11 +140,31 @@ class Point:
     def color(self):
         return self.pixel.value
 
+    def make_river(self):
+        self.pixel = Terrain.river
+        self.river = True
+
+    def neighbors(self):
+        x, y = self.pos
+        ns = []
+        for ix in range(-1, 2):
+            for iy in range(-1, 2):
+                p = (x + ix, y + iy)
+                if p == self.pos:
+                    continue
+                if (
+                    p[0] >= 0 and p[1] >= 0 and
+                    p[0] < self.SIZE[0] and p[1] < self.SIZE[1]
+                ):
+                    ns.append(p)
+        return ns
+
 
 class WorldMap:
 
     def __init__(self, width=DEFAULT_SIZE, height=DEFAULT_SIZE):
         self.size = (width, height)
+        Point.SIZE = self.size
         self.im = Image.new('RGB', self.size)
         self.px = self.im.load()
         self.m = []
@@ -163,16 +185,25 @@ class WorldMap:
         for x, y in self.coords():
             ht = self.altitude[x, y]
             htf = self.forest[x, y]
-            self[x, y] = Point(altitude=ht, forest=htf)
+            self[x, y] = Point((x, y), altitude=ht, forest=htf)
         self.generate_rivers()
         for x, y in self.coords():
             self.px[x, y] = self[x, y].color()
 
     def generate_rivers(self):
+        roots = []
         for x, y in self.coords():
             p = self[x, y]
             if 0.95 <= p.altitude < 0.998:
-                pass
+                roots.append((x, y))
+        random.shuffle(roots)
+        roots = roots[:len(roots) // 50]
+        for root in roots:
+            self.create_river(root)
+
+    def create_river(self, pos):
+        self[pos].make_river()
+
 
     def __getitem__(self, pos):
         x, y = pos
