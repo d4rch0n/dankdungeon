@@ -197,13 +197,33 @@ class WorldMap:
             if 0.95 <= p.altitude < 0.998:
                 roots.append((x, y))
         random.shuffle(roots)
-        roots = roots[:len(roots) // 50]
+        roots = roots[:random.randint(7, 24)]
         for root in roots:
             self.create_river(root)
 
     def create_river(self, pos):
         self[pos].make_river()
+        chk = set()
+        while True:
+            ns, chk = self.iter_neighbors_once(pos, chk)
+            if not ns:
+                break
+            nxt = min(ns, key=lambda x: x.altitude)
+            if nxt.pixel in (Terrain.river, Terrain.sea):
+                break
+            nxt.make_river()
+            pos = nxt.pos
 
+    def iter_neighbors_once(self, pos, checked):
+        checked = checked or set()
+        ns = []
+        for x, y in self[pos].neighbors():
+            p = (x, y)
+            if p in checked:
+                continue
+            ns.append(self[p])
+            checked.add(self[p].pos)
+        return ns, checked
 
     def __getitem__(self, pos):
         x, y = pos
