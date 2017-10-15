@@ -160,6 +160,35 @@ class Point:
         return ns
 
 
+class Path:
+
+    @classmethod
+    def calc_cost(cls, p1, p2):
+        return 1 + (p2.altitude - p1.altitude)
+
+    def __init__(self, nodes, goal, cost):
+        self.nodes = nodes
+        self.goal = goal
+        self.cost = cost
+        self.f = self.cost + self.heur()
+
+    def heur(self):
+        return (
+            abs(self.goal.pos[0] - self.nodes[-1].pos[0]) +
+            abs(self.goal.pos[1] - self.nodes[-1].pos[1])
+        ) / 2
+
+    def neighbors(self):
+        return self.nodes[-1].neighbors()
+
+    def add(self, pt):
+        cost = self.cost + self.calc_cost(self.nodes[-1], pt)
+        return Path(self.nodes + [pt], self.goal, cost)
+
+    def pos(self):
+        return self.nodes[-1].pos
+
+
 class WorldMap:
 
     def __init__(self, width=DEFAULT_SIZE, height=DEFAULT_SIZE):
@@ -197,22 +226,63 @@ class WorldMap:
             if 0.95 <= p.altitude < 0.998:
                 roots.append((x, y))
         random.shuffle(roots)
-        roots = roots[:random.randint(7, 24)]
+        ct = random.randint(16, 32)
+        i = 0
         for root in roots:
-            self.create_river(root)
+            goal, success = self.find_sea_goal(root)
+            if not success:
+                continue
+            if goal == root:
+                continue
+            self.create_river(root, goal)
+            i += 1
+            if i == ct:
+                break
 
-    def create_river(self, pos):
-        self[pos].make_river()
+    def create_river(self, root, goal):
+        proot = self[root]
+        pgoal = self[goal]
+        opened = {root: Path([proot], pgoal, 0)}
+        closed = {}
+        found = None
+        while True:
+            path = min(opened.values(), key=lambda x: x.f)
+            del opened[path.pos()]
+            ns = path.neighbors()
+            for ns in path.neighbors():
+                new = path.add(self[ns])
+                if new.pos() == goal:
+                    found = new
+                    break
+                if new.pos() in opened:
+                    n = opened[new.pos()]
+                    if n.f <= new.f:
+                        continue
+                if new.pos() in closed:
+                    n = closed[new.pos()]
+                    if n.f <= new.f:
+                        continue
+                opened[new.pos()] = new
+            if found is not None:
+                break
+            closed[path.pos()] = path
+        for node in found.nodes:
+            node.make_river()
+
+
+    def find_sea_goal(self, pos):
         chk = set()
+        success = False
         while True:
             ns, chk = self.iter_neighbors_once(pos, chk)
             if not ns:
                 break
             nxt = min(ns, key=lambda x: x.altitude)
-            if nxt.pixel in (Terrain.river, Terrain.sea):
+            if nxt.pixel == Terrain.sea:
+                success = True
                 break
-            nxt.make_river()
             pos = nxt.pos
+        return pos, success
 
     def iter_neighbors_once(self, pos, checked):
         checked = checked or set()
