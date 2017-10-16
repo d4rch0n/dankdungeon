@@ -191,7 +191,12 @@ class Path:
 
 class WorldMap:
 
-    def __init__(self, width=DEFAULT_SIZE, height=DEFAULT_SIZE):
+    def __init__(self, width=DEFAULT_SIZE, height=DEFAULT_SIZE, seed=None):
+        if seed is None:
+            random.seed()
+            seed = random.randint(0, 2**20)
+        print('using random seed: {}'.format(seed))
+        random.seed(seed)
         self.size = (width, height)
         Point.SIZE = self.size
         self.im = Image.new('RGB', self.size)
@@ -329,6 +334,7 @@ def main_worldmap():
                         default=None)
     parser.add_argument('--out', '-o', default='worldmap.png')
     parser.add_argument('--size', '-s', type=int, default=512)
+    parser.add_argument('--seed', '-S', type=int, default=None)
     args = parser.parse_args()
     if args.profile:
         from cProfile import run
@@ -336,7 +342,7 @@ def main_worldmap():
             'wm = WorldMap(width=256, height=256)\n'
             'wm.generate()', sort=args.profile)
     else:
-        wm = WorldMap(width=args.size, height=args.size)
+        wm = WorldMap(width=args.size, height=args.size, seed=args.seed)
         wm.generate()
         if args.debug:
             wm.debug()
