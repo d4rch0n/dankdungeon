@@ -5,7 +5,7 @@ generate dungeons and their monster occupants
 '''
 
 __title__ = 'dankdungeon'
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 __all__ = ()
 __author__ = 'Johan Nestaas <johannestaas@gmail.com>'
 __license__ = 'GPLv3+'

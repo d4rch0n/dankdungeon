@@ -197,6 +197,7 @@ class WorldMap:
             seed = random.randint(0, 2**20)
         print('using random seed: {}'.format(seed))
         random.seed(seed)
+        self.river_id = 0
         self.size = (width, height)
         Point.SIZE = self.size
         self.im = Image.new('RGB', self.size)
@@ -234,6 +235,7 @@ class WorldMap:
         ct = random.randint(16, 32)
         i = 0
         for root in roots:
+            self.river_id += 1
             goal, success = self.find_sea_goal(root)
             if not success:
                 continue
@@ -283,7 +285,7 @@ class WorldMap:
             if not ns:
                 break
             nxt = min(ns, key=lambda x: x.altitude)
-            if nxt.pixel == Terrain.sea:
+            if nxt.pixel in {Terrain.sea, Terrain.river}:
                 success = True
                 break
             pos = nxt.pos
