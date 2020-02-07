@@ -55,6 +55,14 @@ def rand_goods_shop_adj():
     ])
 
 
+def rand_goods_shop_house():
+    return random.choice([
+        'house', 'shop', 'den', 'outlet', 'store', 'boutique', 'market',
+        'establishment', 'warehouse', 'stall', 'mart', 'booth', 'shed',
+        'trading post', 'bargain house', 'club',
+    ])
+
+
 def rand_animal_name():
     return random.choice(NAMES['animals'])
 
@@ -65,3 +73,10 @@ def rand_item_name():
 
 def rand_adj():
     return random.choice(NAMES['adjs'])
+
+
+def rand_inn_name():
+    return random.choice([
+        f'the {rand_adj()} {rand_animal_name()}',
+        f'the {rand_adj()} {rand_item_name()}',
+    ]).title()

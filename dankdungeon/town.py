@@ -1,9 +1,10 @@
-import yaml
 import random
 
+import yaml
+
+from . import rand
 from .namerator import make_name_generator
 from .character import NPC
-from .rand import rand_freqs
 
 DEFAULT_RACE_RATIO = {
     'human': 85,
@@ -23,25 +24,50 @@ def call_if(func, val):
     return (val or None) and func(val)
 
 
-def make_shop_name(owner_name=None, house=None, goods=None):
-    fmts = [
-        '{owner_name}\'s {house} of {goods}',
-        '{owner_name}\'s {house}',
-        '{house} of {goods}',
-        '{adj} {house} of {goods}',
-        '{adj} {goods}',
-        'the {adj} {house}',
-        '{goods}',
-    ]
+def make_goods_shop_name(goods, owner_name=None, house=None):
+    fmts = {
+        '{owner_name}\'s {house} of {goods}': 20,
+        '{owner_name}\'s {house}': 20,
+        '{house} of {goods}': 15,
+        '{adj} {house} of {goods}': 15,
+        'the {adj} {house}': 15,
+        '{adj} {goods}': 10,
+        '{goods}': 5,
+    }
     if owner_name:
-        fmt = random.choice(fmts)
+        fmt = rand.rand_freqs(fmts)
     else:
-        fmt = random.choice([x for x in fmts if '{owner_name}' not in x])
-    house = house or random.choice([
-        'house', 'shop', 'den', 'outlet', 'store', 'boutique', 'market',
-        'establishment', 'warehouse', 'stall', 'mart', 'booth', 'shed',
-        'trading post', 'bargain house', 'club', 'reseller',
-    ])
+        fmt = rand.rand_freqs({
+            k: v for k, v in fmts.items()
+            if '{owner_name}' not in k
+        })
+    house = house or rand.rand_goods_shop_house()
+    adj = rand.rand_goods_shop_adj()
+    return fmt.format(
+        owner_name=owner_name, house=house, adj=adj, goods=goods,
+    ).title().replace("'S", "'s")
+
+
+def make_tavern_name(owner_name=None):
+    r = random.randint(1, 2)
+    if r == 1:
+        return rand.rand_inn_name()
+    elif r == 2:
+        booze = rand.rand_freqs({
+            'ale': 15,
+            'wine': 10,
+            'mead': 10,
+            'whiskey': 5,
+            'rum': 5,
+            'vodka': 5,
+            'gin': 5,
+            'brandy': 3,
+            'liquor': 3,
+            'booze': 3,
+            'beer': 2,
+            'hops': 1,
+        })
+        return make_goods_shop_name(booze, owner_name=owner_name)
 
 
 class Shop:
@@ -83,10 +109,10 @@ class Town:
         self.npcs = [self.make_npc() for _ in range(10)]
 
     def make_npc(self):
-        race = rand_freqs(self.config['races'])
+        race = rand.rand_freqs(self.config['races'])
         subrace = None
         if race == 'human' and self.config['human_subraces']:
-            subrace = rand_freqs(self.config['human_subraces'])
+            subrace = rand.rand_freqs(self.config['human_subraces'])
         return NPC(
             name_gen=self.config['name_gen'],
             race=race,
