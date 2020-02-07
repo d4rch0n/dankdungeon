@@ -24,7 +24,10 @@ NAME_ROOT = os.path.join(os.path.dirname(__file__), 'names')
 
 def load(path):
     with open(path) as f:
-        return [x.strip() for x in f.readlines() if x.strip()]
+        return [
+            x.strip() for x in f.readlines()
+            if x.strip() and not x.strip().startswith('#')
+        ]
 
 
 def load_names():

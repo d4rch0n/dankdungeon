@@ -60,4 +60,8 @@ def rand_animal_name():
 
 
 def rand_item_name():
-    return random.choice(NAMES['dwarf-part2'])
+    return random.choice(NAMES['items'])
+
+
+def rand_adj():
+    return random.choice(NAMES['adjs'])
