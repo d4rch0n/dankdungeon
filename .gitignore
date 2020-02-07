@@ -10,3 +10,6 @@ dankdungeon.egg*
 .ropeproject/*
 venv/
 *.png
+notes/
+orig_names/
+town.yaml
