@@ -30,7 +30,6 @@ booby
 buffalo
 bulldog
 bullfrog
-burmese
 butterfly
 caiman
 camel
@@ -169,10 +168,8 @@ oyster
 panther
 parrot
 peacock
-pekingese
 pelican
 penguin
-persian
 pheasant
 pig
 pika

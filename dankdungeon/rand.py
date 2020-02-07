@@ -55,5 +55,9 @@ def rand_goods_shop_adj():
     ])
 
 
-def rand_animal():
+def rand_animal_name():
     return random.choice(NAMES['animals'])
+
+
+def rand_item_name():
+    return random.choice(NAMES['dwarf-part2'])
