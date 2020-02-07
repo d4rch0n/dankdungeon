@@ -1,4 +1,5 @@
 import yaml
+import random
 
 from .namerator import make_name_generator
 from .character import NPC
@@ -15,18 +16,64 @@ DEFAULT_RACE_RATIO = {
 }
 
 
+def call_if(func, val):
+    """
+    Return None if falsey, or func(val).
+    """
+    return (val or None) and func(val)
+
+
+def make_shop_name(owner_name=None, house=None, goods=None):
+    fmts = [
+        '{owner_name}\'s {house} of {goods}',
+        '{owner_name}\'s {house}',
+        '{house} of {goods}',
+        '{adj} {house} of {goods}',
+        '{adj} {goods}',
+        'the {adj} {house}',
+        '{goods}',
+    ]
+    if owner_name:
+        fmt = random.choice(fmts)
+    else:
+        fmt = random.choice([x for x in fmts if '{owner_name}' not in x])
+    house = house or random.choice([
+        'house', 'shop', 'den', 'outlet', 'store', 'boutique', 'market',
+        'establishment', 'warehouse', 'stall', 'mart', 'booth', 'shed',
+        'trading post', 'bargain house', 'club', 'reseller',
+    ])
+
+
+class Shop:
+
+    def __init__(
+        self,
+        owner=None, name=None, npcs=None, rand_npc=None, npc_kwargs=None,
+    ):
+        if owner is None:
+            self.owner = NPC(**npc_kwargs)
+        elif owner is False:
+            self.owner = None
+        else:
+            self.owner = owner
+
+
 class TownConfig(dict):
 
     @classmethod
     def load(cls, path):
         with open(path) as f:
             data = yaml.safe_load(f)
-        new = cls(
-            races=data.get('races') or DEFAULT_RACE_RATIO.copy(),
-            name_gen=data.get('names') and make_name_generator(data['names']),
-            human_subraces=data.get('human_subraces')
-        )
-        return new
+        defaults = {
+            'races': DEFAULT_RACE_RATIO.copy(),
+        }
+        for key, default in defaults.items():
+            data[key] = data.get(key, default)
+        data['name_gen'] = call_if(make_name_generator, data.get('names'))
+        for del_key in ['names']:
+            if del_key in data:
+                del data[del_key]
+        return cls(**data)
 
 
 class Town:
