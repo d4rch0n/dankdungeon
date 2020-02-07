@@ -48,7 +48,7 @@ def make_goods_shop_name(goods, owner_name=None, house=None):
     ).title().replace("'S", "'s")
 
 
-def make_tavern_name(owner_name=None):
+def rand_tavern_name(owner_name=None):
     r = random.randint(1, 2)
     if r == 1:
         return rand.rand_inn_name()
@@ -82,6 +82,28 @@ class Shop:
             self.owner = None
         else:
             self.owner = owner
+        self.name = name
+        self.npcs = npcs or []
+        self.npcs.extend(NPC(**npc_kwargs) for _ in range(rand_npc or 0))
+
+    def output(self):
+        print(f'Name\n====\n{self.name}')
+        if self.owner:
+            print('Owner\n=====')
+            self.owner.output()
+        if self.npcs:
+            print('NPCS\n====')
+            for npc in self.npcs:
+                npc.output()
+                print()
+
+    @classmethod
+    def rand_tavern(cls, name=None, **kwargs):
+        owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
+        name = name or rand_tavern_name(owner_name=owner.name)
+        kwargs['name'] = name
+        kwargs['owner'] = owner
+        return cls(**kwargs)
 
 
 class TownConfig(dict):
