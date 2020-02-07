@@ -18,3 +18,4 @@ from .character import NPC, main_roll, main_npc, main_simulate
 from .villain import Villain, main_villain
 from .worldmap import WorldMap, main_worldmap
 from .history import CivState, Civ, History, main_history
+from .town import TownConfig, Town, main as main_town
