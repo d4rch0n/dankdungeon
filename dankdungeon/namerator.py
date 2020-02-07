@@ -219,6 +219,24 @@ def make_name(race, gender=None):
         raise NotImplementedError('cant generate name for {}'.format(race))
 
 
+def make_name_generator(path):
+    names = load(path)
+    freqs = calc_frequencies(names)
+    used_names = set()
+
+    def gen():
+        nonlocal used_names
+        while True:
+            name = generate(freqs)
+            if name not in used_names:
+                break
+            seed()
+        used_names.add(name)
+        return name
+
+    return gen
+
+
 def main():
     import argparse
     import json

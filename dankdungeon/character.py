@@ -4,7 +4,7 @@ import yaml
 import random
 import argparse
 from collections import namedtuple, Counter
-from .namerator import make_name
+from .namerator import make_name, make_name_generator
 
 
 def roll_stat():
@@ -155,7 +155,9 @@ def roll(s):
     if not m:
         if s.isdigit():
             return int(s)
-        raise ValueError('not a valid roll string (eg "2d8+2"): {!r}'.format(s))
+        raise ValueError(
+            'not a valid roll string (eg "2d8+2"): {!r}'.format(s)
+        )
     if m.group('sign') is not None:
         s = int('{}{}'.format(m.group('sign'), m.group('plus')))
     else:
@@ -197,7 +199,8 @@ class NPC(Warrior):
 
     def __init__(self, name=None, klass=None, gender=None, race=None,
                  subrace=None, stats=None, level=1, hp=None, ac=10,
-                 damage=None, attack=None, alignment=None):
+                 damage=None, attack=None, alignment=None,
+                 name_gen=None):
         if alignment is None:
             self.alignment = Alignment.random()
         else:
@@ -211,7 +214,12 @@ class NPC(Warrior):
             'human', 'elf', 'half-elf', 'dwarf', 'gnome', 'half-orc',
             'halfling', 'tiefling', 'dragonborn',
         ])
-        self.name = name or make_name(self.race, gender=self.gender)
+        if name:
+            self.name = name
+        elif name_gen:
+            self.name = name_gen().title()
+        else:
+            self.name = make_name(self.race, gender=self.gender)
         self.subrace = subrace
         if self.subrace is None:
             self._random_subrace()
@@ -318,10 +326,14 @@ class NPC(Warrior):
             if self.subrace == 'high':
                 kwargs['int'] += 1
                 self.abilities |= {'free wizard cantrip', 'extra language'}
-                self.profs |= {'longsword', 'longbow', 'shortsword', 'shortbow'}
+                self.profs |= {
+                    'longsword', 'longbow', 'shortsword', 'shortbow',
+                }
             elif self.subrace == 'wood':
                 self.speed = 35
-                self.profs |= {'longsword', 'longbow', 'shortsword', 'shortbow'}
+                self.profs |= {
+                    'longsword', 'longbow', 'shortsword', 'shortbow',
+                }
                 self.abilities |= {'fleet of foot', 'mask of the wild'}
                 kwargs['wis'] += 1
             elif self.subrace in ('dark', 'drow'):
@@ -565,8 +577,10 @@ class TestEncounter:
             for mon in self.monsters:
                 if m['name'] == mon.race:
                     mon.initiative = init
-        order = sorted(self.players + self.monsters, key=lambda x: x.initiative,
-                       reverse=True)
+        order = sorted(
+            self.players + self.monsters, key=lambda x: x.initiative,
+            reverse=True,
+        )
         while bool(self.alive_players()) and bool(self.alive_monsters()):
             for o in order:
                 if not self.alive_players():
@@ -1097,11 +1111,23 @@ def main_npc():
     parser.add_argument('--subrace', '-s')
     parser.add_argument('--gender', '-g', choices=('male', 'female'))
     parser.add_argument('--name', '-n')
+    parser.add_argument('--name-gen', '-N', help='path to seed names')
     parser.add_argument('--alignment', '-a')
     args = parser.parse_args()
 
-    npc = NPC(klass=args.klass, race=args.race, gender=args.gender,
-              name=args.name, subrace=args.subrace, alignment=args.alignment)
+    name_gen = None
+    if args.name_gen:
+        name_gen = make_name_generator(args.name_gen)
+
+    npc = NPC(
+        klass=args.klass,
+        race=args.race,
+        gender=args.gender,
+        name=args.name,
+        name_gen=name_gen,
+        subrace=args.subrace,
+        alignment=args.alignment,
+    )
     npc.output()
 
 
