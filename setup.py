@@ -44,6 +44,7 @@ setup(
         'fuzzywuzzy',
         'pyyaml',
         'Pillow',
+        'jinja2',
     ],
     entry_points={
         'console_scripts': [
@@ -61,7 +62,11 @@ setup(
         ],
     },
     package_data={
-        'dankdungeon': ['data/*.json', 'names/*.txt'],
+        'dankdungeon': [
+            'data/*.json',
+            'names/*.txt',
+            'templates/*',
+        ],
     },
     include_package_data=True,
 )

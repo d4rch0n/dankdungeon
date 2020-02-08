@@ -1,9 +1,10 @@
+import os
 import random
 from enum import Enum
 
 import yaml
 
-from . import rand
+from . import rand, template
 from .namerator import make_name_generator
 from .character import NPC
 
@@ -100,6 +101,7 @@ class Shop:
     def __init__(
         self,
         owner=None, name=None, npcs=None, rand_npc=None, npc_kwargs=None,
+        shop_type=None,
     ):
         if owner is None:
             self.owner = NPC(**npc_kwargs)
@@ -110,6 +112,7 @@ class Shop:
         self.name = name
         self.npcs = npcs or []
         self.npcs.extend(NPC(**npc_kwargs) for _ in range(rand_npc or 0))
+        self.shop_type = shop_type
 
     def output(self):
         print(f'Name\n====\n{self.name}\n')
@@ -123,14 +126,20 @@ class Shop:
                 npc.output()
                 print()
 
+    def dump(self, out_dir):
+        fn = f'{self.shop_type.value}_{template.to_filename(self.name)}.txt'
+        path = os.path.join(out_dir, fn)
+        template.dump('shop.txt', path, obj=self)
+        return path
+
     @classmethod
-    def rand(cls, shop_type):
+    def rand(cls, shop_type, **kwargs):
         if isinstance(shop_type, str):
             shop_type = ShopType[shop_type]
         if shop_type is ShopType.tavern:
-            return cls.rand_tavern()
+            return cls.rand_tavern(**kwargs)
         elif shop_type is ShopType.inn:
-            return cls.rand_tavern()
+            return cls.rand_tavern(**kwargs)
         else:
             raise ValueError(f'cant instanciate {shop_type!r}')
 
@@ -140,6 +149,7 @@ class Shop:
         name = name or rand_tavern_name(owner_name=owner.name)
         kwargs['name'] = name
         kwargs['owner'] = owner
+        kwargs['shop_type'] = ShopType.tavern
         return cls(**kwargs)
 
     @classmethod
@@ -148,6 +158,7 @@ class Shop:
         name = name or rand_inn_name(owner_name=owner.name)
         kwargs['name'] = name
         kwargs['owner'] = owner
+        kwargs['shop_type'] = ShopType.inn
         return cls(**kwargs)
 
 
@@ -174,7 +185,10 @@ class Town:
 
     def __init__(self, config=None):
         self.config = config
-        self.npcs = [self.make_npc() for _ in range(10)]
+        self.npcs = []
+        self.shops = []
+        for _ in range(self.config['shops']['random']):
+            self.shops.append(self.make_shop())
 
     def make_npc(self):
         race = rand.rand_freqs(self.config['race_freq'])
@@ -189,12 +203,18 @@ class Town:
 
     def make_shop(self):
         shop_type = rand.rand_freqs(self.config['shop_freq'])
-        return Shop.rand(shop_type)
+        owner = self.make_npc()
+        return Shop.rand(shop_type, owner=owner)
 
     def output(self):
-        print(repr(self.config))
-        for n in self.npcs:
-            n.output()
+        print('*** SHOPS ***')
+        for shop in self.shops:
+            shop.output()
+            print()
+        print('*** NPCs ***')
+        for npc in self.npcs:
+            npc.output()
+            print()
 
 
 def main():
@@ -203,10 +223,19 @@ def main():
     parser.add_argument(
         '--config', '-c', help='path to YAML config for town generation',
     )
+    parser.add_argument(
+        '--out', '-o', default='./town',
+        help='path to dump town data',
+    )
     args = parser.parse_args()
     config = TownConfig.load(args.config)
     town = Town(config=config)
     town.output()
+    if not os.path.exists(args.out):
+        os.makedirs(args.out)
+    for shop in town.shops:
+        path = shop.dump(args.out)
+        print(f'dumped to {path}')
 
 
 if __name__ == '__main__':

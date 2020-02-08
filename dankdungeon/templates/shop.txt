@@ -1,0 +1,6 @@
+name: {{obj.name}}
+type: {{obj.shop_type.value}}
+owner: {{obj.owner.name}} ({{obj.owner.race}}, {{obj.owner.subrace}}, {{obj.owner.gender}})
+{% if obj.npcs %}npcs:{% for npc in obj.nps %}
+- {{npc.name}} ({{npc.race}}, {{npc.subrace}}, {{npc.gender}})
+{% endfor %}{% endif %}
