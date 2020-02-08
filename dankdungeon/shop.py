@@ -88,21 +88,18 @@ class Shop:
         return decorator
 
     @classmethod
-    def rand(cls, shop_type, **kwargs):
-        return cls.SHOP_TYPES[shop_type].rand(**kwargs)
+    def rand(cls, shop_type, name=None, **kwargs):
+        klass = cls.SHOP_TYPES[shop_type]
+        owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
+        name = name or klass.rand_name(owner.name)
+        kwargs['name'] = name
+        kwargs['owner'] = owner
+        kwargs['shop_type'] = shop_type
+        return klass(**kwargs)
 
 
 @Shop.register('tavern')
 class TavernShop(Shop):
-
-    @classmethod
-    def rand(cls, name=None, **kwargs):
-        owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
-        name = name or cls.rand_name(owner.name)
-        kwargs['name'] = name
-        kwargs['owner'] = owner
-        kwargs['shop_type'] = 'tavern'
-        return cls(**kwargs)
 
     @classmethod
     def rand_name(self, owner_name):
@@ -135,15 +132,6 @@ class TavernShop(Shop):
 class InnShop(Shop):
 
     @classmethod
-    def rand(cls, name=None, **kwargs):
-        owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
-        name = name or cls.rand_name(owner.name)
-        kwargs['name'] = name
-        kwargs['owner'] = owner
-        kwargs['shop_type'] = 'inn'
-        return cls(**kwargs)
-
-    @classmethod
     def rand_name(self, owner_name):
         house = random.choice([
             'inn', 'hotel', 'lodge', 'guest house', 'boarding house',
@@ -153,3 +141,23 @@ class InnShop(Shop):
             return rand.rand_adj_noun_inn(suffix=house)
         else:
             return make_shop_name(owner_name=owner_name, house=house)
+
+
+@Shop.register('bakery')
+class BakeryShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        goods = random.choice([
+            'breads', 'cakes', 'rolls', 'sweetrolls',
+            'cookies', 'baked goods', 'buns', 'muffins',
+        ])
+        house = random.choice([
+            'bakery', 'house', 'den', 'shop', 'shed', 'kitchen',
+            'bakehouse', 'cookhouse', 'cookery',
+        ])
+        return make_shop_name(
+            goods=goods,
+            owner_name=owner_name,
+            house=house,
+        )
