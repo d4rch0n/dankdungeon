@@ -75,8 +75,18 @@ def rand_adj():
     return random.choice(NAMES['adjs'])
 
 
-def rand_inn_name():
-    return random.choice([
-        f'the {rand_adj()} {rand_animal_name()}',
-        f'the {rand_adj()} {rand_item_name()}',
-    ]).title()
+def uflip():
+    return random.uniform(0, 1) <= 0.5
+
+
+def rand_adj_noun_inn(suffix='inn'):
+    name = ''
+    if uflip():
+        name = 'the '
+    name += random.choice([
+        f'{rand_adj()} {rand_animal_name()}',
+        f'{rand_adj()} {rand_item_name()}',
+    ])
+    if uflip():
+        name = f'{name} {suffix}'
+    return name.title()

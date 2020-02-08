@@ -1,4 +1,5 @@
 import random
+from enum import Enum
 
 import yaml
 
@@ -6,7 +7,7 @@ from . import rand
 from .namerator import make_name_generator
 from .character import NPC
 
-DEFAULT_RACE_RATIO = {
+DEFAULT_RACE_FREQ = {
     'human': 85,
     'elf': 5,
     'dwarf': 5,
@@ -14,6 +15,12 @@ DEFAULT_RACE_RATIO = {
     'half-orc': 1,
     'gnome': 1,
     'halfling': 1,
+}
+
+DEFAULT_SHOP_FREQ = {
+    'tavern': 10,
+    'goods': 10,
+    'inn': 10,
 }
 
 
@@ -24,7 +31,7 @@ def call_if(func, val):
     return (val or None) and func(val)
 
 
-def make_goods_shop_name(goods, owner_name=None, house=None):
+def make_shop_name(goods=None, owner_name=None, house=None):
     fmts = {
         '{owner_name}\'s {house} of {goods}': 20,
         '{owner_name}\'s {house}': 20,
@@ -34,13 +41,11 @@ def make_goods_shop_name(goods, owner_name=None, house=None):
         '{adj} {goods}': 10,
         '{goods}': 5,
     }
-    if owner_name:
-        fmt = rand.rand_freqs(fmts)
-    else:
-        fmt = rand.rand_freqs({
-            k: v for k, v in fmts.items()
-            if '{owner_name}' not in k
-        })
+    if not owner_name:
+        fmts = {k: v for k, v in fmts.items() if '{owner_name}' not in k}
+    if not goods:
+        fmts = {k: v for k, v in fmts.items() if '{goods}' not in k}
+    fmt = rand.rand_freqs(fmts)
     house = house or rand.rand_goods_shop_house()
     adj = rand.rand_goods_shop_adj()
     return fmt.format(
@@ -49,10 +54,13 @@ def make_goods_shop_name(goods, owner_name=None, house=None):
 
 
 def rand_tavern_name(owner_name=None):
-    r = random.randint(1, 2)
-    if r == 1:
-        return rand.rand_inn_name()
-    elif r == 2:
+    if rand.uflip():
+        suffix = random.choice([
+            'tavern', 'alehouse', 'taproom', 'bar', 'pub', 'parlor',
+            'taphouse', 'drinkroom',
+        ])
+        return rand.rand_adj_noun_inn(suffix=suffix)
+    else:
         booze = rand.rand_freqs({
             'ale': 15,
             'wine': 10,
@@ -61,13 +69,30 @@ def rand_tavern_name(owner_name=None):
             'rum': 5,
             'vodka': 5,
             'gin': 5,
+            None: 5,
             'brandy': 3,
             'liquor': 3,
             'booze': 3,
             'beer': 2,
             'hops': 1,
         })
-        return make_goods_shop_name(booze, owner_name=owner_name)
+        return make_shop_name(goods=booze, owner_name=owner_name)
+
+
+def rand_inn_name(owner_name=None):
+    house = random.choice([
+        'inn', 'hotel', 'lodge', 'guest house', 'boarding house',
+        'bed and breakfast',
+    ])
+    if rand.uflip():
+        return rand.rand_adj_noun_inn(suffix=house)
+    else:
+        return make_shop_name(owner_name=owner_name, house=house)
+
+
+class ShopType(Enum):
+    tavern = 'tavern'
+    inn = 'inn'
 
 
 class Shop:
@@ -87,20 +112,40 @@ class Shop:
         self.npcs.extend(NPC(**npc_kwargs) for _ in range(rand_npc or 0))
 
     def output(self):
-        print(f'Name\n====\n{self.name}')
+        print(f'Name\n====\n{self.name}\n')
         if self.owner:
             print('Owner\n=====')
             self.owner.output()
+            print()
         if self.npcs:
-            print('NPCS\n====')
+            print('NPCs\n====')
             for npc in self.npcs:
                 npc.output()
                 print()
 
     @classmethod
+    def rand(cls, shop_type):
+        if isinstance(shop_type, str):
+            shop_type = ShopType[shop_type]
+        if shop_type is ShopType.tavern:
+            return cls.rand_tavern()
+        elif shop_type is ShopType.inn:
+            return cls.rand_tavern()
+        else:
+            raise ValueError(f'cant instanciate {shop_type!r}')
+
+    @classmethod
     def rand_tavern(cls, name=None, **kwargs):
         owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
         name = name or rand_tavern_name(owner_name=owner.name)
+        kwargs['name'] = name
+        kwargs['owner'] = owner
+        return cls(**kwargs)
+
+    @classmethod
+    def rand_inn(cls, name=None, **kwargs):
+        owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
+        name = name or rand_inn_name(owner_name=owner.name)
         kwargs['name'] = name
         kwargs['owner'] = owner
         return cls(**kwargs)
@@ -113,7 +158,8 @@ class TownConfig(dict):
         with open(path) as f:
             data = yaml.safe_load(f)
         defaults = {
-            'races': DEFAULT_RACE_RATIO.copy(),
+            'race_freq': DEFAULT_RACE_FREQ.copy(),
+            'shop_freq': DEFAULT_SHOP_FREQ.copy(),
         }
         for key, default in defaults.items():
             data[key] = data.get(key, default)
@@ -131,15 +177,19 @@ class Town:
         self.npcs = [self.make_npc() for _ in range(10)]
 
     def make_npc(self):
-        race = rand.rand_freqs(self.config['races'])
+        race = rand.rand_freqs(self.config['race_freq'])
         subrace = None
-        if race == 'human' and self.config['human_subraces']:
-            subrace = rand.rand_freqs(self.config['human_subraces'])
+        if race == 'human' and self.config['human_subrace_freq']:
+            subrace = rand.rand_freqs(self.config['human_subrace_freq'])
         return NPC(
             name_gen=self.config['name_gen'],
             race=race,
             subrace=subrace,
         )
+
+    def make_shop(self):
+        shop_type = rand.rand_freqs(self.config['shop_freq'])
+        return Shop.rand(shop_type)
 
     def output(self):
         print(repr(self.config))
