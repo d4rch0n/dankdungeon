@@ -111,6 +111,7 @@ class Shop:
             self.owner = owner
         self.name = name
         self.npcs = npcs or []
+        npc_kwargs = npc_kwargs or {}
         self.npcs.extend(NPC(**npc_kwargs) for _ in range(rand_npc or 0))
         self.shop_type = shop_type
 
