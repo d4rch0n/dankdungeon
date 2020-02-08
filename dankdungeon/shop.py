@@ -75,8 +75,14 @@ class Shop:
                 print()
 
     def dump(self, out_dir):
-        fn = f'{self.shop_type}_{template.to_filename(self.name)}.txt'
+        name = template.to_filename(self.name)
+        fn = f'{self.shop_type}_{name}.txt'
         path = os.path.join(out_dir, fn)
+        i = 2
+        while os.path.exists(path):
+            fn = f'{self.shop_type}_{name}_{i}.txt'
+            path = os.path.join(out_dir, fn)
+            i += 1
         template.dump('shop.txt', path, obj=self)
         return path
 
