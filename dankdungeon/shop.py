@@ -1,9 +1,23 @@
 import os
 import random
-from enum import Enum
 
 from . import rand, template
 from .character import NPC
+
+'''
+class ShopType(Enum):
+    tavern = 'tavern'
+    inn = 'inn'
+    bakery = 'bakery'
+    carpenter = 'carpenter'
+    butcher = 'butcher'
+    blacksmith = 'blacksmith'
+    bronzesmith = 'bronzesmith'
+    fletcher = 'fletcher'
+    bowyer = 'bowyer'
+    potter = 'potter'
+    cooper = 'cooper'
+'''
 
 
 def make_shop_name(goods=None, owner_name=None, house=None):
@@ -28,58 +42,8 @@ def make_shop_name(goods=None, owner_name=None, house=None):
     ).title().replace("'S", "'s")
 
 
-def rand_tavern_name(owner_name=None):
-    if rand.uflip():
-        suffix = random.choice([
-            'tavern', 'alehouse', 'taproom', 'bar', 'pub', 'parlor',
-            'taphouse', 'drinkroom',
-        ])
-        return rand.rand_adj_noun_inn(suffix=suffix)
-    else:
-        booze = rand.rand_freqs({
-            'ale': 15,
-            'wine': 10,
-            'mead': 10,
-            'whiskey': 5,
-            'rum': 5,
-            'vodka': 5,
-            'gin': 5,
-            None: 5,
-            'brandy': 3,
-            'liquor': 3,
-            'booze': 3,
-            'beer': 2,
-            'hops': 1,
-        })
-        return make_shop_name(goods=booze, owner_name=owner_name)
-
-
-def rand_inn_name(owner_name=None):
-    house = random.choice([
-        'inn', 'hotel', 'lodge', 'guest house', 'boarding house',
-        'bed and breakfast',
-    ])
-    if rand.uflip():
-        return rand.rand_adj_noun_inn(suffix=house)
-    else:
-        return make_shop_name(owner_name=owner_name, house=house)
-
-
-class ShopType(Enum):
-    tavern = 'tavern'
-    inn = 'inn'
-    bakery = 'bakery'
-    carpenter = 'carpenter'
-    butcher = 'butcher'
-    blacksmith = 'blacksmith'
-    bronzesmith = 'bronzesmith'
-    fletcher = 'fletcher'
-    bowyer = 'bowyer'
-    potter = 'potter'
-    cooper = 'cooper'
-
-
 class Shop:
+    SHOP_TYPES = {}
 
     def __init__(
         self,
@@ -111,36 +75,81 @@ class Shop:
                 print()
 
     def dump(self, out_dir):
-        fn = f'{self.shop_type.value}_{template.to_filename(self.name)}.txt'
+        fn = f'{self.shop_type}_{template.to_filename(self.name)}.txt'
         path = os.path.join(out_dir, fn)
         template.dump('shop.txt', path, obj=self)
         return path
 
     @classmethod
+    def register(cls, name):
+        def decorator(klass):
+            cls.SHOP_TYPES[name] = klass
+            return klass
+        return decorator
+
+    @classmethod
     def rand(cls, shop_type, **kwargs):
-        if isinstance(shop_type, str):
-            shop_type = ShopType[shop_type]
-        if shop_type is ShopType.tavern:
-            return cls.rand_tavern(**kwargs)
-        elif shop_type is ShopType.inn:
-            return cls.rand_tavern(**kwargs)
+        return cls.SHOP_TYPES[shop_type].rand(**kwargs)
+
+
+@Shop.register('tavern')
+class TavernShop(Shop):
+
+    @classmethod
+    def rand(cls, name=None, **kwargs):
+        owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
+        name = name or cls.rand_name(owner.name)
+        kwargs['name'] = name
+        kwargs['owner'] = owner
+        kwargs['shop_type'] = 'tavern'
+        return cls(**kwargs)
+
+    @classmethod
+    def rand_name(self, owner_name):
+        if rand.uflip():
+            suffix = random.choice([
+                'tavern', 'alehouse', 'taproom', 'bar', 'pub', 'parlor',
+                'taphouse', 'drinkroom',
+            ])
+            return rand.rand_adj_noun_inn(suffix=suffix)
         else:
-            raise ValueError(f'cant instanciate {shop_type!r}')
+            booze = rand.rand_freqs({
+                'ale': 15,
+                'wine': 10,
+                'mead': 10,
+                'whiskey': 5,
+                'rum': 5,
+                'vodka': 5,
+                'gin': 5,
+                None: 5,
+                'brandy': 3,
+                'liquor': 3,
+                'booze': 3,
+                'beer': 2,
+                'hops': 1,
+            })
+            return make_shop_name(goods=booze, owner_name=owner_name)
+
+
+@Shop.register('inn')
+class InnShop(Shop):
 
     @classmethod
-    def rand_tavern(cls, name=None, **kwargs):
+    def rand(cls, name=None, **kwargs):
         owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
-        name = name or rand_tavern_name(owner_name=owner.name)
+        name = name or cls.rand_name(owner.name)
         kwargs['name'] = name
         kwargs['owner'] = owner
-        kwargs['shop_type'] = ShopType.tavern
+        kwargs['shop_type'] = 'inn'
         return cls(**kwargs)
 
     @classmethod
-    def rand_inn(cls, name=None, **kwargs):
-        owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
-        name = name or rand_inn_name(owner_name=owner.name)
-        kwargs['name'] = name
-        kwargs['owner'] = owner
-        kwargs['shop_type'] = ShopType.inn
-        return cls(**kwargs)
+    def rand_name(self, owner_name):
+        house = random.choice([
+            'inn', 'hotel', 'lodge', 'guest house', 'boarding house',
+            'bed and breakfast',
+        ])
+        if rand.uflip():
+            return rand.rand_adj_noun_inn(suffix=house)
+        else:
+            return make_shop_name(owner_name=owner_name, house=house)
