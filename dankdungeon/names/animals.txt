@@ -9,7 +9,6 @@ armadillo
 axolotl
 baboon
 badger
-balinese
 bandicoot
 barb
 barnacle
@@ -139,7 +138,6 @@ lobster
 lynx
 macaw
 magpie
-maltese
 manatee
 mandrill
 markhor
