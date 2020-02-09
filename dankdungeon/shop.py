@@ -63,16 +63,7 @@ class Shop:
         self.shop_type = shop_type
 
     def output(self):
-        print(f'Name\n====\n{self.name}\n')
-        if self.owner:
-            print('Owner\n=====')
-            self.owner.output()
-            print()
-        if self.npcs:
-            print('NPCs\n====')
-            for npc in self.npcs:
-                npc.output()
-                print()
+        print(template.render('shop.txt', obj=self))
 
     def dump(self, out_dir):
         name = template.to_filename(self.name)
@@ -97,7 +88,7 @@ class Shop:
     def rand(cls, shop_type, name=None, **kwargs):
         klass = cls.SHOP_TYPES[shop_type]
         owner = kwargs.get('owner') or NPC(**(kwargs.get('npc_kwargs') or {}))
-        name = name or klass.rand_name(owner.name)
+        name = name or klass.rand_name(owner.name).replace("'S", "'s")
         kwargs['name'] = name
         kwargs['owner'] = owner
         kwargs['shop_type'] = shop_type

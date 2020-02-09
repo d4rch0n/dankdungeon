@@ -56,7 +56,16 @@ class Town:
         self.npcs = []
         self.shops = []
         for _ in range(self.config['shops']['random']):
-            self.shops.append(self.make_shop())
+            while True:
+                shop = self.make_shop()
+                if self.config.get('interactive'):
+                    shop.output()
+                    print()
+                    inp = input('Keep? [Y/n]  ')
+                    if inp.lower() == 'n':
+                        continue
+                break
+            self.shops.append(shop)
 
     def make_npc(self):
         race = rand.rand_freqs(self.config['race_freq'])
