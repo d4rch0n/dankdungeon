@@ -13,3 +13,4 @@ venv/
 notes/
 orig_names/
 town.yaml
+*.bak

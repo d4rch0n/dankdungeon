@@ -19,7 +19,6 @@ DEFAULT_RACE_FREQ = {
 
 DEFAULT_SHOP_FREQ = {
     'tavern': 10,
-    'goods': 10,
     'inn': 10,
 }
 

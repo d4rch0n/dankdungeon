@@ -167,3 +167,96 @@ class BakeryShop(Shop):
             owner_name=owner_name,
             house=house,
         )
+
+
+@Shop.register('carpenter')
+class CarpenterShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        return f'{owner_name}\'s carpentry'.title()
+
+
+@Shop.register('butcher')
+class ButcherShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        goods = random.choice([
+            'meat', 'flesh', 'hog', 'pork', 'beef', 'chicken', 'turkey',
+            'duck', 'ham', 'lamb', 'mutton', 'rabbit', 'sausage', 'venison',
+            'goose', 'salami', 'boar', 'veal', 'buffalo', 'bison', 'goat',
+            'waterfowl', 'fowl', 'offal', 'bushmeat', 'game',
+        ])
+        house = random.choice([
+            'house', 'shop', 'parlor', 'stall', 'booth', 'butchery',
+        ])
+        return make_shop_name(
+            goods=goods,
+            owner_name=owner_name,
+            house=house,
+        )
+
+
+@Shop.register('magic')
+class MagicShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        goods = random.choice([
+            'the arcane', 'the hidden', 'the mysterious', 'the esoteric',
+            'the dark', 'the cryptic', 'the occult', 'the glorious',
+            'the tantalizing', 'the marvelous', 'the awesome', 'the peculiar',
+            'the strange', 'the weird', 'the bizarre', 'the mystifying',
+            'the inexplicable', 'the unexplainable', 'the secret',
+            'the mystical',
+        ])
+        house = random.choice([
+            'house', 'shop', 'den', 'parlor', 'boutique', 'market',
+            'club', 'store', 'establishment', 'lair',
+        ])
+        return make_shop_name(
+            goods=goods,
+            owner_name=owner_name,
+            house=house,
+        )
+
+
+@Shop.register('blacksmith')
+class BlacksmithShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        return f'{owner_name}\'s smithery'.title()
+
+
+@Shop.register('fletcher')
+class FletcherShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        return f'{owner_name}\'s fletchery'.title()
+
+
+@Shop.register('bowyer')
+class BowyerShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        return f'{owner_name}\'s bowyer'.title()
+
+
+@Shop.register('potter')
+class PotterShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        return f'{owner_name}\'s pottery'.title()
+
+
+@Shop.register('cooper')
+class CooperShop(Shop):
+
+    @classmethod
+    def rand_name(self, owner_name):
+        return f'{owner_name}\'s coopery'.title()
