@@ -19,3 +19,4 @@ from .villain import Villain, main_villain
 from .worldmap import WorldMap, main_worldmap
 from .history import CivState, Civ, History, main_history
 from .town import TownConfig, Town, main as main_town
+from .walk import main as main_walk

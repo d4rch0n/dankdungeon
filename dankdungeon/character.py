@@ -188,6 +188,12 @@ class Warrior:
 
 class NPC(Warrior):
 
+    def __repr__(self):
+        if self.subrace is None:
+            return f'{self.name} ({self.race}, {self.gender})'
+        else:
+            return f'{self.name} ({self.race}, {self.subrace}, {self.gender})'
+
     @classmethod
     def load(cls, path):
         with open(path) as f:

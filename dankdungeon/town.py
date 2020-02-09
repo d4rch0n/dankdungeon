@@ -1,11 +1,11 @@
 import os
 
-import yaml
-
 from . import rand
+from .config import Config
 from .namerator import make_name_generator
 from .character import NPC
 from .shop import Shop
+from .util import call_if
 
 DEFAULT_RACE_FREQ = {
     'human': 85,
@@ -23,30 +23,19 @@ DEFAULT_SHOP_FREQ = {
 }
 
 
-def call_if(func, val):
-    """
-    Return None if falsey, or func(val).
-    """
-    return (val or None) and func(val)
-
-
-class TownConfig(dict):
+class TownConfig(Config):
+    DEFAULTS = {
+        'race_freq': DEFAULT_RACE_FREQ,
+        'shop_freq': DEFAULT_SHOP_FREQ,
+    }
 
     @classmethod
     def load(cls, path):
-        with open(path) as f:
-            data = yaml.safe_load(f)
-        defaults = {
-            'race_freq': DEFAULT_RACE_FREQ.copy(),
-            'shop_freq': DEFAULT_SHOP_FREQ.copy(),
-        }
-        for key, default in defaults.items():
-            data[key] = data.get(key, default)
-        data['name_gen'] = call_if(make_name_generator, data.get('names'))
-        for del_key in ['names']:
-            if del_key in data:
-                del data[del_key]
-        return cls(**data)
+        conf = super().load(path)
+        conf['name_gen'] = call_if(make_name_generator, conf.get('names'))
+        if 'names' in conf:
+            del conf['names']
+        return conf
 
 
 class Town:

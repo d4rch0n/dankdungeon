@@ -58,6 +58,7 @@ setup(
             'dankdungeon-encounter-summary=dankdungeon:main_summary',
             'dankdungeon-worldmap=dankdungeon:main_worldmap',
             'dankdungeon-town=dankdungeon:main_town',
+            'dankdungeon-walk=dankdungeon:main_walk',
             # 'dankdungeon-history=dankdungeon:main_history',
         ],
     },
