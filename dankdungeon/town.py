@@ -29,14 +29,6 @@ class TownConfig(Config):
         'shop_freq': DEFAULT_SHOP_FREQ,
     }
 
-    @classmethod
-    def load(cls, path):
-        conf = super().load(path)
-        conf['name_gen'] = call_if(make_name_generator, conf.get('names'))
-        if 'names' in conf:
-            del conf['names']
-        return conf
-
 
 class Town:
 
@@ -62,7 +54,7 @@ class Town:
         if race == 'human' and self.config['human_subrace_freq']:
             subrace = rand.rand_freqs(self.config['human_subrace_freq'])
         return NPC(
-            name_gen=self.config['name_gen'],
+            name_gen=self.config.name_gen,
             race=race,
             subrace=subrace,
         )

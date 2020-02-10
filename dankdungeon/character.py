@@ -225,15 +225,19 @@ class NPC(Warrior):
             'human', 'elf', 'half-elf', 'dwarf', 'gnome', 'half-orc',
             'halfling', 'tiefling', 'dragonborn',
         ])
-        if name:
-            self.name = name
-        elif name_gen:
-            self.name = name_gen().title()
-        else:
-            self.name = make_name(self.race, gender=self.gender)
         self.subrace = subrace
         if self.subrace is None:
             self._random_subrace()
+        if name:
+            self.name = name
+        elif name_gen:
+            self.name = name_gen(
+                self.race,
+                subrace=self.subrace,
+                gender=self.gender,
+            ).title()
+        else:
+            self.name = make_name(self.race, gender=self.gender)
         self.klass = klass
         if stats is None:
             self.roll_stats(klass=klass)

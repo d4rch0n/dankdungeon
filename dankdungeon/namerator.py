@@ -20,6 +20,10 @@ from random import gauss, seed, choice
 from collections import Counter
 
 NAME_ROOT = os.path.join(os.path.dirname(__file__), 'names')
+NAMED_RACES = {
+    'human', 'halfling', 'tiefling', 'dragonborn', 'norse', 'roman', 'elf',
+    'half-elf', 'dwarf', 'gnome', 'orc', 'half-orc',
+}
 
 
 def load(path):
@@ -157,6 +161,12 @@ def make_name(race, gender=None):
         first = generate('human-first-male')
         last = generate('human-last')
         return '{} {}'.format(first, last).title()
+    elif race == 'norse':
+        if gender is None or gender == 'male':
+            return generate('norse-male')
+        return generate('norse-female')
+    elif race == 'roman':
+        return generate('roman')
     elif race == 'human-female':
         first = generate('human-first-female')
         last = generate('human-last')
@@ -223,20 +233,30 @@ def make_name(race, gender=None):
 
 
 def make_name_generator(path):
-    names = load(path)
-    freqs = calc_frequencies(names)
     used_names = set()
 
-    def gen():
-        nonlocal used_names
-        while True:
-            name = generate(freqs)
-            if name not in used_names:
-                break
-            seed()
-        used_names.add(name)
-        return name
-
+    if path in NAMED_RACES:
+        def gen(gender=None, **kwargs):
+            nonlocal used_names
+            while True:
+                name = make_name(path, gender=gender)
+                if name not in used_names:
+                    break
+                seed()
+            used_names.add(name)
+            return name
+    else:
+        names = load(path)
+        freqs = calc_frequencies(names)
+        def gen(**kwargs):
+            nonlocal used_names
+            while True:
+                name = generate(freqs)
+                if name not in used_names:
+                    break
+                seed()
+            used_names.add(name)
+            return name
     return gen
 
 
