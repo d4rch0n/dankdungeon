@@ -79,7 +79,8 @@ def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--config', '-c', help='path to YAML config for town generation',
+        '--config', '-c', default='./town.yaml',
+        help='path to YAML config for town generation, default: %(default)s',
     )
     parser.add_argument(
         '--out', '-o', default='./town',
