@@ -79,6 +79,14 @@ def uflip():
     return random.uniform(0, 1) <= 0.5
 
 
+def urand():
+    return random.uniform(0, 1)
+
+
+def randint(x, y):
+    return random.randint(x, y)
+
+
 def rand_adj_noun_inn(suffix='inn'):
     name = ''
     if uflip():

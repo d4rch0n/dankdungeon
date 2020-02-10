@@ -1,9 +1,28 @@
-from . import config, template
+from . import config, template, rand
 from .character import NPC
 
 
 class WalkConfig(config.Config):
     DEFAULTS = {}
+
+
+def walk(conf):
+    event = rand.rand_freqs(conf['walk'])
+    if event == 'hawk':
+        size = 1
+    elif event == 'preach':
+        size = rand.randint(1, 3)
+    else:
+        size = rand.randint(1, 5)
+    text = []
+    for _ in range(size):
+        race, subrace = conf.rand_race()
+        npc = NPC(name_gen=conf.name_gen, race=race, subrace=subrace)
+        text.append(template.render('npc.short', obj=npc))
+    print(f'Event: {event}\n')
+    for t in text:
+        print(t)
+        print()
 
 
 def main():
@@ -19,10 +38,7 @@ def main():
     )
     args = parser.parse_args()
     conf = WalkConfig.load(args.config)
-    for i in range(100):
-        race, subrace = conf.rand_race()
-        npc = NPC(name_gen=conf.name_gen, race=race, subrace=subrace)
-        print(template.render('npc.oneline', obj=npc))
+    walk(conf)
 
 
 if __name__ == '__main__':
