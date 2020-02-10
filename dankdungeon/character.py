@@ -4,6 +4,8 @@ import yaml
 import random
 import argparse
 from collections import namedtuple, Counter
+
+from . import config
 from .namerator import make_name, make_name_generator
 
 
@@ -1118,7 +1120,7 @@ def main_simulate():
 
 def main_npc():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--class', '-c', dest='klass')
+    parser.add_argument('--class', '-C', dest='klass')
     parser.add_argument('--race', '-r', choices=('human', 'dwarf', 'elf',
                                                  'half-elf', 'half-orc',
                                                  'gnome', 'halfling',
@@ -1128,21 +1130,37 @@ def main_npc():
     parser.add_argument('--name', '-n')
     parser.add_argument('--name-gen', '-N', help='path to seed names')
     parser.add_argument('--alignment', '-a')
+    parser.add_argument('--config', '-c', help='path to config')
     args = parser.parse_args()
 
     name_gen = None
     if args.name_gen:
         name_gen = make_name_generator(args.name_gen)
 
-    npc = NPC(
-        klass=args.klass,
-        race=args.race,
-        gender=args.gender,
-        name=args.name,
-        name_gen=name_gen,
-        subrace=args.subrace,
-        alignment=args.alignment,
-    )
+    if args.config:
+        conf = config.Config.load(args.config)
+        race, subrace = args.race, args.subrace
+        if not race:
+            race, subrace = conf.rand_race()
+        npc = NPC(
+            klass=args.klass,
+            race=race,
+            subrace=subrace,
+            gender=args.gender,
+            name=args.name,
+            name_gen=conf.name_gen,
+            alignment=args.alignment,
+        )
+    else:
+        npc = NPC(
+            klass=args.klass,
+            race=args.race,
+            gender=args.gender,
+            name=args.name,
+            name_gen=name_gen,
+            subrace=args.subrace,
+            alignment=args.alignment,
+        )
     npc.output()
 
 
