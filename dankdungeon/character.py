@@ -26,6 +26,11 @@ class Alignment:
         self.law = law
         self.good = good
 
+    def short(self):
+        if (self.law, self.good) == ('neutral', 'neutral'):
+            return 'N'
+        return '{}{}'.format(self.law[0].upper(), self.good[0].upper())
+
     @classmethod
     def parse(cls, s):
         if isinstance(s, cls):

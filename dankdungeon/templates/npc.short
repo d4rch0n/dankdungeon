@@ -1,0 +1,12 @@
+{{obj.name}} ({{obj.alignment.short()}}, {{obj.race}}
+{%- if obj.subrace %}, {{obj.subrace}}{% endif -%}
+, {{obj.gender}}
+{%- if obj.klass -%}
+	, L{{obj.level}} {{obj.klass}}
+{%- endif -%}
+)
+S:{{obj.stats.str}} D:{{obj.stats.dex}} C:{{obj.stats.con}} I:{{obj.stats.int}} W:{{obj.stats.wis}} Ch:{{obj.stats.cha}}
+Trait: {{obj.trait}}
+Ideal: {{obj.ideal}}
+Bond:  {{obj.bond}}
+Flaw:  {{obj.flaw}}

@@ -1,0 +1,7 @@
+{{obj.name}} ({{obj.alignment.short()}}, {{obj.race}}
+{%- if obj.subrace %}, {{obj.subrace}}{% endif -%}
+, {{obj.gender}}
+{%- if obj.klass -%}
+	, L{{obj.level}} {{obj.klass}}
+{%- endif -%}
+)
